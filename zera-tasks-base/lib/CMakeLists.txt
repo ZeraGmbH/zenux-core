@@ -42,4 +42,3 @@ install(
     FILES ${HEADER}
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/zenux-core/tasks-base
     )
-
