@@ -20,7 +20,7 @@ target_include_directories(zera-tasks-base
     PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/zera-classes/tasks-base>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/zenux-core/tasks-base>
     )
 
 set_target_properties(zera-tasks-base PROPERTIES VERSION ${PROJECT_VERSION})
@@ -34,12 +34,12 @@ install(TARGETS zera-tasks-base
 generate_export_header(zera-tasks-base)
 install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/zera-tasks-base_export.h
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/zera-classes/tasks-base
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/zenux-core/tasks-base
     )
 
 export(TARGETS zera-tasks-base FILE ZenuxCoreTargets.cmake)
 install(
     FILES ${HEADER}
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/zera-classes/tasks-base
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/zenux-core/tasks-base
     )
 
