@@ -15,7 +15,7 @@ void test_tasksequence::init()
 
 void test_tasksequence::startEmpty()
 {
-    TaskContainerPtr task = TaskSequence::create();
+    TaskContainerInterfacePtr task = TaskSequence::create();
     TaskTestHelper helper(task.get());
     task->start();
     QCOMPARE(helper.okCount(), 1);
@@ -27,7 +27,7 @@ void test_tasksequence::startEmpty()
 
 void test_tasksequence::oneOk()
 {
-    TaskContainerPtr task = TaskSequence::create();
+    TaskContainerInterfacePtr task = TaskSequence::create();
     TaskTestHelper helper(task.get());
     task->addSub(TaskForTest::create(DEFAULT_EXPIRE, true));
     task->start();
@@ -42,7 +42,7 @@ void test_tasksequence::oneOk()
 
 void test_tasksequence::twoOk()
 {
-    TaskContainerPtr task = TaskSequence::create();
+    TaskContainerInterfacePtr task = TaskSequence::create();
     TaskTestHelper helper(task.get());
     task->addSub(TaskForTest::create(DEFAULT_EXPIRE, true));
     task->addSub(TaskForTest::create(DEFAULT_EXPIRE, true));
@@ -58,7 +58,7 @@ void test_tasksequence::twoOk()
 
 void test_tasksequence::oneError()
 {
-    TaskContainerPtr task = TaskSequence::create();
+    TaskContainerInterfacePtr task = TaskSequence::create();
     TaskTestHelper helper(task.get());
     task->addSub(TaskForTest::create(DEFAULT_EXPIRE, false));
     task->start();
@@ -73,7 +73,7 @@ void test_tasksequence::oneError()
 
 void test_tasksequence::twoError()
 {
-    TaskContainerPtr task = TaskSequence::create();
+    TaskContainerInterfacePtr task = TaskSequence::create();
     TaskTestHelper helper(task.get());
     task->addSub(TaskForTest::create(DEFAULT_EXPIRE, false));
     task->addSub(TaskForTest::create(DEFAULT_EXPIRE, false));
@@ -89,7 +89,7 @@ void test_tasksequence::twoError()
 
 void test_tasksequence::threeError()
 {
-    TaskContainerPtr task = TaskSequence::create();
+    TaskContainerInterfacePtr task = TaskSequence::create();
     TaskTestHelper helper(task.get());
     task->addSub(TaskForTest::create(DEFAULT_EXPIRE, false));
     task->addSub(TaskForTest::create(DEFAULT_EXPIRE, false));
@@ -106,7 +106,7 @@ void test_tasksequence::threeError()
 
 void test_tasksequence::oneErrorOneOk()
 {
-    TaskContainerPtr task = TaskSequence::create();
+    TaskContainerInterfacePtr task = TaskSequence::create();
     TaskTestHelper helper(task.get());
     task->addSub(TaskForTest::create(DEFAULT_EXPIRE, false));
     task->addSub(TaskForTest::create(DEFAULT_EXPIRE, true));
@@ -122,7 +122,7 @@ void test_tasksequence::oneErrorOneOk()
 
 void test_tasksequence::oneOkOneErrorOneOk()
 {
-    TaskContainerPtr task = TaskSequence::create();
+    TaskContainerInterfacePtr task = TaskSequence::create();
     TaskTestHelper helper(task.get());
     task->addSub(TaskForTest::create(DEFAULT_EXPIRE, true));
     task->addSub(TaskForTest::create(DEFAULT_EXPIRE, false));
@@ -157,7 +157,7 @@ void test_tasksequence::taskId()
 
 void test_tasksequence::startTwice()
 {
-    TaskContainerPtr task = TaskSequence::create();
+    TaskContainerInterfacePtr task = TaskSequence::create();
     TaskTestHelper helper(task.get());
     task->addSub(TaskForTest::create(DEFAULT_EXPIRE, true));
     task->start();
@@ -179,7 +179,7 @@ void test_tasksequence::startTwice()
 
 void test_tasksequence::onRunningAddAndStartOne()
 {
-    TaskContainerPtr task = TaskSequence::create();
+    TaskContainerInterfacePtr task = TaskSequence::create();
     TaskTestHelper helper(task.get());
     task->addSub(TaskForTest::create(DEFAULT_EXPIRE, true));
     task->start();
@@ -203,7 +203,7 @@ void test_tasksequence::onRunningAddAndStartOne()
 
 void test_tasksequence::twoTransactions()
 {
-    TaskContainerPtr task = TaskSequence::create();
+    TaskContainerInterfacePtr task = TaskSequence::create();
     TaskTestHelper helper(task.get());
     task->addSub(TaskForTest::create(0, true));
     task->start();

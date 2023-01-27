@@ -1,15 +1,15 @@
 #ifndef TASKPARALLEL_H
 #define TASKPARALLEL_H
 
-#include "taskcontainer.h"
+#include "taskcontainerinterface.h"
 #include <list>
 #include <unordered_map>
 
-class TaskParallel : public TaskContainer
+class TaskParallel : public TaskContainerInterface
 {
     Q_OBJECT
 public:
-    static std::unique_ptr<TaskContainer> create();
+    static std::unique_ptr<TaskContainerInterface> create();
     void start() override;
     void addSub(TaskCompositePtr task) override;
 private slots:

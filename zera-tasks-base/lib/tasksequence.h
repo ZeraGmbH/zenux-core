@@ -1,14 +1,14 @@
 #ifndef TASKSEQUENCE_H
 #define TASKSEQUENCE_H
 
-#include "taskcontainer.h"
+#include "taskcontainerinterface.h"
 #include <list>
 
-class TaskSequence : public TaskContainer // for now abort on error
+class TaskSequence : public TaskContainerInterface // for now abort on error
 {
     Q_OBJECT
 public:
-    static std::unique_ptr<TaskContainer> create();
+    static std::unique_ptr<TaskContainerInterface> create();
     void start() override;
     void addSub(TaskCompositePtr task) override;
 
