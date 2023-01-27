@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-class test_timeoutdecorator : public QObject
+class test_taskdecoratortimeout : public QObject
 {
     Q_OBJECT
 private slots:

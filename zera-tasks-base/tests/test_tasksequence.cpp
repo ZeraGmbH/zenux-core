@@ -218,4 +218,3 @@ void test_tasksequence::twoTransactions()
     QCOMPARE(TaskForTest::errCount(), 0);
     QCOMPARE(TaskForTest::dtorCount(), 2);
 }
-
