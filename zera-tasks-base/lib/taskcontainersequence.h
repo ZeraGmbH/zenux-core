@@ -1,10 +1,10 @@
-#ifndef TASKSEQUENCE_H
-#define TASKSEQUENCE_H
+#ifndef TASKCONTAINERSEQUENCE_H
+#define TASKCONTAINERSEQUENCE_H
 
 #include "taskcontainerinterface.h"
 #include <list>
 
-class TaskSequence : public TaskContainerInterface // for now abort on error
+class TaskContainerSequence : public TaskContainerInterface // for now abort on error
 {
     Q_OBJECT
 public:
@@ -24,4 +24,4 @@ private:
     int m_taskId;
 };
 
-#endif // TASKSEQUENCE_H
+#endif // TASKCONTAINERSEQUENCE_H
