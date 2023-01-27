@@ -1,6 +1,6 @@
 #include "tasksequence.h"
 
-std::unique_ptr<TaskContainer> TaskSequence::create()
+std::unique_ptr<TaskContainerInterface> TaskSequence::create()
 {
     return std::make_unique<TaskSequence>();
 }
