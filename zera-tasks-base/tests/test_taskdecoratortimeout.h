@@ -1,5 +1,5 @@
-#ifndef TEST_TIMEOUTDECORATOR_H
-#define TEST_TIMEOUTDECORATOR_H
+#ifndef TEST_TASKDECORATORTIMEOUT_H
+#define TEST_TASKDECORATORTIMEOUT_H
 
 #include <QObject>
 
@@ -19,4 +19,4 @@ private slots:
     void taskId();
 };
 
-#endif // TEST_TIMEOUTDECORATOR_H
+#endif // TEST_TASKDECORATORTIMEOUT_H

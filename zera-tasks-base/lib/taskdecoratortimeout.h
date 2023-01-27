@@ -1,5 +1,5 @@
-#ifndef TASKTIMEOUTDECORATOR_H
-#define TASKTIMEOUTDECORATOR_H
+#ifndef TASKDECORATORTIMEOUT_H
+#define TASKDECORATORTIMEOUT_H
 
 #include "tasktemplate.h"
 #include <zeratimertemplate.h>
@@ -23,4 +23,4 @@ private:
     std::unique_ptr<ZeraTimerTemplate> m_timer;
 };
 
-#endif // TASKTIMEOUTDECORATOR_H
+#endif // TASKDECORATORTIMEOUT_H
