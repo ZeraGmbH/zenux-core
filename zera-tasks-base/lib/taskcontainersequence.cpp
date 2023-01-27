@@ -1,11 +1,11 @@
-#include "tasksequence.h"
+#include "taskcontainersequence.h"
 
-std::unique_ptr<TaskContainerInterface> TaskSequence::create()
+std::unique_ptr<TaskContainerInterface> TaskContainerSequence::create()
 {
-    return std::make_unique<TaskSequence>();
+    return std::make_unique<TaskContainerSequence>();
 }
 
-void TaskSequence::start()
+void TaskContainerSequence::start()
 {
     if(!m_started) {
         m_started = true;
@@ -16,12 +16,12 @@ void TaskSequence::start()
     }
 }
 
-void TaskSequence::addSub(TaskTemplatePtr task)
+void TaskContainerSequence::addSub(TaskTemplatePtr task)
 {
     m_tasks.push_front(std::move(task));
 }
 
-void TaskSequence::onFinishCurr(bool ok)
+void TaskContainerSequence::onFinishCurr(bool ok)
 {
     if(next() && ok)
         m_current->start();
@@ -31,7 +31,7 @@ void TaskSequence::onFinishCurr(bool ok)
     }
 }
 
-bool TaskSequence::next()
+bool TaskContainerSequence::next()
 {
     if(!m_tasks.empty())
         setNext();
@@ -40,14 +40,14 @@ bool TaskSequence::next()
     return m_current != nullptr;
 }
 
-void TaskSequence::setNext()
+void TaskContainerSequence::setNext()
 {
     m_current = std::move(m_tasks.back());
     m_tasks.pop_back();
-    connect(m_current.get(), &TaskTemplate::sigFinish, this, &TaskSequence::onFinishCurr);
+    connect(m_current.get(), &TaskTemplate::sigFinish, this, &TaskContainerSequence::onFinishCurr);
 }
 
-void TaskSequence::cleanup()
+void TaskContainerSequence::cleanup()
 {
     m_started = false;
     m_current = nullptr;

@@ -1,9 +1,9 @@
-#ifndef TEST_TASKSEQUENCE_H
-#define TEST_TASKSEQUENCE_H
+#ifndef TEST_TASKCONTAINERSEQUENCE_H
+#define TEST_TASKCONTAINERSEQUENCE_H
 
 #include <QObject>
 
-class test_tasksequence : public QObject
+class test_taskcontainersequence : public QObject
 {
     Q_OBJECT
 private slots:
@@ -22,4 +22,4 @@ private slots:
     void twoTransactions();
 };
 
-#endif // TEST_TASKSEQUENCE_H
+#endif // TEST_TASKCONTAINERSEQUENCE_H
