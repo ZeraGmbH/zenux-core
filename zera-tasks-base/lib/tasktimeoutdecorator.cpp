@@ -1,11 +1,11 @@
 #include "tasktimeoutdecorator.h"
-#include "taskextraerrorhandler.h"
+#include "taskdecoratorerrorhandler.h"
 #include <zeratimerfactorymethods.h>
 
 TaskTemplatePtr TaskTimeoutDecorator::wrapTimeout(int timeout, TaskTemplatePtr decoratedTask,
                                                    std::function<void ()> additionalErrorHandler)
 {
-    return TaskExtraErrorHandler::create(
+    return TaskDecoratorErrorHandler::create(
                 std::make_unique<TaskTimeoutDecorator>(
                     ZeraTimerFactoryMethods::createSingleShot(timeout),
                     std::move(decoratedTask)),

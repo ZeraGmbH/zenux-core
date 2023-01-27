@@ -3,12 +3,12 @@
 
 #include "tasktemplate.h"
 
-class TaskExtraErrorHandler : public TaskTemplate
+class TaskDecoratorErrorHandler : public TaskTemplate
 {
     Q_OBJECT
 public:
     static TaskTemplatePtr create(TaskTemplatePtr decoratedTask, std::function<void()> additionalErrorHandler);
-    TaskExtraErrorHandler(TaskTemplatePtr decoratedTask, std::function<void()> additionalErrorHandler);
+    TaskDecoratorErrorHandler(TaskTemplatePtr decoratedTask, std::function<void()> additionalErrorHandler);
     void start() override;
 private slots:
     void onFinishDecorated(bool ok);

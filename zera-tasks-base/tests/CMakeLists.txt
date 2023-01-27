@@ -1,5 +1,5 @@
 SETUP_QTESTS(
-    test_taskextraerrorhandler
+    test_taskdecoratorerrorhandler
     test_taskimmediatelambda
     test_taskparallel
     test_tasksequence
