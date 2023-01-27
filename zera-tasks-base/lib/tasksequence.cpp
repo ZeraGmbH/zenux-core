@@ -16,7 +16,7 @@ void TaskSequence::start()
     }
 }
 
-void TaskSequence::addSub(TaskCompositePtr task)
+void TaskSequence::addSub(TaskTemplatePtr task)
 {
     m_tasks.push_front(std::move(task));
 }
@@ -44,7 +44,7 @@ void TaskSequence::setNext()
 {
     m_current = std::move(m_tasks.back());
     m_tasks.pop_back();
-    connect(m_current.get(), &TaskComposite::sigFinish, this, &TaskSequence::onFinishCurr);
+    connect(m_current.get(), &TaskTemplate::sigFinish, this, &TaskSequence::onFinishCurr);
 }
 
 void TaskSequence::cleanup()

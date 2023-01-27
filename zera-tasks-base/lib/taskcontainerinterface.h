@@ -1,12 +1,12 @@
 #ifndef TASKCONTAINERINTERFACE_H
 #define TASKCONTAINERINTERFACE_H
 
-#include "taskcomposit.h"
+#include "tasktemplate.h"
 
-class TaskContainerInterface : public TaskComposite
+class TaskContainerInterface : public TaskTemplate
 {
 public:
-    virtual void addSub(TaskCompositePtr task) = 0;
+    virtual void addSub(TaskTemplatePtr task) = 0;
 };
 
 typedef std::unique_ptr<TaskContainerInterface> TaskContainerInterfacePtr;

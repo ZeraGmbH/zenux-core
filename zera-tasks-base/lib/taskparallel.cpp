@@ -14,7 +14,7 @@ void TaskParallel::start()
         finishTask(true);
 }
 
-void TaskParallel::addSub(TaskCompositePtr task)
+void TaskParallel::addSub(TaskTemplatePtr task)
 {
     m_addedTasks.push_back(std::move(task));
 }
@@ -35,7 +35,7 @@ void TaskParallel::startTasksDirectConnectionSafe()
     while(!m_addedTasks.empty()) {
         auto task = std::move(m_addedTasks.back());
         m_addedTasks.pop_back();
-        connect(task.get(), &TaskComposite::sigFinish, this, &TaskParallel::onFinishTask);
+        connect(task.get(), &TaskTemplate::sigFinish, this, &TaskParallel::onFinishTask);
         int taskId = task->getTaskId();
         taskIdsToStart.push_back(taskId);
         m_startedTasks[taskId] = std::move(task);

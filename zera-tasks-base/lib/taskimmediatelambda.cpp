@@ -1,6 +1,6 @@
 #include "taskimmediatelambda.h"
 
-TaskCompositePtr TaskImmediateLambda::create(std::function<bool ()> startFunc)
+TaskTemplatePtr TaskImmediateLambda::create(std::function<bool ()> startFunc)
 {
     return std::make_unique<TaskImmediateLambda>(startFunc);
 }

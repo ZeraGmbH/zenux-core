@@ -1,7 +1,7 @@
 #ifndef TASKTESTHELPER_H
 #define TASKTESTHELPER_H
 
-#include <taskcomposit.h>
+#include <tasktemplate.h>
 #include <QObject>
 #include <QElapsedTimer>
 #include <QList>
@@ -10,7 +10,7 @@ class TaskTestHelper : public QObject
 {
     Q_OBJECT
 public:
-    explicit TaskTestHelper(TaskComposite *taskUnderTest);
+    explicit TaskTestHelper(TaskTemplate *taskUnderTest);
     int okCount() const { return m_okCount; }
     int errCount()  const { return m_errCount; }
     int signalDelayMs() const { return m_signalDelayMs; }

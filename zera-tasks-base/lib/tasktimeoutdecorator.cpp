@@ -2,7 +2,7 @@
 #include "taskextraerrorhandler.h"
 #include <zeratimerfactorymethods.h>
 
-TaskCompositePtr TaskTimeoutDecorator::wrapTimeout(int timeout, TaskCompositePtr decoratedTask,
+TaskTemplatePtr TaskTimeoutDecorator::wrapTimeout(int timeout, TaskTemplatePtr decoratedTask,
                                                    std::function<void ()> additionalErrorHandler)
 {
     return TaskExtraErrorHandler::create(
@@ -12,7 +12,7 @@ TaskCompositePtr TaskTimeoutDecorator::wrapTimeout(int timeout, TaskCompositePtr
                 additionalErrorHandler);
 }
 
-TaskTimeoutDecorator::TaskTimeoutDecorator(ZeraTimerTemplatePtr timer, TaskCompositePtr decoratedTask) :
+TaskTimeoutDecorator::TaskTimeoutDecorator(ZeraTimerTemplatePtr timer, TaskTemplatePtr decoratedTask) :
     m_decoratedTask(std::move(decoratedTask)),
     m_timer(std::move(timer))
 {
@@ -42,7 +42,7 @@ void TaskTimeoutDecorator::startDecoratedTask()
     connect(m_timer.get(), &ZeraTimerTemplate::sigExpired,
             this, &TaskTimeoutDecorator::onTimeout);
     m_timer->start();
-    connect(m_decoratedTask.get(), &TaskComposite::sigFinish, this, &TaskTimeoutDecorator::onFinishDecorated);
+    connect(m_decoratedTask.get(), &TaskTemplate::sigFinish, this, &TaskTimeoutDecorator::onFinishDecorated);
     m_decoratedTask->start();
 }
 

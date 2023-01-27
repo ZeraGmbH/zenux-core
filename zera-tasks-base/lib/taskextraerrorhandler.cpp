@@ -1,11 +1,11 @@
 #include "taskextraerrorhandler.h"
 
-TaskCompositePtr TaskExtraErrorHandler::create(TaskCompositePtr decoratedTask, std::function<void ()> additionalErrorHandler)
+TaskTemplatePtr TaskExtraErrorHandler::create(TaskTemplatePtr decoratedTask, std::function<void ()> additionalErrorHandler)
 {
     return std::make_unique<TaskExtraErrorHandler>(std::move(decoratedTask), additionalErrorHandler);
 }
 
-TaskExtraErrorHandler::TaskExtraErrorHandler(TaskCompositePtr decoratedTask, std::function<void ()> additionalErrorHandler) :
+TaskExtraErrorHandler::TaskExtraErrorHandler(TaskTemplatePtr decoratedTask, std::function<void ()> additionalErrorHandler) :
     m_decoratedTask(std::move(decoratedTask)),
     m_additionalErrorHandler(additionalErrorHandler)
 {
@@ -28,7 +28,7 @@ void TaskExtraErrorHandler::onFinishDecorated(bool ok)
 
 void TaskExtraErrorHandler::startDecoratedTask()
 {
-    connect(m_decoratedTask.get(), &TaskComposite::sigFinish, this, &TaskExtraErrorHandler::onFinishDecorated);
+    connect(m_decoratedTask.get(), &TaskTemplate::sigFinish, this, &TaskExtraErrorHandler::onFinishDecorated);
     m_decoratedTask->start();
 }
 

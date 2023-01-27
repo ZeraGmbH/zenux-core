@@ -1,15 +1,15 @@
-#ifndef TASKCOMPOSIT_H
-#define TASKCOMPOSIT_H
+#ifndef TASKTEMPLATE_H
+#define TASKTEMPLATE_H
 
 #include <QObject>
 #include <memory>
 
-class TaskComposite : public QObject
+class TaskTemplate : public QObject
 {
     Q_OBJECT
 public:
-    TaskComposite();
-    virtual ~TaskComposite() = default;
+    TaskTemplate();
+    virtual ~TaskTemplate() = default;
     virtual void start() = 0;
     int getTaskId() const;
 signals:
@@ -23,6 +23,6 @@ private:
     static int m_taskIdForNext;
 };
 
-typedef std::unique_ptr<TaskComposite> TaskCompositePtr;
+typedef std::unique_ptr<TaskTemplate> TaskTemplatePtr;
 
-#endif // TASKCOMPOSIT_H
+#endif // TASKTEMPLATE_H

@@ -1,14 +1,14 @@
 #ifndef TASKFORTEST_H
 #define TASKFORTEST_H
 
-#include "taskcomposit.h"
+#include "tasktemplate.h"
 #include <QTimer>
 #include <zeratimertemplate.h>
 
-class TaskForTest : public TaskComposite
+class TaskForTest : public TaskTemplate
 {
 public:
-    static TaskCompositePtr create(int delayMs, bool finishOk);
+    static TaskTemplatePtr create(int delayMs, bool finishOk);
     TaskForTest(int delayMs, bool finishOk);
     ~TaskForTest() override;
     void start() override;
