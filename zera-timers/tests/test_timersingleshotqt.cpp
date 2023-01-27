@@ -1,11 +1,11 @@
-#include "test_singleshottimer.h"
+#include "test_timersingleshotqt.h"
 #include "timertestdefaults.h"
 #include "realdelaytimerhelpers.h"
 #include <QTest>
 
-QTEST_MAIN(test_singleshottimer)
+QTEST_MAIN(test_timersingleshotqt)
 
-void test_singleshottimer::init()
+void test_timersingleshotqt::init()
 {
     m_expireCount = 0;
     m_expireTime = 0;
@@ -13,26 +13,26 @@ void test_singleshottimer::init()
     TimerRunnerForTest::reset();
 }
 
-void test_singleshottimer::inspectTimerByDelay(SingleShotTimerQt *timer)
+void test_timersingleshotqt::inspectTimerByDelay(TimerSingleShotQt *timer)
 {
     m_elapsedTimer->start();
-    connect(timer, &SingleShotTimerQt::sigExpired, [&]{
+    connect(timer, &TimerSingleShotQt::sigExpired, [&]{
         m_expireCount++;
         m_expireTime = m_elapsedTimer->elapsed();
     });
 }
 
-void test_singleshottimer::inspectTimerByRunner(SingleShotTimerTest *timer)
+void test_timersingleshotqt::inspectTimerByRunner(SingleShotTimerTest *timer)
 {
-    connect(timer, &SingleShotTimerQt::sigExpired, [&]{
+    connect(timer, &TimerSingleShotQt::sigExpired, [&]{
         m_expireCount++;
         m_expireTime = TimerRunnerForTest::getInstance()->getCurrentTimeMs();
     });
 }
 
-void test_singleshottimer::signalOnExpireTiming()
+void test_timersingleshotqt::signalOnExpireTiming()
 {
-    SingleShotTimerQt timer(DEFAULT_EXPIRE);
+    TimerSingleShotQt timer(DEFAULT_EXPIRE);
     timer.setHighAccuracy(true);
     inspectTimerByDelay(&timer);
 
@@ -43,7 +43,7 @@ void test_singleshottimer::signalOnExpireTiming()
     QVERIFY(RealDelayTimerHelpers::isExpireTimeWithinLimits(m_expireTime, DEFAULT_EXPIRE)); // fuzzy
 }
 
-void test_singleshottimer::signalOnExpireTimingTest()
+void test_timersingleshotqt::signalOnExpireTimingTest()
 {
     SingleShotTimerTest timer(DEFAULT_EXPIRE);
     inspectTimerByRunner(&timer);
@@ -55,9 +55,9 @@ void test_singleshottimer::signalOnExpireTimingTest()
     QCOMPARE(m_expireTime, DEFAULT_EXPIRE); // on point
 }
 
-void test_singleshottimer::restartTiming()
+void test_timersingleshotqt::restartTiming()
 {
-    SingleShotTimerQt timer(DEFAULT_EXPIRE);
+    TimerSingleShotQt timer(DEFAULT_EXPIRE);
     timer.setHighAccuracy(true);
     inspectTimerByDelay(&timer);
 
@@ -70,7 +70,7 @@ void test_singleshottimer::restartTiming()
     QVERIFY(RealDelayTimerHelpers::isExpireTimeWithinLimits(m_expireTime, DEFAULT_EXPIRE*1.5)); // fuzzy
 }
 
-void test_singleshottimer::restartTimingTest()
+void test_timersingleshotqt::restartTimingTest()
 {
     SingleShotTimerTest timer(DEFAULT_EXPIRE);
     inspectTimerByRunner(&timer);
@@ -84,9 +84,9 @@ void test_singleshottimer::restartTimingTest()
     QCOMPARE(m_expireTime, DEFAULT_EXPIRE*1.5); // on point
 }
 
-void test_singleshottimer::stopWhilePending()
+void test_timersingleshotqt::stopWhilePending()
 {
-    SingleShotTimerQt timer(DEFAULT_EXPIRE);
+    TimerSingleShotQt timer(DEFAULT_EXPIRE);
     timer.setHighAccuracy(true);
     inspectTimerByDelay(&timer);
 
@@ -99,7 +99,7 @@ void test_singleshottimer::stopWhilePending()
     QCOMPARE(m_expireTime, 0);
 }
 
-void test_singleshottimer::stopWhilePendingTest()
+void test_timersingleshotqt::stopWhilePendingTest()
 {
     SingleShotTimerTest timer(DEFAULT_EXPIRE);
     inspectTimerByRunner(&timer);
@@ -113,9 +113,9 @@ void test_singleshottimer::stopWhilePendingTest()
     QCOMPARE(m_expireTime, 0);
 }
 
-void test_singleshottimer::queuedConnectionsOnExpire()
+void test_timersingleshotqt::queuedConnectionsOnExpire()
 {
-    SingleShotTimerQt timer(DEFAULT_EXPIRE);
+    TimerSingleShotQt timer(DEFAULT_EXPIRE);
     timer.setHighAccuracy(true);
     inspectTimerByDelay(&timer);
     TimerEventLoopWrapper evTest(&timer);
@@ -130,7 +130,7 @@ void test_singleshottimer::queuedConnectionsOnExpire()
     QCOMPARE(expireReceived, 1);
 }
 
-void test_singleshottimer::queuedConnectionsOnExpireTest()
+void test_timersingleshotqt::queuedConnectionsOnExpireTest()
 {
     SingleShotTimerTest timer(DEFAULT_EXPIRE);
     inspectTimerByRunner(&timer);
@@ -146,12 +146,12 @@ void test_singleshottimer::queuedConnectionsOnExpireTest()
     QCOMPARE(expireReceived, 1);
 }
 
-void test_singleshottimer::nestedStart()
+void test_timersingleshotqt::nestedStart()
 {
-    SingleShotTimerQt timer1(DEFAULT_EXPIRE/2);
+    TimerSingleShotQt timer1(DEFAULT_EXPIRE/2);
     timer1.setHighAccuracy(true);
     inspectTimerByDelay(&timer1);
-    SingleShotTimerQt timer2(DEFAULT_EXPIRE/2);
+    TimerSingleShotQt timer2(DEFAULT_EXPIRE/2);
     timer2.setHighAccuracy(true);
     inspectTimerByDelay(&timer2);
     connect(&timer1, &ZeraTimerTemplate::sigExpired, [&]{
@@ -164,7 +164,7 @@ void test_singleshottimer::nestedStart()
     QCOMPARE(m_expireCount, 2);
 }
 
-void test_singleshottimer::nestedStartTest()
+void test_timersingleshotqt::nestedStartTest()
 {
     SingleShotTimerTest timer1(DEFAULT_EXPIRE/2);
     inspectTimerByRunner(&timer1);
@@ -180,16 +180,16 @@ void test_singleshottimer::nestedStartTest()
     QCOMPARE(m_expireCount, 2);
 }
 
-void test_singleshottimer::nestedStartQueued()
+void test_timersingleshotqt::nestedStartQueued()
 {
-    SingleShotTimerQt timer1(DEFAULT_EXPIRE/2);
+    TimerSingleShotQt timer1(DEFAULT_EXPIRE/2);
     timer1.setHighAccuracy(true);
     inspectTimerByDelay(&timer1);
     EventLoopWrapper evLoop1;
     connect(&evLoop1, &EventLoopWrapper::sigReceiveEventLoop, [&]{
         timer1.start();
     });
-    SingleShotTimerQt timer2(DEFAULT_EXPIRE/2);
+    TimerSingleShotQt timer2(DEFAULT_EXPIRE/2);
     timer2.setHighAccuracy(true);
     inspectTimerByDelay(&timer2);
     EventLoopWrapper evLoop2;
@@ -206,7 +206,7 @@ void test_singleshottimer::nestedStartQueued()
     QCOMPARE(m_expireCount, 2);
 }
 
-void test_singleshottimer::nestedStartQueuedTest()
+void test_timersingleshotqt::nestedStartQueuedTest()
 {
     SingleShotTimerTest timer1(DEFAULT_EXPIRE/2);
     inspectTimerByRunner(&timer1);
@@ -230,9 +230,9 @@ void test_singleshottimer::nestedStartQueuedTest()
     QCOMPARE(m_expireCount, 2);
 }
 
-void test_singleshottimer::infiniteExpire()
+void test_timersingleshotqt::infiniteExpire()
 {
-    SingleShotTimerQt timer(EXPIRE_INFINITE);
+    TimerSingleShotQt timer(EXPIRE_INFINITE);
     timer.setHighAccuracy(true);
     inspectTimerByDelay(&timer);
 
@@ -243,7 +243,7 @@ void test_singleshottimer::infiniteExpire()
     QCOMPARE(m_expireTime, 0);
 }
 
-void test_singleshottimer::infiniteExpireTest()
+void test_timersingleshotqt::infiniteExpireTest()
 {
     SingleShotTimerTest timer(EXPIRE_INFINITE);
     inspectTimerByRunner(&timer);

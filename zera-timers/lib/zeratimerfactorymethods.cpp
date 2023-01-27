@@ -1,9 +1,9 @@
 #include "zeratimerfactorymethods.h"
-#include "singleshottimerqt.h"
+#include "timersingleshotqt.h"
 #include "timerperiodicqt.h"
 
 std::function<ZeraTimerTemplatePtr(int)> ZeraTimerFactoryMethods::m_singleShotCreateFunction = [](int timeout){
-    return std::make_unique<SingleShotTimerQt>(timeout);
+    return std::make_unique<TimerSingleShotQt>(timeout);
 };
 
 std::function<ZeraTimerTemplatePtr(int)> ZeraTimerFactoryMethods::m_periodicCreateFunction = [](int timeout){
