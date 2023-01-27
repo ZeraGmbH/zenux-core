@@ -1,9 +1,9 @@
 #include "tasktesthelper.h"
 #include <timerrunnerfortest.h>
 
-TaskTestHelper::TaskTestHelper(TaskComposite *taskUnderTest)
+TaskTestHelper::TaskTestHelper(TaskTemplate *taskUnderTest)
 {
-    connect(taskUnderTest, &TaskComposite::sigFinish, this, &TaskTestHelper::onTaskFinish);
+    connect(taskUnderTest, &TaskTemplate::sigFinish, this, &TaskTestHelper::onTaskFinish);
 }
 
 void TaskTestHelper::onTaskFinish(bool ok, int taskId)

@@ -8,7 +8,7 @@ QTEST_MAIN(test_taskimmediatelambda)
 
 void test_taskimmediatelambda::startPass()
 {
-    TaskCompositePtr task = TaskImmediateLambda::create([&](){
+    TaskTemplatePtr task = TaskImmediateLambda::create([&](){
         return true;
     });
     TaskTestHelper helper(task.get());
@@ -19,7 +19,7 @@ void test_taskimmediatelambda::startPass()
 
 void test_taskimmediatelambda::startFail()
 {
-    TaskCompositePtr task = TaskImmediateLambda::create([&](){
+    TaskTemplatePtr task = TaskImmediateLambda::create([&](){
         return false;
     });
     TaskTestHelper helper(task.get());

@@ -18,7 +18,7 @@ void test_timeoutdecorator::init()
 
 void test_timeoutdecorator::startEmpty()
 {
-    TaskCompositePtr task = TaskTimeoutDecorator::wrapTimeout(EXPIRE_INFINITE,
+    TaskTemplatePtr task = TaskTimeoutDecorator::wrapTimeout(EXPIRE_INFINITE,
                                                               nullptr);
     TaskTestHelper helper(task.get());
     task->start();
@@ -28,7 +28,7 @@ void test_timeoutdecorator::startEmpty()
 
 void test_timeoutdecorator::startEmptyCheckDelayed()
 {
-    TaskCompositePtr task = TaskTimeoutDecorator::wrapTimeout(DEFAULT_EXPIRE,
+    TaskTemplatePtr task = TaskTimeoutDecorator::wrapTimeout(DEFAULT_EXPIRE,
                                                               nullptr);
     TaskTestHelper helper(task.get());
     task->start();
@@ -40,7 +40,7 @@ void test_timeoutdecorator::startEmptyCheckDelayed()
 
 void test_timeoutdecorator::immediateOk()
 {
-    TaskCompositePtr task = TaskTimeoutDecorator::wrapTimeout(EXPIRE_INFINITE,
+    TaskTemplatePtr task = TaskTimeoutDecorator::wrapTimeout(EXPIRE_INFINITE,
                                                               TaskForTest::create(0, true));
     TaskTestHelper helper(task.get());
     task->start();
@@ -54,7 +54,7 @@ void test_timeoutdecorator::immediateOk()
 
 void test_timeoutdecorator::immediateError()
 {
-    TaskCompositePtr task = TaskTimeoutDecorator::wrapTimeout(EXPIRE_INFINITE,
+    TaskTemplatePtr task = TaskTimeoutDecorator::wrapTimeout(EXPIRE_INFINITE,
                                                               TaskForTest::create(0, false));
     TaskTestHelper helper(task.get());
     task->start();
@@ -69,7 +69,7 @@ void test_timeoutdecorator::immediateError()
 void test_timeoutdecorator::immediateErrorWithErrFunc()
 {
     int localErrorCount = 0;
-    TaskCompositePtr task = TaskTimeoutDecorator::wrapTimeout(EXPIRE_INFINITE,
+    TaskTemplatePtr task = TaskTimeoutDecorator::wrapTimeout(EXPIRE_INFINITE,
                                                               TaskForTest::create(0, false),
                                                               [&]{
         localErrorCount++;
@@ -85,7 +85,7 @@ void test_timeoutdecorator::immediateErrorWithErrFunc()
 
 void test_timeoutdecorator::infiniteTask()
 {
-    TaskCompositePtr task = TaskTimeoutDecorator::wrapTimeout(DEFAULT_EXPIRE,
+    TaskTemplatePtr task = TaskTimeoutDecorator::wrapTimeout(DEFAULT_EXPIRE,
                                                               TaskForTest::create(EXPIRE_INFINITE, true));
     TaskTestHelper helper(task.get());
     task->start();
@@ -100,7 +100,7 @@ void test_timeoutdecorator::infiniteTask()
 
 void test_timeoutdecorator::delayedOk()
 {
-    TaskCompositePtr task = TaskTimeoutDecorator::wrapTimeout(DEFAULT_EXPIRE,
+    TaskTemplatePtr task = TaskTimeoutDecorator::wrapTimeout(DEFAULT_EXPIRE,
                                                               TaskForTest::create(DEFAULT_EXPIRE/2, true));
     TaskTestHelper helper(task.get());
     task->start();
@@ -115,7 +115,7 @@ void test_timeoutdecorator::delayedOk()
 
 void test_timeoutdecorator::delayEqualsTimeout()
 {
-    TaskCompositePtr task = TaskTimeoutDecorator::wrapTimeout(DEFAULT_EXPIRE,
+    TaskTemplatePtr task = TaskTimeoutDecorator::wrapTimeout(DEFAULT_EXPIRE,
                                                               TaskForTest::create(DEFAULT_EXPIRE, true));
     TaskTestHelper helper(task.get());
     task->start();

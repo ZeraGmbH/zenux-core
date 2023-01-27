@@ -11,14 +11,14 @@ class TaskParallel : public TaskContainerInterface
 public:
     static std::unique_ptr<TaskContainerInterface> create();
     void start() override;
-    void addSub(TaskCompositePtr task) override;
+    void addSub(TaskTemplatePtr task) override;
 private slots:
     void onFinishTask(bool ok, int taskId);
 private:
     void startTasksDirectConnectionSafe();
 
-    std::list<TaskCompositePtr> m_addedTasks;
-    std::unordered_map<int, TaskCompositePtr> m_startedTasks;
+    std::list<TaskTemplatePtr> m_addedTasks;
+    std::unordered_map<int, TaskTemplatePtr> m_startedTasks;
     bool m_allOk = false;
 };
 

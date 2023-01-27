@@ -15,7 +15,7 @@ void test_taskextraerrorhandler::init()
 
 void test_taskextraerrorhandler::startEmpty()
 {
-    TaskCompositePtr task = TaskExtraErrorHandler::create(nullptr,[&]{});
+    TaskTemplatePtr task = TaskExtraErrorHandler::create(nullptr,[&]{});
     TaskTestHelper helper(task.get());
     task->start();
     QCOMPARE(helper.okCount(), 1);
@@ -25,7 +25,7 @@ void test_taskextraerrorhandler::startEmpty()
 void test_taskextraerrorhandler::handleError()
 {
     int extraErrCount = 0;
-    TaskCompositePtr task = TaskExtraErrorHandler::create(TaskForTest::create(DEFAULT_EXPIRE, false),[&]{
+    TaskTemplatePtr task = TaskExtraErrorHandler::create(TaskForTest::create(DEFAULT_EXPIRE, false),[&]{
         extraErrCount++;
     });
     TaskTestHelper helper(task.get());
@@ -40,7 +40,7 @@ void test_taskextraerrorhandler::handleError()
 void test_taskextraerrorhandler::handleNoError()
 {
     int extraErrCount = 0;
-    TaskCompositePtr task = TaskExtraErrorHandler::create(TaskForTest::create(DEFAULT_EXPIRE, true),[&]{
+    TaskTemplatePtr task = TaskExtraErrorHandler::create(TaskForTest::create(DEFAULT_EXPIRE, true),[&]{
         extraErrCount++;
     });
     TaskTestHelper helper(task.get());
@@ -54,10 +54,10 @@ void test_taskextraerrorhandler::handleNoError()
 
 void test_taskextraerrorhandler::taskId()
 {
-    TaskCompositePtr task = TaskExtraErrorHandler::create(TaskForTest::create(0, true),[&]{});
+    TaskTemplatePtr task = TaskExtraErrorHandler::create(TaskForTest::create(0, true),[&]{});
     int taskId = task->getTaskId();
     int taskIdReceived = 42;
-    connect(task.get(), &TaskComposite::sigFinish, [&](bool , int taskId) {
+    connect(task.get(), &TaskTemplate::sigFinish, [&](bool , int taskId) {
         taskIdReceived = taskId;
     });
     task->start();

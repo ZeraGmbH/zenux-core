@@ -1,14 +1,14 @@
 #ifndef TASKIMMEDIATELAMBDA_H
 #define TASKIMMEDIATELAMBDA_H
 
-#include "taskcomposit.h"
+#include "tasktemplate.h"
 #include <functional>
 
-class TaskImmediateLambda : public TaskComposite
+class TaskImmediateLambda : public TaskTemplate
 {
     Q_OBJECT
 public:
-    static TaskCompositePtr create(std::function<bool ()> startFunc);
+    static TaskTemplatePtr create(std::function<bool ()> startFunc);
     TaskImmediateLambda(std::function<bool()> startFunc);
     void start() override;
 private:

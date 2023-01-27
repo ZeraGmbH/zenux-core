@@ -10,7 +10,7 @@ class TaskSequence : public TaskContainerInterface // for now abort on error
 public:
     static std::unique_ptr<TaskContainerInterface> create();
     void start() override;
-    void addSub(TaskCompositePtr task) override;
+    void addSub(TaskTemplatePtr task) override;
 
 private slots:
     void onFinishCurr(bool ok);
@@ -19,8 +19,8 @@ private:
     void setNext();
     void cleanup();
     bool m_started = false;
-    std::list<TaskCompositePtr> m_tasks;
-    TaskCompositePtr m_current;
+    std::list<TaskTemplatePtr> m_tasks;
+    TaskTemplatePtr m_current;
     int m_taskId;
 };
 
