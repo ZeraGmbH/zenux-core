@@ -1,12 +1,12 @@
-#include "taskparallel.h"
+#include "taskcontainerparallel.h"
 #include <QList>
 
-std::unique_ptr<TaskContainerInterface> TaskParallel::create()
+std::unique_ptr<TaskContainerInterface> TaskContainerParallel::create()
 {
-    return std::make_unique<TaskParallel>();
+    return std::make_unique<TaskContainerParallel>();
 }
 
-void TaskParallel::start()
+void TaskContainerParallel::start()
 {
     if(!m_addedTasks.empty())
         startTasksDirectConnectionSafe();
@@ -14,12 +14,12 @@ void TaskParallel::start()
         finishTask(true);
 }
 
-void TaskParallel::addSub(TaskTemplatePtr task)
+void TaskContainerParallel::addSub(TaskTemplatePtr task)
 {
     m_addedTasks.push_back(std::move(task));
 }
 
-void TaskParallel::onFinishTask(bool ok, int taskId)
+void TaskContainerParallel::onFinishTask(bool ok, int taskId)
 {
     if(m_startedTasks.erase(taskId)) {
         m_allOk = m_allOk && ok;
@@ -28,14 +28,14 @@ void TaskParallel::onFinishTask(bool ok, int taskId)
     }
 }
 
-void TaskParallel::startTasksDirectConnectionSafe()
+void TaskContainerParallel::startTasksDirectConnectionSafe()
 {
     m_allOk = true;
     QList<int> taskIdsToStart;
     while(!m_addedTasks.empty()) {
         auto task = std::move(m_addedTasks.back());
         m_addedTasks.pop_back();
-        connect(task.get(), &TaskTemplate::sigFinish, this, &TaskParallel::onFinishTask);
+        connect(task.get(), &TaskTemplate::sigFinish, this, &TaskContainerParallel::onFinishTask);
         int taskId = task->getTaskId();
         taskIdsToStart.push_back(taskId);
         m_startedTasks[taskId] = std::move(task);
