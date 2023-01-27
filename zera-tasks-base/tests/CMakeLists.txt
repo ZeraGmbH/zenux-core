@@ -3,5 +3,5 @@ SETUP_QTESTS(
     test_taskcontainersequence
     test_taskdecoratorerrorhandler
     test_taskdecoratortimeout
-    test_taskimmediatelambda
+    test_tasklambdarunner
 )

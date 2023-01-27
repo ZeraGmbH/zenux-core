@@ -1,14 +1,14 @@
-#include "test_taskimmediatelambda.h"
-#include "taskimmediatelambda.h"
+#include "test_tasklambdarunner.h"
+#include "tasklambdarunner.h"
 #include "tasktesthelper.h"
 #include "taskcontainersequence.h"
 #include <QTest>
 
-QTEST_MAIN(test_taskimmediatelambda)
+QTEST_MAIN(test_tasklambdarunner)
 
-void test_taskimmediatelambda::startPass()
+void test_tasklambdarunner::startPass()
 {
-    TaskTemplatePtr task = TaskImmediateLambda::create([&](){
+    TaskTemplatePtr task = TaskLambdaRunner::create([&](){
         return true;
     });
     TaskTestHelper helper(task.get());
@@ -17,9 +17,9 @@ void test_taskimmediatelambda::startPass()
     QCOMPARE(helper.errCount(), 0);
 }
 
-void test_taskimmediatelambda::startFail()
+void test_tasklambdarunner::startFail()
 {
-    TaskTemplatePtr task = TaskImmediateLambda::create([&](){
+    TaskTemplatePtr task = TaskLambdaRunner::create([&](){
         return false;
     });
     TaskTestHelper helper(task.get());
