@@ -1,9 +1,9 @@
-#ifndef TEST_TASKPARALLEL_H
-#define TEST_TASKPARALLEL_H
+#ifndef TEST_TASKCONTAINERPARALLEL_H
+#define TEST_TASKCONTAINERPARALLEL_H
 
 #include <QObject>
 
-class test_taskparallel : public QObject
+class test_taskcontainerparallel : public QObject
 {
     Q_OBJECT
 private slots:
@@ -21,4 +21,4 @@ private slots:
     void twoTransactions();
 };
 
-#endif // TEST_TASKPARALLEL_H
+#endif // TEST_TASKCONTAINERPARALLEL_H

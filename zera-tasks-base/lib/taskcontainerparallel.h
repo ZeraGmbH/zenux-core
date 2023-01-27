@@ -1,11 +1,11 @@
-#ifndef TASKPARALLEL_H
-#define TASKPARALLEL_H
+#ifndef TASKCONTAINERPARALLEL_H
+#define TASKCONTAINERPARALLEL_H
 
 #include "taskcontainerinterface.h"
 #include <list>
 #include <unordered_map>
 
-class TaskParallel : public TaskContainerInterface
+class TaskContainerParallel : public TaskContainerInterface
 {
     Q_OBJECT
 public:
@@ -22,4 +22,4 @@ private:
     bool m_allOk = false;
 };
 
-#endif // TASKPARALLEL_H
+#endif // TASKCONTAINERPARALLEL_H
