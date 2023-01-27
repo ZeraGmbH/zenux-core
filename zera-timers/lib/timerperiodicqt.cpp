@@ -1,26 +1,26 @@
-#include "periodictimerqt.h"
+#include "timerperiodicqt.h"
 
-PeriodicTimerQt::PeriodicTimerQt(int expireTimeMs) :
+TimerPeriodicQt::TimerPeriodicQt(int expireTimeMs) :
     ZeraTimerTemplate(expireTimeMs)
 {
 }
 
-void PeriodicTimerQt::setHighAccuracy(bool on)
+void TimerPeriodicQt::setHighAccuracy(bool on)
 {
     m_highAccuracy = on;
 }
 
-void PeriodicTimerQt::start()
+void TimerPeriodicQt::start()
 {
     m_qtTimer = std::make_unique<QTimer>();
     m_qtTimer->setSingleShot(false);
     m_qtTimer->setTimerType(m_highAccuracy ? Qt::PreciseTimer: Qt::CoarseTimer);
     connect(m_qtTimer.get(), &QTimer::timeout,
-            this, &PeriodicTimerQt::sigExpired);
+            this, &TimerPeriodicQt::sigExpired);
     m_qtTimer->start(m_expireTimeMs);
 }
 
-void PeriodicTimerQt::stop()
+void TimerPeriodicQt::stop()
 {
     m_qtTimer = nullptr;
 }

@@ -1,18 +1,18 @@
+#include "test_timerperiodicqt.h"
 #include "timerrunnerfortest.h"
 #include "realdelaytimerhelpers.h"
-#include "test_periodictimerqt.h"
 #include <QTest>
 
-QTEST_MAIN(test_periodictimerqt)
+QTEST_MAIN(test_timerperiodicqt)
 
-void test_periodictimerqt::init()
+void test_timerperiodicqt::init()
 {
     m_expireTimes.clear();
     m_elapsedTimer = std::make_unique<QElapsedTimer>();
     TimerRunnerForTest::reset();
 }
 
-void test_periodictimerqt::inspectTimerByDelay(PeriodicTimerQt *timer)
+void test_timerperiodicqt::inspectTimerByDelay(TimerPeriodicQt *timer)
 {
     m_elapsedTimer->start();
     connect(timer, &ZeraTimerTemplate::sigExpired, [&]{
@@ -20,16 +20,16 @@ void test_periodictimerqt::inspectTimerByDelay(PeriodicTimerQt *timer)
     });
 }
 
-void test_periodictimerqt::inspectTimerByRunner(PeriodicTimerTest *timer)
+void test_timerperiodicqt::inspectTimerByRunner(PeriodicTimerTest *timer)
 {
     connect(timer, &ZeraTimerTemplate::sigExpired, [&]{
         m_expireTimes.append(TimerRunnerForTest::getInstance()->getCurrentTimeMs());
     });
 }
 
-void test_periodictimerqt::oneInterval()
+void test_timerperiodicqt::oneInterval()
 {
-    PeriodicTimerQt timer(DEFAULT_EXPIRE);
+    TimerPeriodicQt timer(DEFAULT_EXPIRE);
     inspectTimerByDelay(&timer);
     timer.setHighAccuracy(true);
 
@@ -40,7 +40,7 @@ void test_periodictimerqt::oneInterval()
     QVERIFY(RealDelayTimerHelpers::isExpireTimeWithinLimits(m_expireTimes.at(0), DEFAULT_EXPIRE)); // fuzzy
 }
 
-void test_periodictimerqt::oneIntervalTest()
+void test_timerperiodicqt::oneIntervalTest()
 {
     PeriodicTimerTest timer(DEFAULT_EXPIRE);
     inspectTimerByRunner(&timer);
@@ -52,9 +52,9 @@ void test_periodictimerqt::oneIntervalTest()
     QCOMPARE(m_expireTimes.at(0), DEFAULT_EXPIRE); // on point
 }
 
-void test_periodictimerqt::threeInterval()
+void test_timerperiodicqt::threeInterval()
 {
-    PeriodicTimerQt timer(DEFAULT_EXPIRE);
+    TimerPeriodicQt timer(DEFAULT_EXPIRE);
     inspectTimerByDelay(&timer);
     timer.setHighAccuracy(true);
 
@@ -67,7 +67,7 @@ void test_periodictimerqt::threeInterval()
     QVERIFY(RealDelayTimerHelpers::isExpireTimeWithinLimits(m_expireTimes.at(2), DEFAULT_EXPIRE*3));
 }
 
-void test_periodictimerqt::threeIntervalTest()
+void test_timerperiodicqt::threeIntervalTest()
 {
     PeriodicTimerTest timer(DEFAULT_EXPIRE);
     inspectTimerByRunner(&timer);

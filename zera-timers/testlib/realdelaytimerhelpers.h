@@ -1,7 +1,6 @@
 #ifndef REALDELAYTIMERHELPERS_H
 #define REALDELAYTIMERHELPERS_H
 
-
 class RealDelayTimerHelpers
 {
 public:
