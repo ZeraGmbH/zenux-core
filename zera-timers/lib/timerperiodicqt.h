@@ -1,15 +1,15 @@
-#ifndef PERIODICTIMERQT_H
-#define PERIODICTIMERQT_H
+#ifndef TIMERPERIODICQT_H
+#define TIMERPERIODICQT_H
 
 #include "zeratimertemplate.h"
 #include <QTimer>
 #include <memory>
 
-class PeriodicTimerQt : public ZeraTimerTemplate
+class TimerPeriodicQt : public ZeraTimerTemplate
 {
     Q_OBJECT
 public:
-    explicit PeriodicTimerQt(int expireTimeMs);
+    explicit TimerPeriodicQt(int expireTimeMs);
     void setHighAccuracy(bool on);
     void start() override;
     void stop() override;
@@ -18,4 +18,4 @@ private:
     bool m_highAccuracy = false;
 };
 
-#endif // PERIODICTIMERQT_H
+#endif // TIMERPERIODICQT_H

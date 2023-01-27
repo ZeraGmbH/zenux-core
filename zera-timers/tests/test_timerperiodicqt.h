@@ -1,13 +1,13 @@
-#ifndef TEST_PERIODICTIMERQT_H
-#define TEST_PERIODICTIMERQT_H
+#ifndef TEST_TIMERPERIODICQT_H
+#define TEST_TIMERPERIODICQT_H
 
 #include "periodictimertest.h"
-#include "periodictimerqt.h"
+#include "timerperiodicqt.h"
 #include <QElapsedTimer>
 #include <QList>
 #include <memory>
 
-class test_periodictimerqt : public QObject
+class test_timerperiodicqt : public QObject
 {
     Q_OBJECT
 private slots:
@@ -20,10 +20,10 @@ private slots:
     void threeIntervalTest();
 
 private:
-    void inspectTimerByDelay(PeriodicTimerQt *timer);
+    void inspectTimerByDelay(TimerPeriodicQt *timer);
     void inspectTimerByRunner(PeriodicTimerTest *timer);
     QList<int> m_expireTimes;
     std::unique_ptr<QElapsedTimer> m_elapsedTimer;
 };
 
-#endif // TEST_PERIODICTIMERQT_H
+#endif // TEST_TIMERPERIODICQT_H
