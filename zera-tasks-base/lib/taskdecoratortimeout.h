@@ -5,13 +5,13 @@
 #include <zeratimertemplate.h>
 #include <memory>
 
-class TaskTimeoutDecorator : public TaskTemplate
+class TaskDecoratorTimeout : public TaskTemplate
 {
     Q_OBJECT
 public:
     static TaskTemplatePtr wrapTimeout(int timeout, TaskTemplatePtr decoratedTask,
                                         std::function<void()> additionalErrorHandler = []{});
-    TaskTimeoutDecorator(ZeraTimerTemplatePtr timer, TaskTemplatePtr decoratedTask);
+    TaskDecoratorTimeout(ZeraTimerTemplatePtr timer, TaskTemplatePtr decoratedTask);
     void start() override;
 private slots:
     void onFinishDecorated(bool ok);
