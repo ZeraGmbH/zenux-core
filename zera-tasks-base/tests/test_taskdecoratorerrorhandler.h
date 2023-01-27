@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-class test_taskextraerrorhandler : public QObject
+class test_taskdecoratorerrorhandler : public QObject
 {
     Q_OBJECT
 private slots:
