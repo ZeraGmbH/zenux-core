@@ -1,15 +1,15 @@
-#ifndef SINGLESHOTTIMERQT_H
-#define SINGLESHOTTIMERQT_H
+#ifndef TIMERSINGLESHOTQT_H
+#define TIMERSINGLESHOTQT_H
 
 #include "zeratimertemplate.h"
 #include <QTimer>
 #include <memory>
 
-class SingleShotTimerQt : public ZeraTimerTemplate
+class TimerSingleShotQt : public ZeraTimerTemplate
 {
     Q_OBJECT
 public:
-    explicit SingleShotTimerQt(int expireTimeMs);
+    explicit TimerSingleShotQt(int expireTimeMs);
     void setHighAccuracy(bool on);
     void start() override;
     void stop() override;
@@ -18,4 +18,4 @@ private:
     bool m_highAccuracy = false;
 };
 
-#endif // SINGLESHOTTIMERQT_H
+#endif // TIMERSINGLESHOTQT_H

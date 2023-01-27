@@ -1,26 +1,26 @@
-#include "singleshottimerqt.h"
+#include "timersingleshotqt.h"
 
-SingleShotTimerQt::SingleShotTimerQt(int expireTimeMs) :
+TimerSingleShotQt::TimerSingleShotQt(int expireTimeMs) :
     ZeraTimerTemplate(expireTimeMs)
 {
 }
 
-void SingleShotTimerQt::setHighAccuracy(bool on)
+void TimerSingleShotQt::setHighAccuracy(bool on)
 {
     m_highAccuracy = on;
 }
 
-void SingleShotTimerQt::start()
+void TimerSingleShotQt::start()
 {
     m_qtTimer = std::make_unique<QTimer>();
     m_qtTimer->setSingleShot(true);
     m_qtTimer->setTimerType(m_highAccuracy ? Qt::PreciseTimer: Qt::CoarseTimer);
     connect(m_qtTimer.get(), &QTimer::timeout,
-            this, &SingleShotTimerQt::sigExpired);
+            this, &TimerSingleShotQt::sigExpired);
     m_qtTimer->start(m_expireTimeMs);
 }
 
-void SingleShotTimerQt::stop()
+void TimerSingleShotQt::stop()
 {
     m_qtTimer = nullptr;
 }

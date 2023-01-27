@@ -1,21 +1,21 @@
-#ifndef TEST_SINGLESHOTTIMER_H
-#define TEST_SINGLESHOTTIMER_H
+#ifndef TEST_TIMERSINGLESHOTQT_H
+#define TEST_TIMERSINGLESHOTQT_H
 
 #include "timerrunnerfortest.h"
-#include "singleshottimerqt.h"
+#include "timersingleshotqt.h"
 #include "singleshottimertest.h"
 #include <QObject>
 #include <QElapsedTimer>
 #include <memory>
 
-// This test compares behavior of SingleShotTimerQt with SingleShotTimerTest
+// This test compares behavior of TimerSingleShotQt with SingleShotTimerTest
 // with the following target: By using only SingleShotTimerTest in tests timing
 // measurements are done here once and nowhere else because of
 // * timing measurements are slow
 // * timing measurement are fragile
 // Here we make fragility less an issue by running timers with high accuracy
 
-class test_singleshottimer : public QObject
+class test_timersingleshotqt : public QObject
 {
     Q_OBJECT
 private slots:
@@ -43,7 +43,7 @@ private slots:
     void infiniteExpireTest();
 
 private:
-    void inspectTimerByDelay(SingleShotTimerQt *timer);
+    void inspectTimerByDelay(TimerSingleShotQt *timer);
     void inspectTimerByRunner(SingleShotTimerTest *timer);
     int m_expireCount;
     int m_expireTime;
@@ -80,4 +80,4 @@ signals:
     void sigExpireReceived();
 };
 
-#endif // TEST_SINGLESHOTTIMER_H
+#endif // TEST_TIMERSINGLESHOTQT_H
