@@ -2,14 +2,9 @@
 #define TIMEMACHINEFORTEST_H
 
 #include "timertestdefaults.h"
+#include "timerfortestinterface.h"
 #include <QMap>
 #include <QList>
-
-class TimerForTestInterface
-{
-public:
-    virtual void fireExpired() = 0;
-};
 
 class TimeMachineForTest
 {

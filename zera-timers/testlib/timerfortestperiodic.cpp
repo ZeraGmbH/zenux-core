@@ -1,4 +1,5 @@
 #include "timerfortestperiodic.h"
+#include "timemachinefortest.h"
 
 TimerForTestPeriodic::TimerForTestPeriodic(int expireTimeMs) :
     ZeraTimerTemplate(expireTimeMs)

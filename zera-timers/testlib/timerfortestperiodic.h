@@ -2,7 +2,7 @@
 #define TIMERFORTESTPERIODIC_H
 
 #include "zeratimertemplate.h"
-#include "timemachinefortest.h"
+#include "timerfortestinterface.h"
 
 class TimerForTestPeriodic : public ZeraTimerTemplate, public TimerForTestInterface
 {

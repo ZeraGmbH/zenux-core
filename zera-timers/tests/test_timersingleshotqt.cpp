@@ -1,5 +1,6 @@
 #include "test_timersingleshotqt.h"
 #include "timertestdefaults.h"
+#include "timemachinefortest.h"
 #include "realdelaytimerhelpers.h"
 #include <QTest>
 
