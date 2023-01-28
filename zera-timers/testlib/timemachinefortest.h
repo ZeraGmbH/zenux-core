@@ -1,5 +1,5 @@
-#ifndef TIMERRUNNERFORTEST_H
-#define TIMERRUNNERFORTEST_H
+#ifndef TIMEMACHINEFORTEST_H
+#define TIMEMACHINEFORTEST_H
 
 #include "timertestdefaults.h"
 #include <QMap>
@@ -11,17 +11,17 @@ public:
     virtual void fireExpired() = 0;
 };
 
-class TimerRunnerForTest
+class TimeMachineForTest
 {
 public:
-    static TimerRunnerForTest* getInstance();
+    static TimeMachineForTest* getInstance();
     static void reset();
     void addTimer(TimerForTestInterface* timer, int expiredMs, bool singleShot);
     void removeTimer(TimerForTestInterface* timer);
     void processTimers(int durationMs);
     int getCurrentTimeMs();
 private:
-    TimerRunnerForTest() = default;
+    TimeMachineForTest() = default;
     int calcExpireTime(int expiredMs);
     struct TTimerEntry
     {
@@ -36,7 +36,7 @@ private:
     void removeTimers(const QList<int> &expiredTimes);
     int m_currentTimeMs = 0;
     ExpireMap m_expireMap;
-    static TimerRunnerForTest* m_instance;
+    static TimeMachineForTest* m_instance;
 };
 
-#endif // TIMERRUNNERFORTEST_H
+#endif // TIMEMACHINEFORTEST_H

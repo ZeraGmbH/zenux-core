@@ -1,5 +1,5 @@
 #include "test_timerperiodicqt.h"
-#include "timerrunnerfortest.h"
+#include "timemachinefortest.h"
 #include "realdelaytimerhelpers.h"
 #include <QTest>
 
@@ -9,7 +9,7 @@ void test_timerperiodicqt::init()
 {
     m_expireTimes.clear();
     m_elapsedTimer = std::make_unique<QElapsedTimer>();
-    TimerRunnerForTest::reset();
+    TimeMachineForTest::reset();
 }
 
 void test_timerperiodicqt::inspectTimerByDelay(TimerPeriodicQt *timer)
@@ -23,7 +23,7 @@ void test_timerperiodicqt::inspectTimerByDelay(TimerPeriodicQt *timer)
 void test_timerperiodicqt::inspectTimerByRunner(TimerForTestPeriodic *timer)
 {
     connect(timer, &ZeraTimerTemplate::sigExpired, [&]{
-        m_expireTimes.append(TimerRunnerForTest::getInstance()->getCurrentTimeMs());
+        m_expireTimes.append(TimeMachineForTest::getInstance()->getCurrentTimeMs());
     });
 }
 
@@ -46,7 +46,7 @@ void test_timerperiodicqt::oneIntervalTest()
     inspectTimerByRunner(&timer);
 
     timer.start();
-    TimerRunnerForTest::getInstance()->processTimers(DEFAULT_EXPIRE + DEFAULT_PERIODIC_EXTRA_WAIT);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE + DEFAULT_PERIODIC_EXTRA_WAIT);
 
     QCOMPARE(m_expireTimes.size(), 1);
     QCOMPARE(m_expireTimes.at(0), DEFAULT_EXPIRE); // on point
@@ -73,7 +73,7 @@ void test_timerperiodicqt::threeIntervalTest()
     inspectTimerByRunner(&timer);
 
     timer.start();
-    TimerRunnerForTest::getInstance()->processTimers(DEFAULT_EXPIRE*3 + DEFAULT_PERIODIC_EXTRA_WAIT);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE*3 + DEFAULT_PERIODIC_EXTRA_WAIT);
 
     QCOMPARE(m_expireTimes.size(), 3);
     QCOMPARE(m_expireTimes.at(0), DEFAULT_EXPIRE); // on point

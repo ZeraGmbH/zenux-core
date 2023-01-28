@@ -3,7 +3,7 @@
 #include "taskdecoratortimeout.h"
 #include "tasktesthelper.h"
 #include <timerfortestsingleshot.h>
-#include <timerrunnerfortest.h>
+#include <timemachinefortest.h>
 #include <zeratimerfactorymethodstest.h>
 #include <QTest>
 
@@ -12,7 +12,7 @@ QTEST_MAIN(test_taskdecoratortimeout)
 void test_taskdecoratortimeout::init()
 {
     TaskForTest::resetCounters();
-    TimerRunnerForTest::reset();
+    TimeMachineForTest::reset();
     ZeraTimerFactoryMethodsTest::enableTest();
 }
 
@@ -32,7 +32,7 @@ void test_taskdecoratortimeout::startEmptyCheckDelayed()
                                                              nullptr);
     TaskTestHelper helper(task.get());
     task->start();
-    TimerRunnerForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
     QCOMPARE(helper.okCount(), 1);
     QCOMPARE(helper.errCount(), 0);
     QCOMPARE(helper.signalDelayMs(), 0);
@@ -89,7 +89,7 @@ void test_taskdecoratortimeout::infiniteTask()
                                                              TaskForTest::create(EXPIRE_INFINITE, true));
     TaskTestHelper helper(task.get());
     task->start();
-    TimerRunnerForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
     QCOMPARE(helper.okCount(), 0);
     QCOMPARE(helper.errCount(), 1);
     QCOMPARE(TaskForTest::okCount(), 0);
@@ -104,7 +104,7 @@ void test_taskdecoratortimeout::delayedOk()
                                                              TaskForTest::create(DEFAULT_EXPIRE/2, true));
     TaskTestHelper helper(task.get());
     task->start();
-    TimerRunnerForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
     QCOMPARE(helper.okCount(), 1);
     QCOMPARE(helper.errCount(), 0);
     QCOMPARE(TaskForTest::okCount(), 1);
@@ -119,7 +119,7 @@ void test_taskdecoratortimeout::delayEqualsTimeout()
                                                              TaskForTest::create(DEFAULT_EXPIRE, true));
     TaskTestHelper helper(task.get());
     task->start();
-    TimerRunnerForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
     QCOMPARE(helper.okCount() + helper.errCount(), 1);
     QCOMPARE(TaskForTest::dtorCount(), 1);
     QCOMPARE(helper.signalDelayMs(), DEFAULT_EXPIRE);

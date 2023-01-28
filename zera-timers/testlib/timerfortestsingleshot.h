@@ -2,7 +2,7 @@
 #define TIMERFORTESTSINGLESHOT_H
 
 #include "zeratimertemplate.h"
-#include "timerrunnerfortest.h"
+#include "timemachinefortest.h"
 
 class TimerForTestSingleShot : public ZeraTimerTemplate, public TimerForTestInterface
 {

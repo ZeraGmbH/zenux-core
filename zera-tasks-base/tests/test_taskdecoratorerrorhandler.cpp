@@ -2,7 +2,7 @@
 #include "taskdecoratorerrorhandler.h"
 #include "taskfortest.h"
 #include "tasktesthelper.h"
-#include <timerrunnerfortest.h>
+#include <timemachinefortest.h>
 #include <QTest>
 
 QTEST_MAIN(test_taskdecoratorerrorhandler)
@@ -10,7 +10,7 @@ QTEST_MAIN(test_taskdecoratorerrorhandler)
 void test_taskdecoratorerrorhandler::init()
 {
     TaskForTest::resetCounters();
-    TimerRunnerForTest::reset();
+    TimeMachineForTest::reset();
 }
 
 void test_taskdecoratorerrorhandler::startEmpty()
@@ -30,7 +30,7 @@ void test_taskdecoratorerrorhandler::handleError()
     });
     TaskTestHelper helper(task.get());
     task->start();
-    TimerRunnerForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
     QCOMPARE(extraErrCount, 1);
     QCOMPARE(helper.okCount(), 0);
     QCOMPARE(helper.errCount(), 1);
@@ -45,7 +45,7 @@ void test_taskdecoratorerrorhandler::handleNoError()
     });
     TaskTestHelper helper(task.get());
     task->start();
-    TimerRunnerForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
     QCOMPARE(extraErrCount, 0);
     QCOMPARE(helper.okCount(), 1);
     QCOMPARE(helper.errCount(), 0);
