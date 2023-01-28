@@ -4,7 +4,7 @@
 #include "tasktesthelper.h"
 #include <timerfortestsingleshot.h>
 #include <timemachinefortest.h>
-#include <zeratimerfactorymethodstest.h>
+#include <timerfactoryqtfortest.h>
 #include <QTest>
 
 QTEST_MAIN(test_taskdecoratortimeout)
@@ -13,7 +13,7 @@ void test_taskdecoratortimeout::init()
 {
     TaskForTest::resetCounters();
     TimeMachineForTest::reset();
-    ZeraTimerFactoryMethodsTest::enableTest();
+    TimerFactoryQtForTest::enableTest();
 }
 
 void test_taskdecoratortimeout::startEmpty()
