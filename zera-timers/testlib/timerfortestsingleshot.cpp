@@ -1,4 +1,5 @@
 #include "timerfortestsingleshot.h"
+#include "timemachinefortest.h"
 
 TimerForTestSingleShot::TimerForTestSingleShot(int expireTimeMs) :
     ZeraTimerTemplate(expireTimeMs)
