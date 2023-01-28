@@ -2,7 +2,7 @@
 #include "timemachinefortest.h"
 
 TimerForTestPeriodic::TimerForTestPeriodic(int expireTimeMs) :
-    ZeraTimerTemplate(expireTimeMs)
+    TimerTemplateQt(expireTimeMs)
 {
 }
 

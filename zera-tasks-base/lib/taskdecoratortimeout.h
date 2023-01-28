@@ -2,7 +2,7 @@
 #define TASKDECORATORTIMEOUT_H
 
 #include "tasktemplate.h"
-#include <zeratimertemplate.h>
+#include <timertemplateqt.h>
 #include <memory>
 
 class TaskDecoratorTimeout : public TaskTemplate
@@ -11,7 +11,7 @@ class TaskDecoratorTimeout : public TaskTemplate
 public:
     static TaskTemplatePtr wrapTimeout(int timeout, TaskTemplatePtr decoratedTask,
                                         std::function<void()> additionalErrorHandler = []{});
-    TaskDecoratorTimeout(ZeraTimerTemplatePtr timer, TaskTemplatePtr decoratedTask);
+    TaskDecoratorTimeout(TimerTemplateQtPtr timer, TaskTemplatePtr decoratedTask);
     void start() override;
 private slots:
     void onFinishDecorated(bool ok);
@@ -20,7 +20,7 @@ private:
     void startDecoratedTask();
     void emitFinish(bool ok);
     TaskTemplatePtr m_decoratedTask;
-    std::unique_ptr<ZeraTimerTemplate> m_timer;
+    std::unique_ptr<TimerTemplateQt> m_timer;
 };
 
 #endif // TASKDECORATORTIMEOUT_H

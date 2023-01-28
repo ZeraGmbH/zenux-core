@@ -71,8 +71,8 @@ class TimerEventLoopWrapper : public QObject
 {
     Q_OBJECT
 public:
-    TimerEventLoopWrapper(ZeraTimerTemplate* timer) {
-        connect(timer, &ZeraTimerTemplate::sigExpired,
+    TimerEventLoopWrapper(TimerTemplateQt* timer) {
+        connect(timer, &TimerTemplateQt::sigExpired,
                 this, &TimerEventLoopWrapper::sigExpireReceived,
                 Qt::QueuedConnection);
     }

@@ -2,7 +2,7 @@
 #include "timemachinefortest.h"
 
 TimerForTestSingleShot::TimerForTestSingleShot(int expireTimeMs) :
-    ZeraTimerTemplate(expireTimeMs)
+    TimerTemplateQt(expireTimeMs)
 {
 }
 

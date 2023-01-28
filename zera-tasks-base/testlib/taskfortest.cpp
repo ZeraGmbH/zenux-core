@@ -15,7 +15,7 @@ TaskForTest::TaskForTest(int delayMs, bool finishOk) :
     m_delayTimer(std::make_unique<TimerForTestSingleShot>(delayMs)),
     m_finishOk(finishOk)
 {
-    connect(m_delayTimer.get(), &ZeraTimerTemplate::sigExpired,
+    connect(m_delayTimer.get(), &TimerTemplateQt::sigExpired,
             this, &TaskForTest::doEmit);
 }
 

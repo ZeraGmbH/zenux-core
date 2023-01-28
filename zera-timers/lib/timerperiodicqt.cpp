@@ -1,7 +1,7 @@
 #include "timerperiodicqt.h"
 
 TimerPeriodicQt::TimerPeriodicQt(int expireTimeMs) :
-    ZeraTimerTemplate(expireTimeMs)
+    TimerTemplateQt(expireTimeMs)
 {
 }
 

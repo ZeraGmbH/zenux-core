@@ -12,7 +12,7 @@ TaskTemplatePtr TaskDecoratorTimeout::wrapTimeout(int timeout, TaskTemplatePtr d
                 additionalErrorHandler);
 }
 
-TaskDecoratorTimeout::TaskDecoratorTimeout(ZeraTimerTemplatePtr timer, TaskTemplatePtr decoratedTask) :
+TaskDecoratorTimeout::TaskDecoratorTimeout(TimerTemplateQtPtr timer, TaskTemplatePtr decoratedTask) :
     m_decoratedTask(std::move(decoratedTask)),
     m_timer(std::move(timer))
 {
@@ -39,7 +39,7 @@ void TaskDecoratorTimeout::onTimeout()
 
 void TaskDecoratorTimeout::startDecoratedTask()
 {
-    connect(m_timer.get(), &ZeraTimerTemplate::sigExpired,
+    connect(m_timer.get(), &TimerTemplateQt::sigExpired,
             this, &TaskDecoratorTimeout::onTimeout);
     m_timer->start();
     connect(m_decoratedTask.get(), &TaskTemplate::sigFinish, this, &TaskDecoratorTimeout::onFinishDecorated);
