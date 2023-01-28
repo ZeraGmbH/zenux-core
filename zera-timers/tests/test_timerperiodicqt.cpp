@@ -20,7 +20,7 @@ void test_timerperiodicqt::inspectTimerByDelay(TimerPeriodicQt *timer)
     });
 }
 
-void test_timerperiodicqt::inspectTimerByRunner(PeriodicTimerTest *timer)
+void test_timerperiodicqt::inspectTimerByRunner(TimerForTestPeriodic *timer)
 {
     connect(timer, &ZeraTimerTemplate::sigExpired, [&]{
         m_expireTimes.append(TimerRunnerForTest::getInstance()->getCurrentTimeMs());
@@ -42,7 +42,7 @@ void test_timerperiodicqt::oneInterval()
 
 void test_timerperiodicqt::oneIntervalTest()
 {
-    PeriodicTimerTest timer(DEFAULT_EXPIRE);
+    TimerForTestPeriodic timer(DEFAULT_EXPIRE);
     inspectTimerByRunner(&timer);
 
     timer.start();
@@ -69,7 +69,7 @@ void test_timerperiodicqt::threeInterval()
 
 void test_timerperiodicqt::threeIntervalTest()
 {
-    PeriodicTimerTest timer(DEFAULT_EXPIRE);
+    TimerForTestPeriodic timer(DEFAULT_EXPIRE);
     inspectTimerByRunner(&timer);
 
     timer.start();

@@ -1,7 +1,7 @@
 #ifndef TEST_TIMERPERIODICQT_H
 #define TEST_TIMERPERIODICQT_H
 
-#include "periodictimertest.h"
+#include "timerfortestperiodic.h"
 #include "timerperiodicqt.h"
 #include <QElapsedTimer>
 #include <QList>
@@ -21,7 +21,7 @@ private slots:
 
 private:
     void inspectTimerByDelay(TimerPeriodicQt *timer);
-    void inspectTimerByRunner(PeriodicTimerTest *timer);
+    void inspectTimerByRunner(TimerForTestPeriodic *timer);
     QList<int> m_expireTimes;
     std::unique_ptr<QElapsedTimer> m_elapsedTimer;
 };

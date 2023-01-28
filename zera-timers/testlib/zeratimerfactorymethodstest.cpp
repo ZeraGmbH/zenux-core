@@ -1,6 +1,6 @@
 #include "zeratimerfactorymethodstest.h"
 #include "singleshottimertest.h"
-#include "periodictimertest.h"
+#include "timerfortestperiodic.h"
 
 void ZeraTimerFactoryMethodsTest::enableTest()
 {
@@ -9,6 +9,6 @@ void ZeraTimerFactoryMethodsTest::enableTest()
     };
 
     m_periodicCreateFunction = [](int timeout){
-        return std::make_unique<PeriodicTimerTest>(timeout);
+        return std::make_unique<TimerForTestPeriodic>(timeout);
     };
 }
