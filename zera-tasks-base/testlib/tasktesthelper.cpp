@@ -1,5 +1,5 @@
 #include "tasktesthelper.h"
-#include <timerrunnerfortest.h>
+#include <timemachinefortest.h>
 
 TaskTestHelper::TaskTestHelper(TaskTemplate *taskUnderTest)
 {
@@ -12,6 +12,6 @@ void TaskTestHelper::onTaskFinish(bool ok, int taskId)
         m_okCount++;
     else
         m_errCount++;
-    m_signalDelayMs = TimerRunnerForTest::getInstance()->getCurrentTimeMs();
+    m_signalDelayMs = TimeMachineForTest::getInstance()->getCurrentTimeMs();
     m_taskIdsReceived.append(taskId);
 }

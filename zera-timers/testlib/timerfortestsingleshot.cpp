@@ -12,7 +12,7 @@ TimerForTestSingleShot::~TimerForTestSingleShot()
 
 void TimerForTestSingleShot::start()
 {
-    TimerRunnerForTest::getInstance()->addTimer(this, m_expireTimeMs, true);
+    TimeMachineForTest::getInstance()->addTimer(this, m_expireTimeMs, true);
 }
 
 void TimerForTestSingleShot::stop()
@@ -27,5 +27,5 @@ void TimerForTestSingleShot::fireExpired()
 
 void TimerForTestSingleShot::removeFromRunner()
 {
-    TimerRunnerForTest::getInstance()->removeTimer(this);
+    TimeMachineForTest::getInstance()->removeTimer(this);
 }

@@ -12,7 +12,7 @@ TimerForTestPeriodic::~TimerForTestPeriodic()
 
 void TimerForTestPeriodic::start()
 {
-    TimerRunnerForTest::getInstance()->addTimer(this, m_expireTimeMs, false);
+    TimeMachineForTest::getInstance()->addTimer(this, m_expireTimeMs, false);
 }
 
 void TimerForTestPeriodic::stop()
@@ -27,5 +27,5 @@ void TimerForTestPeriodic::fireExpired()
 
 void TimerForTestPeriodic::removeFromRunner()
 {
-    TimerRunnerForTest::getInstance()->removeTimer(this);
+    TimeMachineForTest::getInstance()->removeTimer(this);
 }

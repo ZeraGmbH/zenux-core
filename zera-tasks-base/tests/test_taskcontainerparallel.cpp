@@ -2,7 +2,7 @@
 #include "taskcontainerparallel.h"
 #include "taskfortest.h"
 #include "tasktesthelper.h"
-#include <timerrunnerfortest.h>
+#include <timemachinefortest.h>
 #include <QTest>
 
 QTEST_MAIN(test_taskcontainerparallel)
@@ -10,7 +10,7 @@ QTEST_MAIN(test_taskcontainerparallel)
 void test_taskcontainerparallel::init()
 {
     TaskForTest::resetCounters();
-    TimerRunnerForTest::reset();
+    TimeMachineForTest::reset();
 }
 
 void test_taskcontainerparallel::startEmpty()
@@ -52,7 +52,7 @@ void test_taskcontainerparallel::startPassImmediateDelayed()
     QCOMPARE(TaskForTest::errCount(), 0);
     QCOMPARE(TaskForTest::dtorCount(), 1);
 
-    TimerRunnerForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
     QCOMPARE(helper.okCount(), 1);
     QCOMPARE(helper.errCount(), 0);
     QCOMPARE(TaskForTest::okCount(), 2);
@@ -102,7 +102,7 @@ void test_taskcontainerparallel::startThreeDelayedMiddleFail()
     task->addSub(TaskForTest::create(DEFAULT_EXPIRE, true));
     task->start();
 
-    TimerRunnerForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
     QCOMPARE(helper.okCount(), 0);
     QCOMPARE(helper.errCount(), 1);
     QCOMPARE(TaskForTest::okCount(), 2);
@@ -120,7 +120,7 @@ void test_taskcontainerparallel::startThreeDelayedAllOk()
     task->addSub(TaskForTest::create(DEFAULT_EXPIRE, true));
     task->start();
 
-    TimerRunnerForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
     QCOMPARE(helper.okCount(), 1);
     QCOMPARE(helper.errCount(), 0);
     QCOMPARE(TaskForTest::okCount(), 3);
@@ -160,7 +160,7 @@ void test_taskcontainerparallel::startTwice()
     QCOMPARE(helper.okCount(), 0);
     QCOMPARE(helper.errCount(), 0);
 
-    TimerRunnerForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
 
     QCOMPARE(helper.okCount(), 1);
     QCOMPARE(helper.errCount(), 0);
@@ -185,7 +185,7 @@ void test_taskcontainerparallel::onRunningAddAndStartOne()
     QCOMPARE(helper.okCount(), 0);
     QCOMPARE(helper.errCount(), 0);
 
-    TimerRunnerForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
 
     QCOMPARE(helper.okCount(), 1);
     QCOMPARE(helper.errCount(), 0);

@@ -1,27 +1,27 @@
-#include "timerrunnerfortest.h"
+#include "timemachinefortest.h"
 #include <QCoreApplication>
 
-TimerRunnerForTest *TimerRunnerForTest::m_instance = nullptr;
+TimeMachineForTest *TimeMachineForTest::m_instance = nullptr;
 
-TimerRunnerForTest *TimerRunnerForTest::getInstance()
+TimeMachineForTest *TimeMachineForTest::getInstance()
 {
     if(m_instance == nullptr)
-        m_instance = new TimerRunnerForTest;
+        m_instance = new TimeMachineForTest;
     return m_instance;
 }
 
-void TimerRunnerForTest::reset()
+void TimeMachineForTest::reset()
 {
     delete m_instance;
     m_instance = nullptr;
 }
 
-int TimerRunnerForTest::getCurrentTimeMs()
+int TimeMachineForTest::getCurrentTimeMs()
 {
     return m_currentTimeMs;
 }
 
-void TimerRunnerForTest::addTimer(TimerForTestInterface *timer, int expiredMs, bool singleShot)
+void TimeMachineForTest::addTimer(TimerForTestInterface *timer, int expiredMs, bool singleShot)
 {
     removeTimer(timer);
     int expireTime = calcExpireTime(expiredMs);
@@ -30,7 +30,7 @@ void TimerRunnerForTest::addTimer(TimerForTestInterface *timer, int expiredMs, b
     m_expireMap[expireTime][timer] = TTimerEntry({expiredMs, singleShot});
 }
 
-void TimerRunnerForTest::removeTimer(TimerForTestInterface *timer)
+void TimeMachineForTest::removeTimer(TimerForTestInterface *timer)
 {
     QList<int> emptyEntries;
     for(auto iter=m_expireMap.begin(); iter!=m_expireMap.end(); iter++) {
@@ -42,7 +42,7 @@ void TimerRunnerForTest::removeTimer(TimerForTestInterface *timer)
     removeTimers(emptyEntries);
 }
 
-void TimerRunnerForTest::processTimers(int durationMs)
+void TimeMachineForTest::processTimers(int durationMs)
 {
     Q_ASSERT(durationMs >= 0);
 
@@ -60,7 +60,7 @@ void TimerRunnerForTest::processTimers(int durationMs)
         m_currentTimeMs = nextCurrentTimeMs;
 }
 
-TimerRunnerForTest::ExpireMap TimerRunnerForTest::getMapToProcess(int upToTimestamp)
+TimeMachineForTest::ExpireMap TimeMachineForTest::getMapToProcess(int upToTimestamp)
 {
     ExpireMap expiredMap;
     for(auto iter=m_expireMap.cbegin(); iter!=m_expireMap.cend(); iter++) {
@@ -71,7 +71,7 @@ TimerRunnerForTest::ExpireMap TimerRunnerForTest::getMapToProcess(int upToTimest
     return expiredMap;
 }
 
-bool TimerRunnerForTest::processExpiredTimers(const ExpireMap &map)
+bool TimeMachineForTest::processExpiredTimers(const ExpireMap &map)
 {
     bool timerFired = false;
     QList<int> expiredTimes;
@@ -94,7 +94,7 @@ bool TimerRunnerForTest::processExpiredTimers(const ExpireMap &map)
     return timerFired;
 }
 
-bool TimerRunnerForTest::tryStartTimersByEventLoop()
+bool TimeMachineForTest::tryStartTimersByEventLoop()
 {
     int countTimersBeforeEventLoop = m_expireMap.count();
     QCoreApplication::processEvents();
@@ -102,13 +102,13 @@ bool TimerRunnerForTest::tryStartTimersByEventLoop()
     return countTimersAfterEventLoop > countTimersBeforeEventLoop;
 }
 
-void TimerRunnerForTest::removeTimers(const QList<int> &expiredTimes)
+void TimeMachineForTest::removeTimers(const QList<int> &expiredTimes)
 {
     for(int expireTime : expiredTimes)
         m_expireMap.remove(expireTime);
 }
 
-int TimerRunnerForTest::calcExpireTime(int expiredMs)
+int TimeMachineForTest::calcExpireTime(int expiredMs)
 {
     return m_currentTimeMs + expiredMs;
 }

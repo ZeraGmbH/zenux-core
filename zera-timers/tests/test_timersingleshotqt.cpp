@@ -10,7 +10,7 @@ void test_timersingleshotqt::init()
     m_expireCount = 0;
     m_expireTime = 0;
     m_elapsedTimer = std::make_unique<QElapsedTimer>();
-    TimerRunnerForTest::reset();
+    TimeMachineForTest::reset();
 }
 
 void test_timersingleshotqt::inspectTimerByDelay(TimerSingleShotQt *timer)
@@ -26,7 +26,7 @@ void test_timersingleshotqt::inspectTimerByRunner(TimerForTestSingleShot *timer)
 {
     connect(timer, &TimerSingleShotQt::sigExpired, [&]{
         m_expireCount++;
-        m_expireTime = TimerRunnerForTest::getInstance()->getCurrentTimeMs();
+        m_expireTime = TimeMachineForTest::getInstance()->getCurrentTimeMs();
     });
 }
 
@@ -49,7 +49,7 @@ void test_timersingleshotqt::signalOnExpireTimingTest()
     inspectTimerByRunner(&timer);
 
     timer.start();
-    TimerRunnerForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
 
     QCOMPARE(m_expireCount, 1);
     QCOMPARE(m_expireTime, DEFAULT_EXPIRE); // on point
@@ -76,9 +76,9 @@ void test_timersingleshotqt::restartTimingTest()
     inspectTimerByRunner(&timer);
 
     timer.start();
-    TimerRunnerForTest::getInstance()->processTimers(DEFAULT_EXPIRE/2);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE/2);
     timer.start();
-    TimerRunnerForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
 
     QCOMPARE(m_expireCount, 1);
     QCOMPARE(m_expireTime, DEFAULT_EXPIRE*1.5); // on point
@@ -105,9 +105,9 @@ void test_timersingleshotqt::stopWhilePendingTest()
     inspectTimerByRunner(&timer);
 
     timer.start();
-    TimerRunnerForTest::getInstance()->processTimers(DEFAULT_EXPIRE/2);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE/2);
     timer.stop();
-    TimerRunnerForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
 
     QCOMPARE(m_expireCount, 0);
     QCOMPARE(m_expireTime, 0);
@@ -141,7 +141,7 @@ void test_timersingleshotqt::queuedConnectionsOnExpireTest()
     });
 
     timer.start();
-    TimerRunnerForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
 
     QCOMPARE(expireReceived, 1);
 }
@@ -175,7 +175,7 @@ void test_timersingleshotqt::nestedStartTest()
     });
 
     timer1.start();
-    TimerRunnerForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
 
     QCOMPARE(m_expireCount, 2);
 }
@@ -225,7 +225,7 @@ void test_timersingleshotqt::nestedStartQueuedTest()
     });
 
     evLoop1.start();
-    TimerRunnerForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
 
     QCOMPARE(m_expireCount, 2);
 }
@@ -249,7 +249,7 @@ void test_timersingleshotqt::infiniteExpireTest()
     inspectTimerByRunner(&timer);
 
     timer.start();
-    TimerRunnerForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
 
     QCOMPARE(m_expireCount, 0);
     QCOMPARE(m_expireTime, 0);
