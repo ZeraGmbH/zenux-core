@@ -1,10 +1,10 @@
 #ifndef TIMERFORTESTSINGLESHOT_H
 #define TIMERFORTESTSINGLESHOT_H
 
-#include "zeratimertemplate.h"
+#include "timertemplateqt.h"
 #include "timerfortestinterface.h"
 
-class TimerForTestSingleShot : public ZeraTimerTemplate, public TimerForTestInterface
+class TimerForTestSingleShot : public TimerTemplateQt, public TimerForTestInterface
 {
     Q_OBJECT
 public:

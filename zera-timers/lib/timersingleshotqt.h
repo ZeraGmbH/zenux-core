@@ -1,11 +1,11 @@
 #ifndef TIMERSINGLESHOTQT_H
 #define TIMERSINGLESHOTQT_H
 
-#include "zeratimertemplate.h"
+#include "timertemplateqt.h"
 #include <QTimer>
 #include <memory>
 
-class TimerSingleShotQt : public ZeraTimerTemplate
+class TimerSingleShotQt : public TimerTemplateQt
 {
     Q_OBJECT
 public:

@@ -1,11 +1,11 @@
 #ifndef TIMERPERIODICQT_H
 #define TIMERPERIODICQT_H
 
-#include "zeratimertemplate.h"
+#include "timertemplateqt.h"
 #include <QTimer>
 #include <memory>
 
-class TimerPeriodicQt : public ZeraTimerTemplate
+class TimerPeriodicQt : public TimerTemplateQt
 {
     Q_OBJECT
 public:

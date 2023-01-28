@@ -155,7 +155,7 @@ void test_timersingleshotqt::nestedStart()
     TimerSingleShotQt timer2(DEFAULT_EXPIRE/2);
     timer2.setHighAccuracy(true);
     inspectTimerByDelay(&timer2);
-    connect(&timer1, &ZeraTimerTemplate::sigExpired, [&]{
+    connect(&timer1, &TimerTemplateQt::sigExpired, [&]{
         timer2.start();
     });
 
@@ -171,7 +171,7 @@ void test_timersingleshotqt::nestedStartTest()
     inspectTimerByRunner(&timer1);
     TimerForTestSingleShot timer2(DEFAULT_EXPIRE/2);
     inspectTimerByRunner(&timer2);
-    connect(&timer1, &ZeraTimerTemplate::sigExpired, [&]{
+    connect(&timer1, &TimerTemplateQt::sigExpired, [&]{
         timer2.start();
     });
 
@@ -197,7 +197,7 @@ void test_timersingleshotqt::nestedStartQueued()
     connect(&evLoop2, &EventLoopWrapper::sigReceiveEventLoop, [&]{
         timer2.start();
     });
-    connect(&timer1, &ZeraTimerTemplate::sigExpired, [&]{
+    connect(&timer1, &TimerTemplateQt::sigExpired, [&]{
         evLoop2.start();
     });
 
@@ -221,7 +221,7 @@ void test_timersingleshotqt::nestedStartQueuedTest()
     connect(&evLoop2, &EventLoopWrapper::sigReceiveEventLoop, [&]{
         timer2.start();
     });
-    connect(&timer1, &ZeraTimerTemplate::sigExpired, [&]{
+    connect(&timer1, &TimerTemplateQt::sigExpired, [&]{
         evLoop2.start();
     });
 

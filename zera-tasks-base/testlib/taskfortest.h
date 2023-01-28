@@ -3,7 +3,7 @@
 
 #include "tasktemplate.h"
 #include <QTimer>
-#include <zeratimertemplate.h>
+#include <timertemplateqt.h>
 
 class TaskForTest : public TaskTemplate
 {
@@ -21,7 +21,7 @@ private slots:
 private:
     bool m_finishOk;
     int m_delayMs;
-    ZeraTimerTemplatePtr m_delayTimer;
+    TimerTemplateQtPtr m_delayTimer;
     bool m_started = false;
     static int m_finishOkCount;
     static int m_finishErrCount;

@@ -1,10 +1,10 @@
 #ifndef TIMERFORTESTPERIODIC_H
 #define TIMERFORTESTPERIODIC_H
 
-#include "zeratimertemplate.h"
+#include "timertemplateqt.h"
 #include "timerfortestinterface.h"
 
-class TimerForTestPeriodic : public ZeraTimerTemplate, public TimerForTestInterface
+class TimerForTestPeriodic : public TimerTemplateQt, public TimerForTestInterface
 {
     Q_OBJECT
 public:

@@ -1,7 +1,7 @@
 #include "timersingleshotqt.h"
 
 TimerSingleShotQt::TimerSingleShotQt(int expireTimeMs) :
-    ZeraTimerTemplate(expireTimeMs)
+    TimerTemplateQt(expireTimeMs)
 {
 }
 
