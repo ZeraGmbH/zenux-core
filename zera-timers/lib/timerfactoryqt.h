@@ -1,13 +1,13 @@
-#ifndef ZERATIMERFACTORYMETHODS_H
-#define ZERATIMERFACTORYMETHODS_H
+#ifndef TIMERFACTORYQT_H
+#define TIMERFACTORYQT_H
 
 #include "timertemplateqt.h"
 #include <functional>
 
-/* Use ZeraTimerFactoryMethods to create zera-timers - otherwise tests will fail
- * (see testlib/ZeraTimerFactoryMethodsTest why)
+/* Use TimerFactoryQt to create zera-timers - otherwise tests will fail
+ * (see testlib/TimerFactoryQtForTest why)
 */
-class ZeraTimerFactoryMethods
+class TimerFactoryQt
 {
 public:
     static TimerTemplateQtPtr createSingleShot(int timeout);
@@ -17,4 +17,4 @@ protected:
     static std::function<TimerTemplateQtPtr(int)> m_periodicCreateFunction;
 };
 
-#endif // ZERATIMERFACTORYMETHODS_H
+#endif // TIMERFACTORYQT_H
