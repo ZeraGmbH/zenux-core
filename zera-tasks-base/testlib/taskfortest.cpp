@@ -1,5 +1,5 @@
 #include "taskfortest.h"
-#include <singleshottimertest.h>
+#include <timerfortestsingleshot.h>
 
 TaskTemplatePtr TaskForTest::create(int delayMs, bool finishOk)
 {
@@ -12,7 +12,7 @@ int TaskForTest::m_dtorCount = 0;
 
 TaskForTest::TaskForTest(int delayMs, bool finishOk) :
     m_delayMs(delayMs),
-    m_delayTimer(std::make_unique<SingleShotTimerTest>(delayMs)),
+    m_delayTimer(std::make_unique<TimerForTestSingleShot>(delayMs)),
     m_finishOk(finishOk)
 {
     connect(m_delayTimer.get(), &ZeraTimerTemplate::sigExpired,

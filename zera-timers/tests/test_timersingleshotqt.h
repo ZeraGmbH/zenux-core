@@ -3,13 +3,13 @@
 
 #include "timerrunnerfortest.h"
 #include "timersingleshotqt.h"
-#include "singleshottimertest.h"
+#include "timerfortestsingleshot.h"
 #include <QObject>
 #include <QElapsedTimer>
 #include <memory>
 
-// This test compares behavior of TimerSingleShotQt with SingleShotTimerTest
-// with the following target: By using only SingleShotTimerTest in tests timing
+// This test compares behavior of TimerSingleShotQt with TimerForTestSingleShot
+// with the following target: By using only TimerForTestSingleShot in tests timing
 // measurements are done here once and nowhere else because of
 // * timing measurements are slow
 // * timing measurement are fragile
@@ -44,7 +44,7 @@ private slots:
 
 private:
     void inspectTimerByDelay(TimerSingleShotQt *timer);
-    void inspectTimerByRunner(SingleShotTimerTest *timer);
+    void inspectTimerByRunner(TimerForTestSingleShot *timer);
     int m_expireCount;
     int m_expireTime;
     std::unique_ptr<QElapsedTimer> m_elapsedTimer;

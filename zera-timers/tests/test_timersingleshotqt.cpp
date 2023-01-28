@@ -22,7 +22,7 @@ void test_timersingleshotqt::inspectTimerByDelay(TimerSingleShotQt *timer)
     });
 }
 
-void test_timersingleshotqt::inspectTimerByRunner(SingleShotTimerTest *timer)
+void test_timersingleshotqt::inspectTimerByRunner(TimerForTestSingleShot *timer)
 {
     connect(timer, &TimerSingleShotQt::sigExpired, [&]{
         m_expireCount++;
@@ -45,7 +45,7 @@ void test_timersingleshotqt::signalOnExpireTiming()
 
 void test_timersingleshotqt::signalOnExpireTimingTest()
 {
-    SingleShotTimerTest timer(DEFAULT_EXPIRE);
+    TimerForTestSingleShot timer(DEFAULT_EXPIRE);
     inspectTimerByRunner(&timer);
 
     timer.start();
@@ -72,7 +72,7 @@ void test_timersingleshotqt::restartTiming()
 
 void test_timersingleshotqt::restartTimingTest()
 {
-    SingleShotTimerTest timer(DEFAULT_EXPIRE);
+    TimerForTestSingleShot timer(DEFAULT_EXPIRE);
     inspectTimerByRunner(&timer);
 
     timer.start();
@@ -101,7 +101,7 @@ void test_timersingleshotqt::stopWhilePending()
 
 void test_timersingleshotqt::stopWhilePendingTest()
 {
-    SingleShotTimerTest timer(DEFAULT_EXPIRE);
+    TimerForTestSingleShot timer(DEFAULT_EXPIRE);
     inspectTimerByRunner(&timer);
 
     timer.start();
@@ -132,7 +132,7 @@ void test_timersingleshotqt::queuedConnectionsOnExpire()
 
 void test_timersingleshotqt::queuedConnectionsOnExpireTest()
 {
-    SingleShotTimerTest timer(DEFAULT_EXPIRE);
+    TimerForTestSingleShot timer(DEFAULT_EXPIRE);
     inspectTimerByRunner(&timer);
     TimerEventLoopWrapper evTest(&timer);
     int expireReceived = 0;
@@ -166,9 +166,9 @@ void test_timersingleshotqt::nestedStart()
 
 void test_timersingleshotqt::nestedStartTest()
 {
-    SingleShotTimerTest timer1(DEFAULT_EXPIRE/2);
+    TimerForTestSingleShot timer1(DEFAULT_EXPIRE/2);
     inspectTimerByRunner(&timer1);
-    SingleShotTimerTest timer2(DEFAULT_EXPIRE/2);
+    TimerForTestSingleShot timer2(DEFAULT_EXPIRE/2);
     inspectTimerByRunner(&timer2);
     connect(&timer1, &ZeraTimerTemplate::sigExpired, [&]{
         timer2.start();
@@ -208,13 +208,13 @@ void test_timersingleshotqt::nestedStartQueued()
 
 void test_timersingleshotqt::nestedStartQueuedTest()
 {
-    SingleShotTimerTest timer1(DEFAULT_EXPIRE/2);
+    TimerForTestSingleShot timer1(DEFAULT_EXPIRE/2);
     inspectTimerByRunner(&timer1);
     EventLoopWrapper evLoop1;
     connect(&evLoop1, &EventLoopWrapper::sigReceiveEventLoop, [&]{
         timer1.start();
     });
-    SingleShotTimerTest timer2(DEFAULT_EXPIRE/2);
+    TimerForTestSingleShot timer2(DEFAULT_EXPIRE/2);
     inspectTimerByRunner(&timer2);
     EventLoopWrapper evLoop2;
     connect(&evLoop2, &EventLoopWrapper::sigReceiveEventLoop, [&]{
@@ -245,7 +245,7 @@ void test_timersingleshotqt::infiniteExpire()
 
 void test_timersingleshotqt::infiniteExpireTest()
 {
-    SingleShotTimerTest timer(EXPIRE_INFINITE);
+    TimerForTestSingleShot timer(EXPIRE_INFINITE);
     inspectTimerByRunner(&timer);
 
     timer.start();
