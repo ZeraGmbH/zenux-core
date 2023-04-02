@@ -2,7 +2,7 @@
 #include <QCoreApplication>
 
 // An important fact to understand code better: Each timer occures maximum ONE
-// time in m_pendingMap - see alse processOneExpired()
+// time in m_pendingMap - see also processOneExpired()
 
 void TimeMachineObject::addTimer(TimerForTestInterface *timer, int expiredMs, bool singleShot)
 {
@@ -15,14 +15,13 @@ void TimeMachineObject::removeTimer(TimerForTestInterface *timer)
 {
     QList<int> emptyTimeStamps;
     for(auto iter=m_pendingMap.begin(); iter!=m_pendingMap.end(); iter++) {
-        QVector<TTimerEntry> entryListNew;
-        QVector<TTimerEntry> entryListOld = iter.value();
-        for(const auto& entry : entryListOld)
+        QVector<TTimerEntry> entryListRemaining;
+        for(const auto& entry : qAsConst(iter.value()))
             if(entry.timer != timer)
-                entryListNew.append(entry);
-        if(!entryListNew.isEmpty())
-            iter.value() = entryListNew;
-        else
+                entryListRemaining.append(entry);
+        if(!entryListRemaining.isEmpty())
+            iter.value() = entryListRemaining;
+        else // no remove within iteration!
             emptyTimeStamps.append(iter.key());
     }
     for(int timeStamp : emptyTimeStamps)
@@ -66,7 +65,7 @@ void TimeMachineObject::processOneExpired(TTimerEntry entry)
     removeTimer(entry.timer);
     if(!entry.singleShot)
         // No use case yet but - once it is - we have to take cautions on
-        // peridic timers with expire time 0 (after analysis what QTimers do)
+        // periodic timers with expire time 0 (after analysis what QTimers do)
         addTimer(entry.timer, entry.expireMs, entry.singleShot);
     entry.timer->fireExpired();
 }
