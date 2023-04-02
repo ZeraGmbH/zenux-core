@@ -114,6 +114,41 @@ void test_timersingleshotqt::stopWhilePendingTest()
     QCOMPARE(m_expireTime, 0);
 }
 
+void test_timersingleshotqt::stopWhilePendingByOtherTimer()
+{
+    TimerSingleShotQt timer(DEFAULT_EXPIRE);
+    timer.setHighAccuracy(true);
+    inspectTimerByDelay(&timer);
+
+    timer.start();
+    TimerSingleShotQt timerStop(DEFAULT_EXPIRE/2);
+    connect(&timerStop, &TimerTemplateQt::sigExpired, &timerStop, [&]() {
+        timer.stop();
+    });
+    timerStop.start();
+    QTest::qWait(DEFAULT_EXPIRE_WAIT);
+
+    QCOMPARE(m_expireCount, 0);
+    QCOMPARE(m_expireTime, 0);
+}
+
+void test_timersingleshotqt::stopWhilePendingByOtherTimerTest()
+{
+    TimerForTestSingleShot timer(DEFAULT_EXPIRE);
+    inspectTimerByRunner(&timer);
+
+    timer.start();
+    TimerForTestSingleShot timerStop(DEFAULT_EXPIRE/2);
+    connect(&timerStop, &TimerTemplateQt::sigExpired, &timerStop, [&]() {
+        timer.stop();
+    });
+    timerStop.start();
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+
+    QCOMPARE(m_expireCount, 0);
+    QCOMPARE(m_expireTime, 0);
+}
+
 void test_timersingleshotqt::queuedConnectionsOnExpire()
 {
     TimerSingleShotQt timer(DEFAULT_EXPIRE);

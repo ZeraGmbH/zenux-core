@@ -4,7 +4,7 @@
 #include "timertestdefaults.h"
 #include "timerfortestinterface.h"
 #include <QMap>
-#include <QList>
+#include <QVector>
 
 class TimeMachineForTest
 {
@@ -17,20 +17,18 @@ public:
     int getCurrentTimeMs();
 private:
     TimeMachineForTest() = default;
-    int calcExpireTime(int expiredMs);
     struct TTimerEntry
     {
         int expireMs;
         bool singleShot;
+        TimerForTestInterface* timer;
     };
-    typedef QMap<TimerForTestInterface*, TTimerEntry> ExpireEntries;
-    typedef QMap<int/*expireTimeMs*/, ExpireEntries> ExpireMap;
-    ExpireMap getMapToProcess(int upToTimestamp);
-    bool processExpiredTimers(const ExpireMap &map);
-    bool tryStartTimersByEventLoop();
-    void removeTimers(const QList<int> &expiredTimes);
+    bool areTimersPending(int upToTimestamp);
+    void feedEventLoop();
+    void processOneExpired(TTimerEntry entry);
+
     int m_currentTimeMs = 0;
-    ExpireMap m_expireMap;
+    QMap<int/*expireTimeMs*/, QVector<TTimerEntry>> m_expireMap;
     static TimeMachineForTest* m_instance;
 };
 
