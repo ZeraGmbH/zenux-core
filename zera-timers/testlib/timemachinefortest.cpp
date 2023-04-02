@@ -28,8 +28,6 @@ void TimeMachineForTest::addTimer(TimerForTestInterface *timer, int expiredMs, b
 {
     removeTimer(timer);
     int expireTime = m_currentTimeMs + expiredMs;
-    if(!m_pendingMap.contains(expireTime)) // remove?
-        m_pendingMap[expireTime] = QVector<TTimerEntry>();
     m_pendingMap[expireTime].append(TTimerEntry({expiredMs, singleShot, timer}));
 }
 
