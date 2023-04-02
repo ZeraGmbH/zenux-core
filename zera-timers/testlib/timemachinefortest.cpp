@@ -21,6 +21,9 @@ int TimeMachineForTest::getCurrentTimeMs()
     return m_currentTimeMs;
 }
 
+// An important fact to understand code better: Each timer occures maximum ONE
+// time in m_expireMap - see alse processOneExpired()
+
 void TimeMachineForTest::addTimer(TimerForTestInterface *timer, int expiredMs, bool singleShot)
 {
     removeTimer(timer);
