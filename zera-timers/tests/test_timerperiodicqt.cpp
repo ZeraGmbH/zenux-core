@@ -1,6 +1,8 @@
 #include "test_timerperiodicqt.h"
 #include "timemachinefortest.h"
 #include "realdelaytimerhelpers.h"
+#include "timersingleshotqt.h"
+#include "timerfortestsingleshot.h"
 #include <QTest>
 
 QTEST_MAIN(test_timerperiodicqt)
@@ -79,4 +81,39 @@ void test_timerperiodicqt::threeIntervalTest()
     QCOMPARE(m_expireTimes.at(0), DEFAULT_EXPIRE); // on point
     QCOMPARE(m_expireTimes.at(1), DEFAULT_EXPIRE*2);
     QCOMPARE(m_expireTimes.at(2), DEFAULT_EXPIRE*3);
+}
+
+void test_timerperiodicqt::stopWhilePendingByOtherTimer()
+{
+    TimerPeriodicQt timer(DEFAULT_EXPIRE);
+    timer.setHighAccuracy(true);
+    inspectTimerByDelay(&timer);
+
+    timer.start();
+    TimerSingleShotQt timerStop(DEFAULT_EXPIRE*3/2);
+    connect(&timerStop, &TimerTemplateQt::sigExpired, &timerStop, [&]() {
+        timer.stop();
+    });
+    timerStop.start();
+    QTest::qWait(2*DEFAULT_EXPIRE + DEFAULT_PERIODIC_EXTRA_WAIT);
+
+    QCOMPARE(m_expireTimes.size(), 1);
+    QVERIFY(RealDelayTimerHelpers::isExpireTimeWithinLimits(m_expireTimes.at(0), DEFAULT_EXPIRE)); // fuzzy
+}
+
+void test_timerperiodicqt::stopWhilePendingByOtherTimerTest()
+{
+    TimerForTestPeriodic timer(DEFAULT_EXPIRE);
+    inspectTimerByRunner(&timer);
+
+    timer.start();
+    TimerForTestSingleShot timerStop(DEFAULT_EXPIRE*3/2);
+    connect(&timerStop, &TimerTemplateQt::sigExpired, &timerStop, [&]() {
+        timer.stop();
+    });
+    timerStop.start();
+    TimeMachineForTest::getInstance()->processTimers(2*DEFAULT_EXPIRE + DEFAULT_PERIODIC_EXTRA_WAIT);
+
+    QCOMPARE(m_expireTimes.size(), 1);
+    QCOMPARE(m_expireTimes.at(0), DEFAULT_EXPIRE); // on point
 }

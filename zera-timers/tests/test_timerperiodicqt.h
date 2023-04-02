@@ -19,6 +19,8 @@ private slots:
     void threeInterval();
     void threeIntervalTest();
 
+    void stopWhilePendingByOtherTimer();
+    void stopWhilePendingByOtherTimerTest();
 private:
     void inspectTimerByDelay(TimerPeriodicQt *timer);
     void inspectTimerByRunner(TimerForTestPeriodic *timer);
