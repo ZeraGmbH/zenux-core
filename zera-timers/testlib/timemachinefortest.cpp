@@ -1,5 +1,4 @@
 #include "timemachinefortest.h"
-#include <QCoreApplication>
 
 TimeMachineObject *TimeMachineForTest::m_instance = nullptr;
 
