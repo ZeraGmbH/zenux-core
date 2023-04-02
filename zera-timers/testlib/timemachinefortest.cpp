@@ -24,91 +24,61 @@ int TimeMachineForTest::getCurrentTimeMs()
 void TimeMachineForTest::addTimer(TimerForTestInterface *timer, int expiredMs, bool singleShot)
 {
     removeTimer(timer);
-    int expireTime = calcExpireTime(expiredMs);
-    if(!m_expireMap.contains(expireTime))
-        m_expireMap[expireTime] = QMap<TimerForTestInterface*, TTimerEntry>();
-    m_expireMap[expireTime][timer] = TTimerEntry({expiredMs, singleShot});
+    int expireTime = m_currentTimeMs + expiredMs;
+    if(!m_expireMap.contains(expireTime)) // remove?
+        m_expireMap[expireTime] = QVector<TTimerEntry>();
+    m_expireMap[expireTime].append(TTimerEntry({expiredMs, singleShot, timer}));
 }
 
 void TimeMachineForTest::removeTimer(TimerForTestInterface *timer)
 {
     QList<int> emptyEntries;
     for(auto iter=m_expireMap.begin(); iter!=m_expireMap.end(); iter++) {
-        ExpireEntries &expireList = iter.value();
-        expireList.remove(timer);
-        if(expireList.isEmpty())
+        QVector<TTimerEntry> entryListOld = iter.value();
+        QVector<TTimerEntry> entryListNew;
+        for(const auto& entry : entryListOld)
+            if(entry.timer != timer)
+                entryListNew.append(entry);
+        if(!entryListNew.isEmpty())
+            iter.value() = entryListNew;
+        else
             emptyEntries.append(iter.key());
     }
-    removeTimers(emptyEntries);
+    for(int expireTime : emptyEntries)
+        m_expireMap.remove(expireTime);
 }
 
 void TimeMachineForTest::processTimers(int durationMs)
 {
     Q_ASSERT(durationMs >= 0);
-
-    int nextCurrentTimeMs = calcExpireTime(durationMs);
-    ExpireMap expiredMap = getMapToProcess(nextCurrentTimeMs);
-
-    bool startedOrProcessed = false;
-    if(processExpiredTimers(expiredMap))
-        startedOrProcessed = true;
-    else if(tryStartTimersByEventLoop())
-        startedOrProcessed = true;
-    if(startedOrProcessed)
-        processTimers(nextCurrentTimeMs - m_currentTimeMs);
-    else
-        m_currentTimeMs = nextCurrentTimeMs;
-}
-
-TimeMachineForTest::ExpireMap TimeMachineForTest::getMapToProcess(int upToTimestamp)
-{
-    ExpireMap expiredMap;
-    for(auto iter=m_expireMap.cbegin(); iter!=m_expireMap.cend(); iter++) {
-        int entryExpireTime = iter.key();
-        if(entryExpireTime <= upToTimestamp)
-            expiredMap[entryExpireTime] = iter.value();
+    int upToTimestamp = m_currentTimeMs + durationMs;
+    while(areTimersPending(upToTimestamp)) {
+        m_currentTimeMs = m_expireMap.firstKey();
+        QVector<TTimerEntry> expired = m_expireMap[m_currentTimeMs];
+        processOneExpired(expired[0]);
     }
-    return expiredMap;
+    m_currentTimeMs = upToTimestamp;
 }
 
-bool TimeMachineForTest::processExpiredTimers(const ExpireMap &map)
+bool TimeMachineForTest::areTimersPending(int upToTimestamp)
 {
-    bool timerFired = false;
-    QList<int> expiredTimes;
-    for(auto iter=map.cbegin(); iter!=map.cend(); iter++) {
-        int entryExpireTime = iter.key();
-        expiredTimes.append(entryExpireTime);
-        m_currentTimeMs = entryExpireTime;
-        const ExpireEntries &expireMap = iter.value();
-        for(auto timerIter=expireMap.cbegin(); timerIter!=expireMap.cend(); timerIter++) {
-            TTimerEntry entry = timerIter.value();
-            TimerForTestInterface *currentTimer = timerIter.key();
-            if(!entry.singleShot)
-                addTimer(currentTimer, entry.expireMs, entry.singleShot);
-            timerFired = true;
-            currentTimer->fireExpired();
-            QCoreApplication::processEvents();
-        }
-    }
-    removeTimers(expiredTimes);
-    return timerFired;
+    feedEventLoop();
+    return !m_expireMap.isEmpty() && m_expireMap.firstKey() <= upToTimestamp;
 }
 
-bool TimeMachineForTest::tryStartTimersByEventLoop()
+void TimeMachineForTest::feedEventLoop()
 {
-    int countTimersBeforeEventLoop = m_expireMap.count();
-    QCoreApplication::processEvents();
-    int countTimersAfterEventLoop = m_expireMap.count();
-    return countTimersAfterEventLoop > countTimersBeforeEventLoop;
+    int pendingTimersBeforeEventLoop;
+    do {
+        pendingTimersBeforeEventLoop = m_expireMap.count();
+        QCoreApplication::processEvents();
+    } while(pendingTimersBeforeEventLoop != m_expireMap.count());
 }
 
-void TimeMachineForTest::removeTimers(const QList<int> &expiredTimes)
+void TimeMachineForTest::processOneExpired(TTimerEntry entry)
 {
-    for(int expireTime : expiredTimes)
-        m_expireMap.remove(expireTime);
-}
-
-int TimeMachineForTest::calcExpireTime(int expiredMs)
-{
-    return m_currentTimeMs + expiredMs;
+    removeTimer(entry.timer);
+    if(!entry.singleShot)
+        addTimer(entry.timer, entry.expireMs, entry.singleShot);
+    entry.timer->fireExpired();
 }

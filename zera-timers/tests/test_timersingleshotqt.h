@@ -29,6 +29,8 @@ private slots:
 
     void stopWhilePending();
     void stopWhilePendingTest();
+    void stopWhilePendingByOtherTimer();
+    void stopWhilePendingByOtherTimerTest();
 
     void queuedConnectionsOnExpire();
     void queuedConnectionsOnExpireTest();
