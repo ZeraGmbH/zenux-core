@@ -11,9 +11,9 @@ int TaskForTest::m_finishErrCount = 0;
 int TaskForTest::m_dtorCount = 0;
 
 TaskForTest::TaskForTest(int delayMs, bool finishOk) :
+    m_finishOk(finishOk),
     m_delayMs(delayMs),
-    m_delayTimer(std::make_unique<TimerForTestSingleShot>(delayMs)),
-    m_finishOk(finishOk)
+    m_delayTimer(std::make_unique<TimerForTestSingleShot>(delayMs))
 {
     connect(m_delayTimer.get(), &TimerTemplateQt::sigExpired,
             this, &TaskForTest::doEmit);
