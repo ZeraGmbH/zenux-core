@@ -22,6 +22,13 @@ private:
         int expireMs;
         bool singleShot;
         TimerForTestInterface* timer;
+
+        bool operator == (const TTimerEntry& other) const {
+            return
+                expireMs == other.expireMs &&
+                singleShot == other.singleShot &&
+                timer == other.timer;
+        }
     };
     bool areTimersPending(int upToTimestamp);
     void feedEventLoop();

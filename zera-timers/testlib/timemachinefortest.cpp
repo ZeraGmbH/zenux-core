@@ -71,11 +71,11 @@ bool TimeMachineForTest::areTimersPending(int upToTimestamp)
 
 void TimeMachineForTest::feedEventLoop()
 {
-    int pendingTimersBeforeEventLoop;
+    QMap<int, QVector<TTimerEntry>> pendinMapBeforeEventLoop;
     do {
-        pendingTimersBeforeEventLoop = m_expireMap.count();
+        pendinMapBeforeEventLoop = m_expireMap;
         QCoreApplication::processEvents();
-    } while(pendingTimersBeforeEventLoop != m_expireMap.count());
+    } while(pendinMapBeforeEventLoop != m_expireMap);
 }
 
 void TimeMachineForTest::processOneExpired(TTimerEntry entry)
