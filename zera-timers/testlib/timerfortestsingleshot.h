@@ -1,20 +1,14 @@
 #ifndef TIMERFORTESTSINGLESHOT_H
 #define TIMERFORTESTSINGLESHOT_H
 
-#include "timertemplateqt.h"
-#include "timerfortestinterface.h"
+#include "timerfortesttemplate.h"
 
-class TimerForTestSingleShot : public TimerTemplateQt, public TimerForTestInterface
+class TimerForTestSingleShot : public TimerForTestTemplate
 {
     Q_OBJECT
 public:
     TimerForTestSingleShot(int expireTimeMs);
-    ~TimerForTestSingleShot();
     void start() override;
-    void stop() override;
-    void fireExpired() override;
-private:
-    void removeFromRunner();
 };
 
 #endif // TIMERFORTESTSINGLESHOT_H
