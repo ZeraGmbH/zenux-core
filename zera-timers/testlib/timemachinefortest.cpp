@@ -22,21 +22,21 @@ int TimeMachineForTest::getCurrentTimeMs()
 }
 
 // An important fact to understand code better: Each timer occures maximum ONE
-// time in m_expireMap - see alse processOneExpired()
+// time in m_pendingMap - see alse processOneExpired()
 
 void TimeMachineForTest::addTimer(TimerForTestInterface *timer, int expiredMs, bool singleShot)
 {
     removeTimer(timer);
     int expireTime = m_currentTimeMs + expiredMs;
-    if(!m_expireMap.contains(expireTime)) // remove?
-        m_expireMap[expireTime] = QVector<TTimerEntry>();
-    m_expireMap[expireTime].append(TTimerEntry({expiredMs, singleShot, timer}));
+    if(!m_pendingMap.contains(expireTime)) // remove?
+        m_pendingMap[expireTime] = QVector<TTimerEntry>();
+    m_pendingMap[expireTime].append(TTimerEntry({expiredMs, singleShot, timer}));
 }
 
 void TimeMachineForTest::removeTimer(TimerForTestInterface *timer)
 {
     QList<int> emptyEntries;
-    for(auto iter=m_expireMap.begin(); iter!=m_expireMap.end(); iter++) {
+    for(auto iter=m_pendingMap.begin(); iter!=m_pendingMap.end(); iter++) {
         QVector<TTimerEntry> entryListOld = iter.value();
         QVector<TTimerEntry> entryListNew;
         for(const auto& entry : entryListOld)
@@ -48,7 +48,7 @@ void TimeMachineForTest::removeTimer(TimerForTestInterface *timer)
             emptyEntries.append(iter.key());
     }
     for(int expireTime : emptyEntries)
-        m_expireMap.remove(expireTime);
+        m_pendingMap.remove(expireTime);
 }
 
 void TimeMachineForTest::processTimers(int durationMs)
@@ -56,8 +56,8 @@ void TimeMachineForTest::processTimers(int durationMs)
     Q_ASSERT(durationMs >= 0);
     int upToTimestamp = m_currentTimeMs + durationMs;
     while(areTimersPending(upToTimestamp)) {
-        m_currentTimeMs = m_expireMap.firstKey();
-        QVector<TTimerEntry> expired = m_expireMap[m_currentTimeMs];
+        m_currentTimeMs = m_pendingMap.firstKey();
+        QVector<TTimerEntry> expired = m_pendingMap[m_currentTimeMs];
         processOneExpired(expired[0]);
     }
     m_currentTimeMs = upToTimestamp;
@@ -66,16 +66,16 @@ void TimeMachineForTest::processTimers(int durationMs)
 bool TimeMachineForTest::areTimersPending(int upToTimestamp)
 {
     feedEventLoop();
-    return !m_expireMap.isEmpty() && m_expireMap.firstKey() <= upToTimestamp;
+    return !m_pendingMap.isEmpty() && m_pendingMap.firstKey() <= upToTimestamp;
 }
 
 void TimeMachineForTest::feedEventLoop()
 {
-    QMap<int, QVector<TTimerEntry>> pendinMapBeforeEventLoop;
+    QMap<int, QVector<TTimerEntry>> pendingMapBeforeEventLoop;
     do {
-        pendinMapBeforeEventLoop = m_expireMap;
+        pendingMapBeforeEventLoop = m_pendingMap;
         QCoreApplication::processEvents();
-    } while(pendinMapBeforeEventLoop != m_expireMap);
+    } while(pendingMapBeforeEventLoop != m_pendingMap);
 }
 
 void TimeMachineForTest::processOneExpired(TTimerEntry entry)

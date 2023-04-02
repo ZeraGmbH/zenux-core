@@ -35,7 +35,7 @@ private:
     void processOneExpired(TTimerEntry entry);
 
     int m_currentTimeMs = 0;
-    QMap<int/*expireTimeMs*/, QVector<TTimerEntry>> m_expireMap;
+    QMap<int/*expireTimeMs*/, QVector<TTimerEntry>> m_pendingMap;
     static TimeMachineForTest* m_instance;
 };
 
