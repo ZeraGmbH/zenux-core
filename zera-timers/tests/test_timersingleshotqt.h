@@ -35,6 +35,8 @@ private slots:
     void stopWhilePendingByOtherSameDelay1Test();
     void stopWhilePendingByOtherSameDelay2();
     void stopWhilePendingByOtherSameDelay2Test();
+    void deleteWhilePendingByOtherSameDelay();
+    void deleteWhilePendingByOtherSameDelayTest();
 
     void queuedConnectionsOnExpire();
     void queuedConnectionsOnExpireTest();
