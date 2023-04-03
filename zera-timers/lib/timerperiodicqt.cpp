@@ -24,3 +24,8 @@ void TimerPeriodicQt::stop()
 {
     m_qtTimer = nullptr;
 }
+
+bool TimerPeriodicQt::isRunning()
+{
+    return m_qtTimer != nullptr;
+}

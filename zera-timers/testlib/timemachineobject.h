@@ -2,6 +2,7 @@
 #define TIMEMACHINEOBJECT_H
 
 #include "timerfortestinterface.h"
+#include "timerfortesttemplate.h"
 #include <QMap>
 #include <QVector>
 
@@ -11,6 +12,7 @@ public:
     void addTimer(TimerForTestInterface* timer, int expiredMs, bool singleShot);
     void removeTimer(TimerForTestInterface* timer);
     void processTimers(int durationMs);
+    bool isRunning(TimerForTestTemplate* timer);
     int getCurrentTimeMs();
 private:
     struct TTimerEntry

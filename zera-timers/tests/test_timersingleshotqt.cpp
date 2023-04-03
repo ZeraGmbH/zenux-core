@@ -389,3 +389,32 @@ void test_timersingleshotqt::infiniteExpireTest()
     QCOMPARE(m_expireCount, 0);
     QCOMPARE(m_expireTime, 0);
 }
+
+void test_timersingleshotqt::isRunning()
+{
+    TimerSingleShotQt timer(DEFAULT_EXPIRE);
+    timer.setHighAccuracy(true);
+    QCOMPARE(timer.isRunning(), false);
+    timer.start();
+    QCOMPARE(timer.isRunning(), true);
+    timer.stop();
+    QCOMPARE(timer.isRunning(), false);
+    timer.start();
+    QCOMPARE(timer.isRunning(), true);
+    QTest::qWait(DEFAULT_EXPIRE_WAIT);
+    QCOMPARE(timer.isRunning(), false);
+}
+
+void test_timersingleshotqt::isRunningTest()
+{
+    TimerForTestSingleShot timer(DEFAULT_EXPIRE);
+    QCOMPARE(timer.isRunning(), false);
+    timer.start();
+    QCOMPARE(timer.isRunning(), true);
+    timer.stop();
+    QCOMPARE(timer.isRunning(), false);
+    timer.start();
+    QCOMPARE(timer.isRunning(), true);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    QCOMPARE(timer.isRunning(), false);
+}

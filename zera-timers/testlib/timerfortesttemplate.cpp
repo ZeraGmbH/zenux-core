@@ -21,6 +21,11 @@ void TimerForTestTemplate::fireExpired()
     emit sigExpired();
 }
 
+bool TimerForTestTemplate::isRunning()
+{
+    return TimeMachineForTest::getInstance()->isRunning(this);
+}
+
 void TimerForTestTemplate::removeFromRunner()
 {
     TimeMachineForTest::getInstance()->removeTimer(this);
