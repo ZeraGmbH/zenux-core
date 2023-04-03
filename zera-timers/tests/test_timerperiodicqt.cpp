@@ -146,3 +146,11 @@ void test_timerperiodicqt::isRunningTest()
     TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
     QCOMPARE(timer.isRunning(), true);
 }
+
+void test_timerperiodicqt::noInfiniteLoopOnExpireZero()
+{
+    TimerForTestPeriodic timer(0);
+    timer.start();
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    // no checks -> we are looking for infinite loop fixed
+}

@@ -78,8 +78,6 @@ void TimeMachineObject::processOneExpired(TTimerEntry entry)
 {
     removeTimer(entry.timer);
     if(!entry.singleShot)
-        // No use case yet but - once it is - we have to take cautions on
-        // periodic timers with expire time 0 (after analysis what QTimers do)
-        addTimer(entry.timer, entry.expireMs, entry.singleShot);
+        addTimer(entry.timer, std::max(entry.expireMs, 1), entry.singleShot);
     entry.timer->fireExpired();
 }

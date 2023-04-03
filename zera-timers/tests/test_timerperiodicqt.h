@@ -24,6 +24,8 @@ private slots:
 
     void isRunning();
     void isRunningTest();
+
+    void noInfiniteLoopOnExpireZero();
 private:
     void inspectTimerByDelay(TimerPeriodicQt *timer);
     void inspectTimerByRunner(TimerForTestPeriodic *timer);
