@@ -57,6 +57,11 @@ void TimeMachineObject::feedEventLoop()
     do {
         pendingMapBeforeEventLoop = m_pendingMap;
         QCoreApplication::processEvents();
+        // As long as we have nested queued connections, it takes more than
+        // one event loop feed
+        QCoreApplication::processEvents();
+        QCoreApplication::processEvents();
+        QCoreApplication::processEvents();
     } while(pendingMapBeforeEventLoop != m_pendingMap);
 }
 
