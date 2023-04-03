@@ -40,6 +40,15 @@ void TimeMachineObject::processTimers(int durationMs)
     m_currentTimeMs = upToTimestamp;
 }
 
+bool TimeMachineObject::isRunning(TimerForTestTemplate *timer)
+{
+    for(auto iter=m_pendingMap.begin(); iter!=m_pendingMap.end(); iter++)
+        for(const auto& entry : qAsConst(iter.value()))
+            if(entry.timer == timer)
+                return true;
+    return false;
+}
+
 int TimeMachineObject::getCurrentTimeMs()
 {
     return m_currentTimeMs;

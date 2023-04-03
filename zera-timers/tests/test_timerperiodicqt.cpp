@@ -117,3 +117,32 @@ void test_timerperiodicqt::stopWhilePendingByOtherTimerTest()
     QCOMPARE(m_expireTimes.size(), 1);
     QCOMPARE(m_expireTimes.at(0), DEFAULT_EXPIRE); // on point
 }
+
+void test_timerperiodicqt::isRunning()
+{
+    TimerPeriodicQt timer(DEFAULT_EXPIRE);
+    timer.setHighAccuracy(true);
+    QCOMPARE(timer.isRunning(), false);
+    timer.start();
+    QCOMPARE(timer.isRunning(), true);
+    timer.stop();
+    QCOMPARE(timer.isRunning(), false);
+    timer.start();
+    QCOMPARE(timer.isRunning(), true);
+    QTest::qWait(DEFAULT_EXPIRE_WAIT);
+    QCOMPARE(timer.isRunning(), true);
+}
+
+void test_timerperiodicqt::isRunningTest()
+{
+    TimerForTestPeriodic timer(DEFAULT_EXPIRE);
+    QCOMPARE(timer.isRunning(), false);
+    timer.start();
+    QCOMPARE(timer.isRunning(), true);
+    timer.stop();
+    QCOMPARE(timer.isRunning(), false);
+    timer.start();
+    QCOMPARE(timer.isRunning(), true);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    QCOMPARE(timer.isRunning(), true);
+}

@@ -50,6 +50,9 @@ private slots:
     void infiniteExpire();
     void infiniteExpireTest();
 
+    void isRunning();
+    void isRunningTest();
+
 private:
     void inspectTimerByDelay(TimerSingleShotQt *timer);
     void inspectTimerByRunner(TimerForTestSingleShot *timer);

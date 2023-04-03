@@ -12,6 +12,7 @@ public:
     ~TimerForTestTemplate();
     void stop() override;
     void fireExpired() override;
+    bool isRunning() override;
 private:
     void removeFromRunner();
 };

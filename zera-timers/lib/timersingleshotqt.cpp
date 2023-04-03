@@ -24,3 +24,8 @@ void TimerSingleShotQt::stop()
 {
     m_qtTimer = nullptr;
 }
+
+bool TimerSingleShotQt::isRunning()
+{
+    return m_qtTimer != nullptr && m_qtTimer->isActive();
+}

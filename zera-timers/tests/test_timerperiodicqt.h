@@ -21,6 +21,9 @@ private slots:
 
     void stopWhilePendingByOtherTimer();
     void stopWhilePendingByOtherTimerTest();
+
+    void isRunning();
+    void isRunningTest();
 private:
     void inspectTimerByDelay(TimerPeriodicQt *timer);
     void inspectTimerByRunner(TimerForTestPeriodic *timer);
