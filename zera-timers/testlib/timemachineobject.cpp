@@ -1,5 +1,6 @@
 #include "timemachineobject.h"
 #include <QCoreApplication>
+#include <QAbstractEventDispatcher>
 
 // An important fact to understand code better: Each timer occures maximum ONE
 // time in m_pendingMap - see also processOneExpired()
@@ -62,18 +63,7 @@ bool TimeMachineObject::areTimersPending(int upToTimestamp)
 
 void TimeMachineObject::feedEventLoop()
 {
-    QMap<int, QVector<TTimerEntry>> pendingMapBeforeEventLoop;
-    do {
-        pendingMapBeforeEventLoop = m_pendingMap;
-        QCoreApplication::processEvents();
-        // As long as we have nested queued connections, it takes more than
-        // one event loop feed
-        QCoreApplication::processEvents();
-        QCoreApplication::processEvents();
-        QCoreApplication::processEvents();
-        QCoreApplication::processEvents();
-        QCoreApplication::processEvents();
-    } while(pendingMapBeforeEventLoop != m_pendingMap);
+    while(QCoreApplication::eventDispatcher()->processEvents(QEventLoop::AllEvents));
 }
 
 void TimeMachineObject::processOneExpired(TTimerEntry entry)
