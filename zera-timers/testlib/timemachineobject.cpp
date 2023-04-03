@@ -71,6 +71,8 @@ void TimeMachineObject::feedEventLoop()
         QCoreApplication::processEvents();
         QCoreApplication::processEvents();
         QCoreApplication::processEvents();
+        QCoreApplication::processEvents();
+        QCoreApplication::processEvents();
     } while(pendingMapBeforeEventLoop != m_pendingMap);
 }
 
