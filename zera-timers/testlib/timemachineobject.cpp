@@ -8,8 +8,8 @@
 void TimeMachineObject::addTimer(TimerForTestInterface *timer, int expiredMs, bool singleShot)
 {
     removeTimer(timer);
-    int timeStamp = m_currentTimeMs + expiredMs;
-    m_pendingMap[timeStamp].append(TTimerEntry({expiredMs, singleShot, timer}));
+    int expireTimeStamp = m_currentTimeMs + expiredMs;
+    m_pendingMap[expireTimeStamp].append(TTimerEntry({expiredMs, singleShot, timer}));
 }
 
 void TimeMachineObject::removeTimer(TimerForTestInterface *timer)
@@ -32,13 +32,13 @@ void TimeMachineObject::removeTimer(TimerForTestInterface *timer)
 void TimeMachineObject::processTimers(int durationMs)
 {
     Q_ASSERT(durationMs >= 0);
-    int upToTimestamp = m_currentTimeMs + durationMs;
-    while(areTimersPending(upToTimestamp)) {
+    int processUpToTimestamp = m_currentTimeMs + durationMs;
+    while(areTimersPending(processUpToTimestamp)) {
         m_currentTimeMs = m_pendingMap.firstKey();
         QVector<TTimerEntry> expired = m_pendingMap[m_currentTimeMs];
         processOneExpired(expired[0]);
     }
-    m_currentTimeMs = upToTimestamp;
+    m_currentTimeMs = processUpToTimestamp;
 }
 
 bool TimeMachineObject::isRunning(TimerForTestTemplate *timer)
