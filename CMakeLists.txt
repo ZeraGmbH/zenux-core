@@ -15,7 +15,7 @@ include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 include(GenerateExportHeader)
 
-find_package(Qt5 COMPONENTS Core Test CONFIG REQUIRED)
+find_package(Qt5 COMPONENTS Core XmlPatterns Test CONFIG REQUIRED)
 
 enable_testing()
 
@@ -39,8 +39,10 @@ function(SETUP_QTESTS)
     endforeach()
 endfunction()
 
+add_subdirectory(zera-math)
 add_subdirectory(zera-tasks-base)
 add_subdirectory(zera-timers)
+add_subdirectory(zera-xmlconfig)
 
 write_basic_package_version_file(
     ZenuxCoreConfigVersion.cmake
