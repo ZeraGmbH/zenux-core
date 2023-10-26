@@ -5,11 +5,11 @@
 #include <list>
 
 // Task container running tasks sequentially
-// * start() is starting firts task / if running do nothing
+// * start() is starting first task / if running do nothing
 // * adding tasks while running is valid - they are appended to task queue
 // * emits sigFinish after all tasks passed OR first failed
 // * ok if all tasks pass
-// * delete finished tasks
+// * delete all tasks on finish
 
 class TaskContainerSequence : public TaskContainerInterface // for now abort on error
 {
