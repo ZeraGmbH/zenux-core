@@ -4,6 +4,13 @@
 #include "taskcontainerinterface.h"
 #include <list>
 
+// Task container running tasks sequentially
+// * start() is starting firts task / if running do nothing
+// * adding tasks while running is valid - they are appended to task queue
+// * emits sigFinish after all tasks passed OR first failed
+// * ok if all tasks pass
+// * delete finished tasks
+
 class TaskContainerSequence : public TaskContainerInterface // for now abort on error
 {
     Q_OBJECT

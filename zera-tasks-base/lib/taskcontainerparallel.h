@@ -5,6 +5,13 @@
 #include <list>
 #include <unordered_map>
 
+// Task container running tasks parallel
+// * start() is starting all tasks not yet started at once
+// * adding tasks while running is valid - they are started on NEXT start()
+// * emits sigFinish after all started tasks finish
+// * ok if all tasks pass
+// * delete finished tasks
+
 class TaskContainerParallel : public TaskContainerInterface
 {
     Q_OBJECT

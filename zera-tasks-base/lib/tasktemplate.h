@@ -4,6 +4,8 @@
 #include <QObject>
 #include <memory>
 
+// Template for all tasks
+
 class TaskTemplate : public QObject
 {
     Q_OBJECT
