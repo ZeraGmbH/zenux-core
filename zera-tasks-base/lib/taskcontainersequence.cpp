@@ -27,7 +27,7 @@ void TaskContainerSequence::tryStart()
 
 void TaskContainerSequence::onFinishCurr(bool ok)
 {
-    if(next() && ok)
+    if(ok && next())
         m_current->start();
     else {
         cleanup();
