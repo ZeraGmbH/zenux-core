@@ -162,8 +162,6 @@ void test_taskcontainersequence::startTwice()
     task->addSub(TaskForTest::create(DEFAULT_EXPIRE, true));
     task->start();
     task->start();
-    QCOMPARE(TaskForTest::okCount(), 0);
-    QCOMPARE(TaskForTest::errCount(), 0);
     QCOMPARE(TaskForTest::dtorCount(), 0);
     QCOMPARE(helper.okCount(), 0);
     QCOMPARE(helper.errCount(), 0);
@@ -177,28 +175,45 @@ void test_taskcontainersequence::startTwice()
     QCOMPARE(helper.signalDelayMs(), DEFAULT_EXPIRE);
 }
 
-void test_taskcontainersequence::onRunningAddAndStartOne()
+void test_taskcontainersequence::addSecondWhileFirstRunning()
 {
     TaskContainerInterfacePtr task = TaskContainerSequence::create();
     TaskTestHelper helper(task.get());
     task->addSub(TaskForTest::create(DEFAULT_EXPIRE, true));
     task->start();
 
-    task->addSub(TaskForTest::create(DEFAULT_EXPIRE, true));
-    task->start();
-    QCOMPARE(TaskForTest::okCount(), 0);
-    QCOMPARE(TaskForTest::errCount(), 0);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE/2);
     QCOMPARE(TaskForTest::dtorCount(), 0);
-    QCOMPARE(helper.okCount(), 0);
-    QCOMPARE(helper.errCount(), 0);
+    task->addSub(TaskForTest::create(DEFAULT_EXPIRE, true));
 
-    TimeMachineForTest::getInstance()->processTimers(2*DEFAULT_EXPIRE);
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
     QCOMPARE(helper.okCount(), 1);
     QCOMPARE(helper.errCount(), 0);
     QCOMPARE(TaskForTest::okCount(), 2);
     QCOMPARE(TaskForTest::errCount(), 0);
     QCOMPARE(TaskForTest::dtorCount(), 2);
-    QCOMPARE(helper.signalDelayMs(), 2*DEFAULT_EXPIRE);
+    QCOMPARE(helper.signalDelayMs(), 2*DEFAULT_EXPIRE); // remember sequential: one after another
+}
+
+void test_taskcontainersequence::addSecondAndStartWhileFirstRunning()
+{
+    TaskContainerInterfacePtr task = TaskContainerSequence::create();
+    TaskTestHelper helper(task.get());
+    task->addSub(TaskForTest::create(DEFAULT_EXPIRE, true));
+    task->start();
+
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE/2);
+    QCOMPARE(TaskForTest::dtorCount(), 0);
+    task->addSub(TaskForTest::create(DEFAULT_EXPIRE, true));
+    task->start();
+
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    QCOMPARE(helper.okCount(), 1);
+    QCOMPARE(helper.errCount(), 0);
+    QCOMPARE(TaskForTest::okCount(), 2);
+    QCOMPARE(TaskForTest::errCount(), 0);
+    QCOMPARE(TaskForTest::dtorCount(), 2);
+    QCOMPARE(helper.signalDelayMs(), 2*DEFAULT_EXPIRE); // remember sequential: one after another
 }
 
 void test_taskcontainersequence::twoTransactions()

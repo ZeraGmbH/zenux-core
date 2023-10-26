@@ -170,29 +170,46 @@ void test_taskcontainerparallel::startTwice()
     QCOMPARE(helper.signalDelayMs(), DEFAULT_EXPIRE);
 }
 
-void test_taskcontainerparallel::onRunningAddAndStartOne()
+void test_taskcontainerparallel::addSecondWhileFirstRunning()
 {
     TaskContainerInterfacePtr task = TaskContainerParallel::create();
     TaskTestHelper helper(task.get());
     task->addSub(TaskForTest::create(DEFAULT_EXPIRE, true));
     task->start();
 
-    task->addSub(TaskForTest::create(0, true));
-    task->start();
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE/2);
+    QCOMPARE(TaskForTest::dtorCount(), 0);
+    task->addSub(TaskForTest::create(DEFAULT_EXPIRE, true));
+
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
+    QCOMPARE(helper.okCount(), 1);
+    QCOMPARE(helper.errCount(), 0);
+    // second was not started!!
     QCOMPARE(TaskForTest::okCount(), 1);
     QCOMPARE(TaskForTest::errCount(), 0);
     QCOMPARE(TaskForTest::dtorCount(), 1);
-    QCOMPARE(helper.okCount(), 0);
-    QCOMPARE(helper.errCount(), 0);
+    QCOMPARE(helper.signalDelayMs(), DEFAULT_EXPIRE);
+}
+
+void test_taskcontainerparallel::addSecondAndStartWhileFirstRunning()
+{
+    TaskContainerInterfacePtr task = TaskContainerParallel::create();
+    TaskTestHelper helper(task.get());
+    task->addSub(TaskForTest::create(DEFAULT_EXPIRE, true));
+    task->start();
+
+    TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE/2);
+    QCOMPARE(TaskForTest::dtorCount(), 0);
+    task->addSub(TaskForTest::create(DEFAULT_EXPIRE, true));
+    task->start();
 
     TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
-
     QCOMPARE(helper.okCount(), 1);
     QCOMPARE(helper.errCount(), 0);
     QCOMPARE(TaskForTest::okCount(), 2);
     QCOMPARE(TaskForTest::errCount(), 0);
     QCOMPARE(TaskForTest::dtorCount(), 2);
-    QCOMPARE(helper.signalDelayMs(), DEFAULT_EXPIRE);
+    QCOMPARE(helper.signalDelayMs(), DEFAULT_EXPIRE + DEFAULT_EXPIRE/2);
 }
 
 void test_taskcontainerparallel::twoTransactions()

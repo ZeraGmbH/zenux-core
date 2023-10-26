@@ -18,7 +18,8 @@ private slots:
     void oneOkOneErrorOneOk();
     void taskId();
     void startTwice();
-    void onRunningAddAndStartOne();
+    void addSecondWhileFirstRunning();
+    void addSecondAndStartWhileFirstRunning();
     void twoTransactions();
 };
 

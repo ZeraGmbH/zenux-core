@@ -17,7 +17,8 @@ private slots:
     void startThreeDelayedAllOk();
     void taskId();
     void startTwice();
-    void onRunningAddAndStartOne();
+    void addSecondWhileFirstRunning();
+    void addSecondAndStartWhileFirstRunning();
     void twoTransactions();
 };
 
