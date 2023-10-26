@@ -22,8 +22,8 @@ public:
 private slots:
     void onFinishCurr(bool ok);
 private:
+    void tryStart();
     bool next();
-    void setNext();
     void cleanup();
     bool m_started = false;
     std::list<TaskTemplatePtr> m_tasks;
