@@ -4,6 +4,8 @@
 #include "tasktemplate.h"
 #include <functional>
 
+// Task running lambda function
+
 class TaskLambdaRunner : public TaskTemplate
 {
     Q_OBJECT

@@ -3,6 +3,7 @@
 
 #include "tasktemplate.h"
 
+// Interface for tasks containing other tasks
 class TaskContainerInterface : public TaskTemplate
 {
 public:
