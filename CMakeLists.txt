@@ -39,7 +39,6 @@ function(SETUP_QTESTS)
     endforeach()
 endfunction()
 
-add_subdirectory(zera-math)
 add_subdirectory(zera-tasks-base)
 add_subdirectory(zera-timers)
 add_subdirectory(zera-xmlconfig)

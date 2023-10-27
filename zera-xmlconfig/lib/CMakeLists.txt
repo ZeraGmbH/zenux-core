@@ -35,7 +35,7 @@ install(FILES
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/zenux-core/zera-xmlconfig
     )
 
-export(TARGETS zera-math FILE ZenuxCoreTargets.cmake)
+export(TARGETS zera-xmlconfig FILE ZenuxCoreTargets.cmake)
 install(TARGETS zera-xmlconfig
     EXPORT ZenuxCoreExport
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
