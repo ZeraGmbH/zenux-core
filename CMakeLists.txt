@@ -35,6 +35,8 @@ function(SETUP_QTESTS)
             Qt5::Test
             zera-timers-testlib
             tasks-base-testlib
+            zera-xmlconfig
+            xml-config-test-data
             )
     endforeach()
 endfunction()
