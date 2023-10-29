@@ -1,7 +1,6 @@
 #ifndef XMLCONFIGREADER_PRIVATE_H
 #define XMLCONFIGREADER_PRIVATE_H
 
-#include "messagehandler.h"
 #include <QList>
 #include <QString>
 #include <QHash>
@@ -60,7 +59,6 @@ namespace Zera
         private:
             HashWithSortedKeys<QString, QString>data;
             QString schemaFilePath;
-            MessageHandler messageHandler;
             Zera::XMLConfig::cReader *q_ptr;
             Q_DECLARE_PUBLIC(cReader)
         };
