@@ -14,6 +14,7 @@ public:
     void processTimers(int durationMs);
     bool isRunning(TimerForTestTemplate* timer);
     int getCurrentTimeMs();
+    static void feedEventLoop();
 private:
     struct TTimerEntry
     {
@@ -29,7 +30,6 @@ private:
         }
     };
     bool areTimersPending(int upToTimestamp);
-    void feedEventLoop();
     void processOneExpired(TTimerEntry entry);
 
     int m_currentTimeMs = 0;
