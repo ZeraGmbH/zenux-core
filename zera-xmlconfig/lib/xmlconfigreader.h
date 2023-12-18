@@ -43,7 +43,6 @@ namespace Zera
        * @param filePath File to load
        * @return true for success
        */
-      bool loadXML(QString filePath);
       bool loadXMLFile(QString path);
 
       /**
