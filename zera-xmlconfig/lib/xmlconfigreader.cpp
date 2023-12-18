@@ -39,34 +39,6 @@ bool cReader::loadSchema(QString filePath)
     return retVal;
 }
 
-bool cReader::loadXML(QString filePath)
-{
-    Q_D(cReader);
-    bool retVal = false;
-    QXmlSchema schema;
-    QFile schemaFile(d->schemaFilePath);
-    schemaFile.open(QFile::ReadOnly);
-
-    if(schema.load(&schemaFile,QUrl(d->schemaFilePath))) {
-        QXmlSchemaValidator sValidator(schema);
-        if(sValidator.validate(QUrl(QString("file://%1").arg(filePath)))) {
-            QFile xmlFile(filePath);
-            xmlFile.open(QFile::ReadOnly);
-            if(xml2Config(&xmlFile)) {
-                retVal = true;
-            }
-        }
-        else {
-            qWarning("[zera-xml-config] %s is invalid", qPrintable(filePath));
-        }
-    }
-    else {
-        qWarning("[zera-xml-config] %s is invalid", qPrintable(filePath));
-    }
-    emit finishedParsingXML(retVal);
-    return retVal;
-}
-
 bool cReader::loadXMLFile(QString path)
 {
     bool ok = false;

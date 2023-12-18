@@ -44,13 +44,6 @@ void test_xmlconfigreader::validPairSchemaXmlFile()
     QVERIFY(reader.loadXMLFile(xmlPath + "with-complex-valid.xml"));
 }
 
-void test_xmlconfigreader::validPairSchemaXmlFileOld()
-{
-    Zera::XMLConfig::cReader reader;
-    QVERIFY(reader.loadSchema(":/schemas/with-complex.xsd"));
-    QVERIFY(reader.loadXML(xmlPath + "with-complex-valid.xml"));
-}
-
 void test_xmlconfigreader::invalidNoSchema()
 {
     Zera::XMLConfig::cReader reader;
@@ -61,21 +54,21 @@ void test_xmlconfigreader::invalidIP()
 {
     Zera::XMLConfig::cReader reader;
     QVERIFY(reader.loadSchema(":/schemas/with-complex.xsd"));
-    QVERIFY(!reader.loadXML(":/xmls/with-complex-invalid-ip.xml"));
+    QVERIFY(!reader.loadXMLFile(xmlPath + "with-complex-invalid-ip.xml"));
 }
 
 void test_xmlconfigreader::invalidYesNo()
 {
     Zera::XMLConfig::cReader reader;
     QVERIFY(reader.loadSchema(":/schemas/with-complex.xsd"));
-    QVERIFY(!reader.loadXML(":/xmls/with-complex-invalid-yes-no.xml"));
+    QVERIFY(!reader.loadXMLFile(xmlPath + "with-complex-invalid-yes-no.xml"));
 }
 
 void test_xmlconfigreader::invalidKeySequence()
 {
     Zera::XMLConfig::cReader reader;
     QVERIFY(reader.loadSchema(":/schemas/with-complex.xsd"));
-    QVERIFY(!reader.loadXML(":/xmls/with-complex-invalid-sequence.xml"));
+    QVERIFY(!reader.loadXMLFile(xmlPath + "with-complex-invalid-sequence.xml"));
 }
 
 void test_xmlconfigreader::setGetValidIp()
