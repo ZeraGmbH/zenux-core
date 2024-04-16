@@ -1,5 +1,6 @@
 #include "timemachineobject.h"
 #include <QCoreApplication>
+#include <QThread>
 #include <QAbstractEventDispatcher>
 
 // An important fact to understand code better: Each timer occures maximum ONE
@@ -63,7 +64,7 @@ bool TimeMachineObject::areTimersPending(int upToTimestamp)
 
 void TimeMachineObject::feedEventLoop()
 {
-    while(QCoreApplication::eventDispatcher()->processEvents(QEventLoop::AllEvents));
+    while( QThread::currentThread()->eventDispatcher()->processEvents(QEventLoop::AllEvents) );
 }
 
 void TimeMachineObject::processOneExpired(TTimerEntry entry)
