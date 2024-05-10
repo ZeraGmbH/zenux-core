@@ -44,6 +44,7 @@ endfunction()
 add_subdirectory(zera-tasks-base)
 add_subdirectory(zera-timers)
 add_subdirectory(zera-xmlconfig)
+add_subdirectory(testlib-common)
 
 write_basic_package_version_file(
     ZenuxCoreConfigVersion.cmake
