@@ -16,6 +16,7 @@ include(CMakePackageConfigHelpers)
 include(GenerateExportHeader)
 
 find_package(Qt5 COMPONENTS Core XmlPatterns Test CONFIG REQUIRED)
+find_package(zera-json-params REQUIRED)
 
 enable_testing()
 
@@ -44,6 +45,7 @@ endfunction()
 add_subdirectory(zera-tasks-base)
 add_subdirectory(zera-timers)
 add_subdirectory(zera-xmlconfig)
+add_subdirectory(zera-scpi-cmd-preparation)
 add_subdirectory(testlib-common)
 
 write_basic_package_version_file(
