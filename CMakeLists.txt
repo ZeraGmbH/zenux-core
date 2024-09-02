@@ -34,6 +34,7 @@ function(SETUP_QTESTS)
             PUBLIC
             Qt5::Test
             zera-timers-testlib
+            zera-log-statistics
             tasks-base-testlib
             zera-xmlconfig
             xml-config-test-data
@@ -43,6 +44,7 @@ endfunction()
 
 add_subdirectory(zera-tasks-base)
 add_subdirectory(zera-timers)
+add_subdirectory(zera-log-statistics)
 add_subdirectory(zera-xmlconfig)
 add_subdirectory(testlib-common)
 
