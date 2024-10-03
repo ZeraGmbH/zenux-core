@@ -33,6 +33,7 @@ void test_timersingleshotqt::inspectTimerByRunner(TimerForTestSingleShot *timer)
 
 void test_timersingleshotqt::signalOnExpireTiming()
 {
+    SKIP_TEST_ON_RELEASE_BUILD
     TimerSingleShotQt timer(DEFAULT_EXPIRE);
     timer.setHighAccuracy(true);
     inspectTimerByDelay(&timer);
@@ -58,6 +59,7 @@ void test_timersingleshotqt::signalOnExpireTimingTest()
 
 void test_timersingleshotqt::restartTiming()
 {
+    SKIP_TEST_ON_RELEASE_BUILD
     TimerSingleShotQt timer(DEFAULT_EXPIRE);
     timer.setHighAccuracy(true);
     inspectTimerByDelay(&timer);
@@ -87,6 +89,7 @@ void test_timersingleshotqt::restartTimingTest()
 
 void test_timersingleshotqt::stopWhilePending()
 {
+    SKIP_TEST_ON_RELEASE_BUILD
     TimerSingleShotQt timer(DEFAULT_EXPIRE);
     timer.setHighAccuracy(true);
     inspectTimerByDelay(&timer);
@@ -116,6 +119,7 @@ void test_timersingleshotqt::stopWhilePendingTest()
 
 void test_timersingleshotqt::stopWhilePendingByOtherTimer()
 {
+    SKIP_TEST_ON_RELEASE_BUILD
     TimerSingleShotQt timer(DEFAULT_EXPIRE);
     timer.setHighAccuracy(true);
     inspectTimerByDelay(&timer);
@@ -151,6 +155,7 @@ void test_timersingleshotqt::stopWhilePendingByOtherTimerTest()
 
 void test_timersingleshotqt::stopWhilePendingByOtherSameDelay1()
 {
+    SKIP_TEST_ON_RELEASE_BUILD
     TimerSingleShotQt timer(DEFAULT_EXPIRE);
     timer.setHighAccuracy(true);
     inspectTimerByDelay(&timer);
@@ -185,6 +190,7 @@ void test_timersingleshotqt::stopWhilePendingByOtherSameDelay1Test()
 
 void test_timersingleshotqt::stopWhilePendingByOtherSameDelay2()
 {
+    SKIP_TEST_ON_RELEASE_BUILD
     TimerSingleShotQt timer(DEFAULT_EXPIRE);
     timer.setHighAccuracy(true);
     inspectTimerByDelay(&timer);
@@ -219,6 +225,7 @@ void test_timersingleshotqt::stopWhilePendingByOtherSameDelay2Test()
 
 void test_timersingleshotqt::deleteWhilePendingByOtherSameDelay()
 {
+    SKIP_TEST_ON_RELEASE_BUILD
     TimerSingleShotQt* timer = new TimerSingleShotQt(DEFAULT_EXPIRE);
     timer->setHighAccuracy(true);
     inspectTimerByDelay(timer);
@@ -253,6 +260,7 @@ void test_timersingleshotqt::deleteWhilePendingByOtherSameDelayTest()
 
 void test_timersingleshotqt::queuedConnectionsOnExpire()
 {
+    SKIP_TEST_ON_RELEASE_BUILD
     TimerSingleShotQt timer(DEFAULT_EXPIRE);
     timer.setHighAccuracy(true);
     inspectTimerByDelay(&timer);
@@ -284,6 +292,7 @@ void test_timersingleshotqt::queuedConnectionsOnExpireTest()
 
 void test_timersingleshotqt::nestedStart()
 {
+    SKIP_TEST_ON_RELEASE_BUILD
     TimerSingleShotQt timer1(DEFAULT_EXPIRE/2);
     timer1.setHighAccuracy(true);
     inspectTimerByDelay(&timer1);
@@ -317,6 +326,7 @@ void test_timersingleshotqt::nestedStartTest()
 
 void test_timersingleshotqt::nestedStartQueued()
 {
+    SKIP_TEST_ON_RELEASE_BUILD
     TimerSingleShotQt timer1(DEFAULT_EXPIRE/2);
     timer1.setHighAccuracy(true);
     inspectTimerByDelay(&timer1);
@@ -367,6 +377,7 @@ void test_timersingleshotqt::nestedStartQueuedTest()
 
 void test_timersingleshotqt::infiniteExpire()
 {
+    SKIP_TEST_ON_RELEASE_BUILD
     TimerSingleShotQt timer(EXPIRE_INFINITE);
     timer.setHighAccuracy(true);
     inspectTimerByDelay(&timer);
@@ -392,6 +403,7 @@ void test_timersingleshotqt::infiniteExpireTest()
 
 void test_timersingleshotqt::isRunning()
 {
+    SKIP_TEST_ON_RELEASE_BUILD
     TimerSingleShotQt timer(DEFAULT_EXPIRE);
     timer.setHighAccuracy(true);
     QCOMPARE(timer.isRunning(), false);

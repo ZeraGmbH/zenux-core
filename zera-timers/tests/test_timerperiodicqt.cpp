@@ -31,6 +31,7 @@ void test_timerperiodicqt::inspectTimerByRunner(TimerForTestPeriodic *timer)
 
 void test_timerperiodicqt::oneInterval()
 {
+    SKIP_TEST_ON_RELEASE_BUILD
     TimerPeriodicQt timer(DEFAULT_EXPIRE);
     inspectTimerByDelay(&timer);
     timer.setHighAccuracy(true);
@@ -56,6 +57,7 @@ void test_timerperiodicqt::oneIntervalTest()
 
 void test_timerperiodicqt::threeInterval()
 {
+    SKIP_TEST_ON_RELEASE_BUILD
     TimerPeriodicQt timer(DEFAULT_EXPIRE);
     inspectTimerByDelay(&timer);
     timer.setHighAccuracy(true);
@@ -85,6 +87,7 @@ void test_timerperiodicqt::threeIntervalTest()
 
 void test_timerperiodicqt::stopWhilePendingByOtherTimer()
 {
+    SKIP_TEST_ON_RELEASE_BUILD
     TimerPeriodicQt timer(DEFAULT_EXPIRE);
     timer.setHighAccuracy(true);
     inspectTimerByDelay(&timer);
@@ -120,6 +123,7 @@ void test_timerperiodicqt::stopWhilePendingByOtherTimerTest()
 
 void test_timerperiodicqt::isRunning()
 {
+    SKIP_TEST_ON_RELEASE_BUILD
     TimerPeriodicQt timer(DEFAULT_EXPIRE);
     timer.setHighAccuracy(true);
     QCOMPARE(timer.isRunning(), false);
