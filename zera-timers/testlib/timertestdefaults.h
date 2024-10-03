@@ -9,4 +9,10 @@ static constexpr int DEFAULT_EXPIRE_WAIT = DEFAULT_EXPIRE * 2;
 static constexpr int DEFAULT_PERIODIC_EXTRA_WAIT = DEFAULT_EXPIRE * 0.8;
 static constexpr int EXPIRE_INFINITE = 1000000;
 
+#ifdef QT_NO_DEBUG
+#define SKIP_TEST_ON_RELEASE_BUILD QSKIP("This is flaky test relying on timers.");
+#else
+#define SKIP_TEST_ON_RELEASE_BUILD
+#endif
+
 #endif // TIMERTESTDEFAULTS_H
