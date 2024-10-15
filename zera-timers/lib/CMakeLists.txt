@@ -30,14 +30,40 @@ install(FILES
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/zenux-core/timers
     )
 
-export(TARGETS zera-timers FILE ZenuxCoreTargets.cmake)
+install(
+    FILES ${HEADER}
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/zenux-core/timers
+    )
+
+
+add_library(zera-timers-static STATIC
+    ${HEADER}
+    ${SOURCES}
+    )
+
+target_link_libraries(zera-timers-static
+    PUBLIC
+    Qt5::Core
+    )
+
+target_include_directories(zera-timers-static
+    PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/zenux-core/timers>
+    )
+
+set_target_properties(zera-timers-static PROPERTIES VERSION ${PROJECT_VERSION})
+set_target_properties(zera-timers-static PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
+
+
+export(TARGETS zera-timers zera-timers-static FILE ZenuxCoreTargets.cmake)
 install(TARGETS zera-timers
     EXPORT ZenuxCoreExport
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     )
 
-install(
-    FILES ${HEADER}
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/zenux-core/timers
+install(TARGETS zera-timers-static
+    EXPORT ZenuxCoreExport
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     )
 
