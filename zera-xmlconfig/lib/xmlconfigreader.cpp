@@ -1,18 +1,12 @@
 #include "xmlconfigreader.h"
 #include "xmlconfigreaderprivate.h"
-
-
 #include <QtXmlPatterns/QXmlSchemaValidator>
 #include <QtXmlPatterns/QXmlSchema>
 #include <QStringList>
 #include <QByteArray>
 #include <QFile>
 #include <QBuffer>
-#include <QIODevice>
-#include <QStringList>
-
 #include <QDebug>
-#include <QCryptographicHash>
 
 namespace Zera
 {
@@ -104,7 +98,8 @@ QString cReader::getXMLConfig()
     stream.setAutoFormatting(true);
     stream.writeStartDocument();
 
-    for(QString key : d->data.getKeysSortedByCreationSequence()) {
+    const QStringList sortedKeys = d->data.getKeysSortedByCreationSequence();
+    for(const QString &key : sortedKeys) {
         QString elementName;
         parents = key.split(":");
         elementName = parents.takeLast();
@@ -134,7 +129,7 @@ bool cReader::xml2Config(QIODevice *xmlData)
                 Q_D(cReader);
                 fullPath = parents.join(":");
                 d->data.insert(fullPath, xmlReader.text().toString());
-                valueChanged(fullPath);
+                emit valueChanged(fullPath);
             }
             break;
         }
