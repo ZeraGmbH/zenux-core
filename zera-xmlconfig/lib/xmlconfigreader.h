@@ -5,10 +5,7 @@
 #include <QObject>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
-
-QT_BEGIN_NAMESPACE
-class QIODevice;
-QT_END_NAMESPACE
+#include <QIODevice>
 
 namespace Zera
 {
