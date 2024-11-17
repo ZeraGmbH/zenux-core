@@ -28,7 +28,6 @@ private:
     bool m_started = false;
     std::list<TaskTemplatePtr> m_tasks;
     TaskTemplatePtr m_current;
-    int m_taskId;
 };
 
 #endif // TASKCONTAINERSEQUENCE_H
