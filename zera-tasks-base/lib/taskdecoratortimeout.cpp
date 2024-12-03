@@ -34,6 +34,7 @@ void TaskDecoratorTimeout::onFinishDecorated(bool ok)
 
 void TaskDecoratorTimeout::onTimeout()
 {
+    qWarning("TaskDecoratorTimeout: Timeout reached!!!");
     emitFinish(false);
 }
 
