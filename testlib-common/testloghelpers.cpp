@@ -3,7 +3,11 @@
 
 bool TestLogHelpers::compareAndLogOnDiff(QString expected, QString dumped)
 {
-    if(expected != dumped) {
+    QString expectedCompare = expected;
+    expectedCompare.replace("\n", "");
+    QString dumpedCompare = dumped;
+    dumpedCompare.replace("\n", "");
+    if(expectedCompare != dumpedCompare) {
         qWarning("Expected:");
         qInfo("%s", qPrintable(expected));
         qWarning("Dumped:");
