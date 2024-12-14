@@ -1,5 +1,6 @@
 #include "testloghelpers.h"
 #include <QJsonDocument>
+#include <QFile>
 
 bool TestLogHelpers::compareAndLogOnDiff(QString expected, QString dumped)
 {
@@ -21,4 +22,15 @@ QByteArray TestLogHelpers::dump(QJsonObject json)
 {
     QJsonDocument doc(json);
     return doc.toJson(QJsonDocument::Indented);
+}
+
+QByteArray TestLogHelpers::loadFile(QString fileName)
+{
+    QByteArray fileData;
+    QFile file(fileName);
+    if(file.open(QFile::ReadOnly)) {
+        fileData = file.readAll();
+        file.close();
+    }
+    return fileData;
 }

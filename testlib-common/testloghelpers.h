@@ -10,6 +10,7 @@ class TestLogHelpers
 public:
     static bool compareAndLogOnDiff(QString expected, QString dumped);
     static QByteArray dump(QJsonObject json);
+    static QByteArray loadFile(QString fileName);
 };
 
 #endif // TESTLOGHELPERS_H
