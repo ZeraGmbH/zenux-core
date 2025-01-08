@@ -19,6 +19,7 @@ signals:
 
 protected:
     void finishTask(bool ok);
+    void finishTaskQueued(bool ok);
 private:
     static int getNextTaskId();
     int m_taskId = 0;
