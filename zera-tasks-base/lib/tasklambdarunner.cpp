@@ -1,16 +1,20 @@
 #include "tasklambdarunner.h"
 
-TaskTemplatePtr TaskLambdaRunner::create(std::function<bool ()> startFunc)
+TaskTemplatePtr TaskLambdaRunner::create(std::function<bool ()> startFunc, bool queuedFinish)
 {
-    return std::make_unique<TaskLambdaRunner>(startFunc);
+    return std::make_unique<TaskLambdaRunner>(startFunc, queuedFinish);
 }
 
-TaskLambdaRunner::TaskLambdaRunner(std::function<bool ()> startFunc) :
-    m_startFunc(startFunc)
+TaskLambdaRunner::TaskLambdaRunner(std::function<bool ()> startFunc, bool queuedFinish) :
+    m_startFunc(startFunc),
+    m_queuedFinish(queuedFinish)
 {
 }
 
 void TaskLambdaRunner::start()
 {
-    finishTask(m_startFunc());
+    if(m_queuedFinish)
+        finishTaskQueued(m_startFunc());
+    else
+        finishTask(m_startFunc());
 }

@@ -10,11 +10,12 @@ class TaskLambdaRunner : public TaskTemplate
 {
     Q_OBJECT
 public:
-    static TaskTemplatePtr create(std::function<bool ()> startFunc);
-    TaskLambdaRunner(std::function<bool()> startFunc);
+    static TaskTemplatePtr create(std::function<bool ()> startFunc, bool queuedFinish = false);
+    TaskLambdaRunner(std::function<bool()> startFunc, bool queuedFinish);
     void start() override;
 private:
     std::function<bool()> m_startFunc;
+    bool m_queuedFinish;
 };
 
 #endif // TASKLAMBDARUNNER_H
