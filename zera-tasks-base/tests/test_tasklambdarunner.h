@@ -9,6 +9,8 @@ class test_tasklambdarunner : public QObject
 private slots:
     void startPass();
     void startFail();
+    void startPassQueued();
+    void startFailQueued();
 };
 
 #endif // TEST_TASKLAMBDARUNNER_H
