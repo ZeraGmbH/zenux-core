@@ -1,13 +1,12 @@
 #include "signalspywaiter.h"
+#include <QElapsedTimer>
 #include <QTest>
 
 int SignalSpyWaiter::waitForSignals(QSignalSpy *spy, int signalCount, int timeoutMs)
 {
-    int currMs;
-    for(currMs=0; currMs<timeoutMs; currMs++) {
-        if (spy->count() >= signalCount)
-            break;
+    QElapsedTimer timer;
+    timer.start();
+    while(spy->count() < signalCount  && timer.elapsed() < timeoutMs)
         QTest::qWait(1);
-    }
-    return currMs;
+    return timer.elapsed();
 }
