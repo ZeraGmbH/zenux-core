@@ -22,6 +22,7 @@ target_link_libraries(testlib-common
     Qt5::Core
     Qt5::Test
     zera-timers
+    zera-timers-testlib
 )
 
 set_target_properties(testlib-common PROPERTIES VERSION ${PROJECT_VERSION})
