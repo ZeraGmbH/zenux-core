@@ -16,7 +16,7 @@ void TaskContainerParallel::start()
 
 void TaskContainerParallel::addSub(TaskTemplatePtr task)
 {
-    m_addedTasks.push_back(std::move(task));
+    m_addedTasks.push_front(std::move(task));
 }
 
 void TaskContainerParallel::onFinishTask(bool ok, int taskId)

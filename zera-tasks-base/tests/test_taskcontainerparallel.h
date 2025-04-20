@@ -20,6 +20,7 @@ private slots:
     void addSecondWhileFirstRunning();
     void addSecondAndStartWhileFirstRunning();
     void twoTransactions();
+    void startOrderAsAdded();
 };
 
 #endif // TEST_TASKCONTAINERPARALLEL_H

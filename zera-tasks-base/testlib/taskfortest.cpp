@@ -1,7 +1,7 @@
 #include "taskfortest.h"
 #include <timerfortestsingleshot.h>
 
-TaskTemplatePtr TaskForTest::create(int delayMs, bool finishOk)
+TaskForTestPtr TaskForTest::create(int delayMs, bool finishOk)
 {
     return std::make_unique<TaskForTest>(delayMs, finishOk);
 }

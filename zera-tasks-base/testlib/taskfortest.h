@@ -5,10 +5,13 @@
 #include <QTimer>
 #include <timertemplateqt.h>
 
+class TaskForTest;
+typedef std::unique_ptr<TaskForTest> TaskForTestPtr;
+
 class TaskForTest : public TaskTemplate
 {
 public:
-    static TaskTemplatePtr create(int delayMs, bool finishOk);
+    static TaskForTestPtr create(int delayMs, bool finishOk);
     TaskForTest(int delayMs, bool finishOk);
     ~TaskForTest() override;
     void start() override;

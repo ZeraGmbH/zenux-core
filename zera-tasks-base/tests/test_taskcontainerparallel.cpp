@@ -229,3 +229,32 @@ void test_taskcontainerparallel::twoTransactions()
     QCOMPARE(TaskForTest::errCount(), 0);
     QCOMPARE(TaskForTest::dtorCount(), 2);
 }
+
+void test_taskcontainerparallel::startOrderAsAdded()
+{
+    QStringList results;
+    TaskForTestPtr subTask1 = TaskForTest::create(0, true);
+    connect(subTask1.get(), &TaskTemplate::sigFinish, this, [&](bool) {
+        results.append("1");
+    });
+
+    TaskForTestPtr subTask2 = TaskForTest::create(0, true);
+    connect(subTask2.get(), &TaskTemplate::sigFinish, this, [&](bool) {
+        results.append("2");
+    });
+    TaskForTestPtr subTask3 = TaskForTest::create(0, true);
+    connect(subTask3.get(), &TaskTemplate::sigFinish, this, [&](bool) {
+        results.append("3");
+    });
+
+    TaskContainerInterfacePtr task = TaskContainerParallel::create();
+    task->addSub(std::move(subTask1));
+    task->addSub(std::move(subTask2));
+    task->addSub(std::move(subTask3));
+
+    task->start();
+    QCOMPARE(results.size(), 3);
+    QCOMPARE(results[0], "1");
+    QCOMPARE(results[1], "2");
+    QCOMPARE(results[2], "3");
+}
