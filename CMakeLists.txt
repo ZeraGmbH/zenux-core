@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 
-project(zenux-core LANGUAGES CXX)
+project(zenux-core LANGUAGES C CXX)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -46,7 +46,7 @@ add_subdirectory(zera-tasks-base)
 add_subdirectory(zera-timers)
 add_subdirectory(zera-log-statistics)
 add_subdirectory(zera-xmlconfig)
-add_subdirectory(testlib-common)
+add_subdirectory(testlibs)
 
 write_basic_package_version_file(
     ZenuxCoreConfigVersion.cmake
