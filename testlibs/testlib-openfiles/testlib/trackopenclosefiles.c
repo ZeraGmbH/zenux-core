@@ -61,7 +61,7 @@ int openat(int dirfd, const char *path, int flags, ...) {
     return fd;
 }
 
-int open64(const char *path, int flags, ...) {
+/*int open64(const char *path, int flags, ...) {
     static int (*real_func)(const char *path, int flags, ...) = NULL;
     if (!real_func)
         real_func = dlsym(RTLD_NEXT, "open64");
@@ -76,7 +76,7 @@ int open64(const char *path, int flags, ...) {
     int fd = real_func(path, flags, mode);
     handleOpenFile(path, fd);
     return fd;
-}
+}*/
 
 FILE *fopen(const char *restrict path, const char *restrict mode) {
     static FILE* (*real_func)(const char *restrict path, const char *restrict mode) = NULL;
