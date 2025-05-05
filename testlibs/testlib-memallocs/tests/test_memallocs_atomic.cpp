@@ -49,4 +49,9 @@ void test_memallocs_atomic::heapNone()
 
     QString string;
     QCOMPARE(tracker.getAllocCount(), 0);
+
+    string = "testString";
+
+    QCOMPARE(tracker.getAllocCount(), 1);
+    qInfo("%s", qPrintable(string));
 }
