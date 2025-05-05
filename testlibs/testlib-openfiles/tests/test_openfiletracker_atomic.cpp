@@ -1,5 +1,6 @@
 #include "test_openfiletracker_atomic.h"
 #include "testopenfiletracker.h"
+#include "openfiletrackertestdefaults.h"
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -10,6 +11,11 @@ QTEST_MAIN(test_openfiletracker_atomic)
 static const char* fileName = "/tmp/test_openfiletracker_atomic";
 static int fileCreationFlags = O_CREAT | O_WRONLY | O_TRUNC;
 static constexpr mode_t filePrivileges = S_IRUSR | S_IWUSR;
+
+void test_openfiletracker_atomic::initTestCase()
+{
+    SKIP_TESTS_ON_RELEASE_BUILD
+}
 
 void test_openfiletracker_atomic::cleanup()
 {

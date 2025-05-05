@@ -8,6 +8,7 @@ class test_openfiletracker_atomic : public QObject
 {
     Q_OBJECT
 private slots:
+    void initTestCase();
     void cleanup();
 
     void openAndClose();

@@ -14,7 +14,9 @@ Add in your CMake
         -Wl,--no-whole-archive
         ...
 
-Important: Zera::testlib-openfiles must be linked first!
+Important:
+* Test on OE crash qemu!!!
+* Zera::testlib-openfiles must be linked first!
 
 Example usage found in test_openfiletracker
 */

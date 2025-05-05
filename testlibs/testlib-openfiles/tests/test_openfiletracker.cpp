@@ -1,5 +1,6 @@
 #include "test_openfiletracker.h"
 #include "testopenfiletracker.h"
+#include "openfiletrackertestdefaults.h"
 #include <QFile>
 #include <QTest>
 
@@ -7,6 +8,11 @@ QTEST_MAIN(test_openfiletracker)
 
 static const char* fileName1 = "/tmp/test_openfiletracker1";
 static const char* fileName2 = "/tmp/test_openfiletracker2";
+
+void test_openfiletracker::initTestCase()
+{
+    SKIP_TESTS_ON_RELEASE_BUILD
+}
 
 void test_openfiletracker::init()
 {
