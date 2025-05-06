@@ -9,6 +9,9 @@ class TestMemAllocTracker
 public:
     TestMemAllocTracker();
     virtual ~TestMemAllocTracker();
+    void start();
+    void stop();
+    void clear();
 
     int getAllocCount() const;
 
@@ -17,7 +20,10 @@ public:
 
     struct TAllocatedMemRegion {
         size_t m_size;
+        QStringList m_backtraceRaw;
     };
+    typedef QList<TAllocatedMemRegion> MemsAllocated;
+    const MemsAllocated getRawMemRegions();
 
 private:
     QHash<const void*, TAllocatedMemRegion> m_allocatedRegions;
