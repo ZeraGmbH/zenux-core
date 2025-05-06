@@ -1,9 +1,11 @@
 #include "testmemalloctracker.h"
 #include <QMutexLocker>
+#include <atomic>
 #include <stdlib.h>
 #include <stddef.h>
 #include <dlfcn.h>
 
+static std::atomic_bool ignoreMallocFreess;
 static QMutex mutex;
 static TestMemAllocTracker* currentTracker;
 
@@ -12,11 +14,22 @@ void setTracker(TestMemAllocTracker* tracker) {
     currentTracker = tracker;
 }
 
-extern "C" void *malloc(size_t size) {
-    QMutexLocker locker(&mutex);
+void startIgnoreMallocFrees() {
+    ignoreMallocFreess.store(true);
+}
+void stopIgnoreMallocFreess() {
+    ignoreMallocFreess.store(false);
+}
 
+extern "C" void *malloc(size_t size) {
     typedef void *(*malloc_ptr)(size_t size);
     static malloc_ptr real_func = nullptr;
+
+    if (ignoreMallocFreess.load())
+        return real_func(size);
+
+    QMutexLocker locker(&mutex);
+
     if (!real_func)
         real_func = reinterpret_cast<malloc_ptr>(dlsym(RTLD_NEXT, "malloc"));
 
@@ -27,15 +40,21 @@ extern "C" void *malloc(size_t size) {
 }
 
 extern "C" void free(void *ptr) {
-    QMutexLocker locker(&mutex);
-
     typedef void (*free_ptr)(void *ptr);
     static free_ptr real_func = nullptr;
+
+    if (ignoreMallocFreess.load()) {
+        real_func(ptr);
+        return;
+    }
+
+    QMutexLocker locker(&mutex);
+
     if (!real_func)
         real_func = reinterpret_cast<free_ptr>(dlsym(RTLD_NEXT, "free"));
 
-    real_func(ptr);
-
     if (currentTracker)
         currentTracker->handleFree(ptr);
+
+    real_func(ptr);
 }

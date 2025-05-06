@@ -21,6 +21,28 @@ void test_memallocs_atomic::mallocAndFree()
     QCOMPARE(tracker.getAllocCount(), 0);
 }
 
+void test_memallocs_atomic::mallocTwiceAndFree()
+{
+    TestMemAllocTracker tracker;
+
+    char *mem1 = reinterpret_cast<char*>(malloc(100));
+    QCOMPARE(tracker.getAllocCount(), 1);
+    char *mem2 = reinterpret_cast<char*>(malloc(100));
+    QCOMPARE(tracker.getAllocCount(), 2);
+
+    QVERIFY(mem1);
+    if (mem1)
+        strcpy(mem1, "Avoid optimize out 1");
+    QVERIFY(mem2);
+    if (mem2)
+        strcpy(mem2, "Avoid optimize out 2");
+
+    free(mem1);
+    QCOMPARE(tracker.getAllocCount(), 1);
+    free(mem2);
+    QCOMPARE(tracker.getAllocCount(), 0);
+}
+
 void test_memallocs_atomic::newAndDelete()
 {
     TestMemAllocTracker tracker;
