@@ -4,7 +4,13 @@
 #include <QStringList>
 #include <execinfo.h>
 
-static constexpr int maxStacktraceDepth = 20;
+// If
+// * we miss important
+// * test_memallocs_atomic starts to fail
+//
+// increase maxStacktraceDepth but be aware it slows down
+// tests significantly
+static constexpr int maxStacktraceDepth = 15;
 
 class TestBacktraceGenerator
 {

@@ -66,6 +66,17 @@ void test_memallocs_atomic::newAndDelete()
     QString *string = new QString;
     QCOMPARE(tracker.getAllocCount(), 1);
 
+    tracker.stop();
+    TestMemAllocTracker::MemsAllocated mems = tracker.getRawMemRegions();
+    QCOMPARE(mems.count(), 1);
+    QStringList symbols = TestBacktraceGenerator::generateSymbols(&mems[0].m_backTrace);
+    bool found = false;
+    for (const QString &entry : symbols)
+        if (entry.contains("newAndDelete"))
+            found = true;
+    QVERIFY(found);
+
+    tracker.start();
     delete string;
     QCOMPARE(tracker.getAllocCount(), 0);
 }
@@ -78,6 +89,40 @@ void test_memallocs_atomic::makeSharedAndReset()
     std::shared_ptr<QString> string = std::make_shared<QString>();
     QCOMPARE(tracker.getAllocCount(), 1);
 
+    tracker.stop();
+    TestMemAllocTracker::MemsAllocated mems = tracker.getRawMemRegions();
+    QCOMPARE(mems.count(), 1);
+    QStringList symbols = TestBacktraceGenerator::generateSymbols(&mems[0].m_backTrace);
+    bool found = false;
+    for (const QString &entry : symbols)
+        if (entry.contains("makeSharedAndReset"))
+            found = true;
+    QVERIFY(found);
+
+    tracker.start();
+    string.reset();
+    QCOMPARE(tracker.getAllocCount(), 0);
+}
+
+void test_memallocs_atomic::makeUniqueAndReset()
+{
+    TestMemAllocTracker tracker;
+    tracker.start();
+
+    std::unique_ptr<QString> string = std::make_unique<QString>();
+    QCOMPARE(tracker.getAllocCount(), 1);
+
+    tracker.stop();
+    TestMemAllocTracker::MemsAllocated mems = tracker.getRawMemRegions();
+    QCOMPARE(mems.count(), 1);
+    QStringList symbols = TestBacktraceGenerator::generateSymbols(&mems[0].m_backTrace);
+    bool found = false;
+    for (const QString &entry : symbols)
+        if (entry.contains("makeUniqueAndReset"))
+            found = true;
+    QVERIFY(found);
+
+    tracker.start();
     string.reset();
     QCOMPARE(tracker.getAllocCount(), 0);
 }

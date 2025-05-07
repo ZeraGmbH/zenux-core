@@ -11,6 +11,7 @@ private slots:
     void mallocTwiceAndFree();
     void newAndDelete();
     void makeSharedAndReset();
+    void makeUniqueAndReset();
     void heapNone();
 };
 
