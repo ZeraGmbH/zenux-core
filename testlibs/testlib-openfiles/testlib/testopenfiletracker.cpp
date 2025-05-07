@@ -4,15 +4,17 @@ TestOpenFileTracker* m_trackerInstance = nullptr;
 
 // C-interface
 extern "C" void handleOpenFile(const char *path, int fd) {
-    if(m_trackerInstance && fd >= 0)
+    if (m_trackerInstance && fd >= 0)
         m_trackerInstance->onHandleOpenFile(path, fd);
 }
 extern "C" void handleFOpenFile(const char *path, FILE *stream) {
-    int fd = fileno(stream);
-    handleOpenFile(path, fd);
+    if (stream) {
+        int fd = fileno(stream);
+        handleOpenFile(path, fd);
+    }
 }
 extern "C" void handleCloseFile(int ret, int fd) {
-    if(m_trackerInstance && ret == 0)
+    if (m_trackerInstance && ret == 0)
         m_trackerInstance->onHandleCloseFile(fd);
 }
 
