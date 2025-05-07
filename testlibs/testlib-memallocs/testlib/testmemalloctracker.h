@@ -15,11 +15,11 @@ public:
 
     int getAllocCount() const;
 
-    void handleMalloc(size_t size, const void* mem);
-    void handleFree(const void* mem);
+    void handleMalloc(size_t size, const void* allocatedMemory);
+    void handleFree(const void* allocatedMemory);
 
     struct TAllocatedMemRegion {
-        size_t m_size;
+        size_t m_allocatedSize;
         QStringList m_backtraceRaw;
     };
     typedef QList<TAllocatedMemRegion> MemsAllocated;

@@ -30,18 +30,17 @@ int TestMemAllocTracker::getAllocCount() const
     return m_allocatedRegions.size();
 }
 
-void TestMemAllocTracker::handleMalloc(size_t size, const void *mem)
+void TestMemAllocTracker::handleMalloc(size_t size, const void *allocatedMemory)
 {
     startIgnoreMallocFrees();
-    TestBacktraceGenerator gen;
-    m_allocatedRegions[mem] = { size, gen.createBacktraceRaw("malloc") };
+    m_allocatedRegions[allocatedMemory] = { size, TestBacktraceGenerator::createBacktraceRaw("malloc") };
     stopIgnoreMallocFreess();
 }
 
-void TestMemAllocTracker::handleFree(const void *mem)
+void TestMemAllocTracker::handleFree(const void *allocatedMemory)
 {
     startIgnoreMallocFrees();
-    m_allocatedRegions.remove(mem);
+    m_allocatedRegions.remove(allocatedMemory);
     stopIgnoreMallocFreess();
 }
 
