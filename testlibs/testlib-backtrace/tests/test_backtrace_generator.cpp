@@ -6,8 +6,10 @@ QTEST_MAIN(test_backtrace_generator)
 
 void test_backtrace_generator::generateBacktrace()
 {
-    QStringList rawBacktrace = TestBacktraceGenerator::createBacktraceRaw();
-    QVERIFY(logOnNotContains(rawBacktrace[0], "generateBacktrace"));
+    TestBacktraceGenerator::BacktraceRaw btrace;
+    TestBacktraceGenerator::createBacktraceRaw(&btrace);
+    QStringList symbols = TestBacktraceGenerator::generateSymbols(&btrace);
+    QVERIFY(logOnNotContains(symbols[0], "generateBacktrace"));
 }
 
 void test_backtrace_generator::generateBacktraceThroughIntermediateFunction()
@@ -28,5 +30,7 @@ bool test_backtrace_generator::logOnNotContains(const QString &found, const QStr
 
 QStringList test_backtrace_generator::intermediateBacktraceFkt()
 {
-    return TestBacktraceGenerator::createBacktraceRaw();
+    TestBacktraceGenerator::BacktraceRaw btrace;
+    TestBacktraceGenerator::createBacktraceRaw(&btrace);
+    return TestBacktraceGenerator::generateSymbols(&btrace);
 }

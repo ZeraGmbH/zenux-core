@@ -1,36 +1,62 @@
 #include "testbacktracegenerator.h"
-#include <execinfo.h>
 
-QStringList TestBacktraceGenerator::createBacktraceRaw(const QString &removeCFunctionAndAllAbove)
+static void *mallocPointer = nullptr;
+
+void TestBacktraceGenerator::createBacktraceRaw(BacktraceRaw *btrace)
 {
-    void* buffer[50];
-    int frames = backtrace(buffer, 50);
-    char** symbols = backtrace_symbols(buffer, frames);
-
-    QStringList backtrace;
-    for (int i = 0; i < frames; i++)
-        backtrace.append(symbols[i]);
-    free(symbols);
-
-    return removeUnwantedTopTraces(removeFileName(backtrace), removeCFunctionAndAllAbove);
+    int backtraceCount = backtrace(btrace->bufferBacktrace, maxStacktraceDepth);
+    btrace->startPos = 1; // ignore myself
+    btrace->afterLastPos = backtraceCount;
+    cacheSpecialFunctionAddresses(btrace); // move because most allocatiions are freed
+    alignStartPosition(btrace);
 }
 
-QStringList TestBacktraceGenerator::removeUnwantedTopTraces(const QStringList &backtrace,
-                                                            const QString &removeCFunctionAndAllAbove)
+void TestBacktraceGenerator::alignStartPosition(BacktraceRaw *btrace)
 {
-    int maxIdxCallingFunction = -1;
-    for (int currBacktrace = 0; currBacktrace < backtrace.count(); currBacktrace++) {
-        if (backtrace[currBacktrace].contains("createBacktraceRaw"))
-            maxIdxCallingFunction = currBacktrace;
-        if (!removeCFunctionAndAllAbove.isEmpty() && backtrace[currBacktrace].startsWith(removeCFunctionAndAllAbove + "+"))
-            maxIdxCallingFunction = currBacktrace;
+    for (int i=btrace->startPos; i<btrace->afterLastPos-1; ++i) {
+        const void* currPointer = btrace->bufferBacktrace[i];
+        if (currPointer == mallocPointer) {
+            btrace->startPos = i+1;
+            break;
+        }
     }
+}
 
-    QStringList adjustedBacktrace = backtrace;
-        if (maxIdxCallingFunction >= 0)
-            for (int i=0; i<=maxIdxCallingFunction; i++)
-                adjustedBacktrace.removeFirst();
-    return adjustedBacktrace;
+void TestBacktraceGenerator::cacheSpecialFunctionAddresses(BacktraceRaw *btrace)
+{
+    if (mallocPointer)
+        return;
+    const QStringList stackTexts = generateAllSymbols(btrace);
+    for (int i=0; i<stackTexts.count()-1; i++) {
+        const QString &entry = stackTexts[i];
+        if (entry.startsWith("malloc+"))
+            mallocPointer = btrace->bufferBacktrace[i];
+    }
+}
+
+QStringList TestBacktraceGenerator::generateSymbols(BacktraceRaw *btrace) // remove or move somewhere else later?
+{
+    QStringList backtrace;
+    // we need to fetch full backtrace otherwise 1st has missing symbol
+    char** symbols = backtrace_symbols(btrace->bufferBacktrace,
+                                       btrace->afterLastPos);
+    for (int i = btrace->startPos; i < btrace->afterLastPos; i++)
+        backtrace.append(symbols[i]);
+    free(symbols);
+    QStringList backtraceNoFilenames = removeFileName(backtrace);
+    return backtraceNoFilenames;
+}
+
+QStringList TestBacktraceGenerator::generateAllSymbols(BacktraceRaw *btrace)
+{
+    QStringList backtrace;
+    char** symbols = backtrace_symbols(btrace->bufferBacktrace,
+                                       btrace->afterLastPos);
+    for (int i = 0; i < btrace->afterLastPos; i++)
+        backtrace.append(symbols[i]);
+    free(symbols);
+    QStringList backtraceNoFilenames = removeFileName(backtrace);
+    return backtraceNoFilenames;
 }
 
 QStringList TestBacktraceGenerator::removeFileName(const QStringList &backtrace)

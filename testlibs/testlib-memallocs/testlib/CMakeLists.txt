@@ -22,8 +22,8 @@ target_include_directories(testlib-memallocs
 target_link_libraries(testlib-memallocs
     PUBLIC
     Qt5::Core
-    PRIVATE
     testlib-backtrace
+    PRIVATE
     dl
 )
 

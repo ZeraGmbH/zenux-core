@@ -13,6 +13,7 @@ function(SETUP_OPENFILE_TESTS)
             testlib-memallocs
             -Wl,--no-whole-archive
             Qt5::Test
+            testlib-backtrace
             )
     endforeach()
 endfunction()

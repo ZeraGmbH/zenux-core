@@ -1,5 +1,6 @@
 #include "test_memallocs_atomic.h"
 #include "testmemalloctracker.h"
+#include "testbacktracegenerator.h"
 #include <QTest>
 #include <memory>
 #include <stdlib.h>
@@ -44,8 +45,11 @@ void test_memallocs_atomic::mallocTwiceAndFree()
     // currently unpredictable sequence / we need some statistics
     //QCOMPARE(mems[0].m_size, 100);
     //QCOMPARE(mems[1].m_size, 200);
-    QVERIFY(mems[0].m_backtraceRaw[0].contains("mallocTwiceAndFree"));
-    QVERIFY(mems[1].m_backtraceRaw[0].contains("mallocTwiceAndFree"));
+    QStringList symbols;
+    symbols = TestBacktraceGenerator::generateSymbols(&mems[0].m_backTrace);
+    QVERIFY(symbols[0].contains("mallocTwiceAndFree"));
+    symbols = TestBacktraceGenerator::generateSymbols(&mems[1].m_backTrace);
+    QVERIFY(symbols[0].contains("mallocTwiceAndFree"));
 
     tracker.start();
     free(mem1);

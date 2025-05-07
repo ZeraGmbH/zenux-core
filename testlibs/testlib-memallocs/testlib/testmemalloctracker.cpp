@@ -1,5 +1,4 @@
 #include "testmemalloctracker.h"
-#include "testbacktracegenerator.h"
 
 TestMemAllocTracker::TestMemAllocTracker()
 {
@@ -33,7 +32,9 @@ int TestMemAllocTracker::getAllocCount() const
 void TestMemAllocTracker::handleMalloc(size_t size, const void *allocatedMemory)
 {
     startIgnoreMallocFrees();
-    m_allocatedRegions[allocatedMemory] = { size, TestBacktraceGenerator::createBacktraceRaw("malloc") };
+    TestBacktraceGenerator::BacktraceRaw btrace;
+    TestBacktraceGenerator::createBacktraceRaw(&btrace);
+    m_allocatedRegions[allocatedMemory] = { size, btrace };
     stopIgnoreMallocFreess();
 }
 
