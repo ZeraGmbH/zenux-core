@@ -13,11 +13,12 @@ function(SETUP_OPENFILE_TESTS)
             testlib-memallocs
             -Wl,--no-whole-archive
             Qt5::Test
-            testlib-backtrace
+            testlib-memallocs
             )
     endforeach()
 endfunction()
 
 SETUP_OPENFILE_TESTS(
+    test_memory_alloc_backtrace_generator
     test_memallocs_atomic
     )
