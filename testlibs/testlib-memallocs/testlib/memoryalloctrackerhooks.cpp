@@ -1,4 +1,4 @@
-#include "testmemalloctracker.h"
+#include "memoryalloctracker.h"
 #include <QMutexLocker>
 #include <atomic>
 #include <stdlib.h>
@@ -7,9 +7,9 @@
 
 static std::atomic_bool ignoreMallocFreess;
 static QMutex mutex;
-static TestMemAllocTracker* currentTracker;
+static MemoryAllocTracker* currentTracker;
 
-void setTracker(TestMemAllocTracker* tracker) {
+void setTracker(MemoryAllocTracker* tracker) {
     QMutexLocker locker(&mutex);
     currentTracker = tracker;
 }
@@ -17,7 +17,7 @@ void setTracker(TestMemAllocTracker* tracker) {
 void startIgnoreMallocFrees() {
     ignoreMallocFreess.store(true);
 }
-void stopIgnoreMallocFreess() {
+void stopIgnoreMallocFrees() {
     ignoreMallocFreess.store(false);
 }
 

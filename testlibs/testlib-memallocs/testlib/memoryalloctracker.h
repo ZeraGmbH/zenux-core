@@ -1,15 +1,15 @@
-#ifndef TESTMEMALLOCTRACKER_H
-#define TESTMEMALLOCTRACKER_H
+#ifndef MEMORYALLOCTRACKER_H
+#define MEMORYALLOCTRACKER_H
 
 #include "memoryallocbacktracegenerator.h"
 #include <stddef.h>
 #include <QHash>
 
-class TestMemAllocTracker
+class MemoryAllocTracker
 {
 public:
-    TestMemAllocTracker();
-    virtual ~TestMemAllocTracker();
+    MemoryAllocTracker();
+    virtual ~MemoryAllocTracker();
     void start();
     void stop();
     void clear();
@@ -30,8 +30,8 @@ private:
     QHash<const void*, TAllocatedMemRegion> m_allocatedRegions;
 };
 
-void setTracker(TestMemAllocTracker* tracker);
+void setTracker(MemoryAllocTracker* tracker);
 void startIgnoreMallocFrees();
-void stopIgnoreMallocFreess();
+void stopIgnoreMallocFrees();
 
-#endif // TESTMEMALLOCTRACKER_H
+#endif // MEMORYALLOCTRACKER_H
