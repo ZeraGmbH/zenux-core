@@ -1,8 +1,8 @@
-#include "testbacktracegenerator.h"
+#include "memoryallocbacktracegenerator.h"
 
 static void *mallocPointer = nullptr;
 
-void TestBacktraceGenerator::createBacktraceRaw(BacktraceRaw *btrace)
+void MemoryAllocBacktraceGenerator::createBacktraceRaw(BacktraceRaw *btrace)
 {
     int backtraceCount = backtrace(btrace->bufferBacktrace, maxStacktraceDepth);
     btrace->startPos = 1; // ignore myself
@@ -11,7 +11,7 @@ void TestBacktraceGenerator::createBacktraceRaw(BacktraceRaw *btrace)
     alignStartPosition(btrace);
 }
 
-void TestBacktraceGenerator::alignStartPosition(BacktraceRaw *btrace)
+void MemoryAllocBacktraceGenerator::alignStartPosition(BacktraceRaw *btrace)
 {
     for (int i=btrace->startPos; i<btrace->afterLastPos-1; ++i) {
         const void* currPointer = btrace->bufferBacktrace[i];
@@ -22,7 +22,7 @@ void TestBacktraceGenerator::alignStartPosition(BacktraceRaw *btrace)
     }
 }
 
-void TestBacktraceGenerator::cacheSpecialFunctionAddresses(BacktraceRaw *btrace)
+void MemoryAllocBacktraceGenerator::cacheSpecialFunctionAddresses(BacktraceRaw *btrace)
 {
     if (mallocPointer)
         return;
@@ -34,7 +34,7 @@ void TestBacktraceGenerator::cacheSpecialFunctionAddresses(BacktraceRaw *btrace)
     }
 }
 
-QStringList TestBacktraceGenerator::generateSymbols(BacktraceRaw *btrace) // remove or move somewhere else later?
+QStringList MemoryAllocBacktraceGenerator::generateSymbols(BacktraceRaw *btrace) // remove or move somewhere else later?
 {
     QStringList backtrace;
     // we need to fetch full backtrace otherwise 1st has missing symbol
@@ -47,7 +47,7 @@ QStringList TestBacktraceGenerator::generateSymbols(BacktraceRaw *btrace) // rem
     return backtraceNoFilenames;
 }
 
-QStringList TestBacktraceGenerator::generateAllSymbols(BacktraceRaw *btrace)
+QStringList MemoryAllocBacktraceGenerator::generateAllSymbols(BacktraceRaw *btrace)
 {
     QStringList backtrace;
     char** symbols = backtrace_symbols(btrace->bufferBacktrace,
@@ -59,7 +59,7 @@ QStringList TestBacktraceGenerator::generateAllSymbols(BacktraceRaw *btrace)
     return backtraceNoFilenames;
 }
 
-QStringList TestBacktraceGenerator::removeFileName(const QStringList &backtrace)
+QStringList MemoryAllocBacktraceGenerator::removeFileName(const QStringList &backtrace)
 {
     QStringList adjustedBacktrace;
     for (int currBacktrace = 0; currBacktrace < backtrace.count(); currBacktrace++) {

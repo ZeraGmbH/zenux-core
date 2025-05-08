@@ -1,4 +1,4 @@
-function(SETUP_OPENFILE_TESTS)
+function(SETUP_MEMORY_ALLOC_BACKTRACE)
     foreach(_testname ${ARGN})
         add_test(NAME ${_testname} COMMAND ${_testname})
         add_executable(${_testname} ${_testname}.h ${_testname}.cpp)
@@ -15,6 +15,6 @@ function(SETUP_OPENFILE_TESTS)
     endforeach()
 endfunction()
 
-SETUP_OPENFILE_TESTS(
-    test_backtrace_generator
+SETUP_MEMORY_ALLOC_BACKTRACE(
+    test_memory_alloc_backtrace_generator
     )

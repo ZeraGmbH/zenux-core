@@ -32,8 +32,8 @@ int TestMemAllocTracker::getAllocCount() const
 void TestMemAllocTracker::handleMalloc(size_t size, const void *allocatedMemory)
 {
     startIgnoreMallocFrees();
-    TestBacktraceGenerator::BacktraceRaw btrace;
-    TestBacktraceGenerator::createBacktraceRaw(&btrace);
+    MemoryAllocBacktraceGenerator::BacktraceRaw btrace;
+    MemoryAllocBacktraceGenerator::createBacktraceRaw(&btrace);
     m_allocatedRegions[allocatedMemory] = { size, btrace };
     stopIgnoreMallocFreess();
 }

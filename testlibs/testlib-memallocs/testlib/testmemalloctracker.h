@@ -1,7 +1,7 @@
 #ifndef TESTMEMALLOCTRACKER_H
 #define TESTMEMALLOCTRACKER_H
 
-#include "testbacktracegenerator.h"
+#include "memoryallocbacktracegenerator.h"
 #include <stddef.h>
 #include <QHash>
 
@@ -19,7 +19,7 @@ public:
 
     struct TAllocatedMemRegion {
         size_t m_allocatedSize = 0;
-        TestBacktraceGenerator::BacktraceRaw m_backTrace;
+        MemoryAllocBacktraceGenerator::BacktraceRaw m_backTrace;
     };
     typedef QList<TAllocatedMemRegion> MemsAllocated;
 

@@ -1,5 +1,5 @@
-#ifndef TESTBACKTRACEGENERATOR_H
-#define TESTBACKTRACEGENERATOR_H
+#ifndef MEMORYALLOCBACKTRACEGENERATOR_H
+#define MEMORYALLOCBACKTRACEGENERATOR_H
 
 #include <QStringList>
 #include <execinfo.h>
@@ -12,7 +12,7 @@
 // tests significantly
 static constexpr int maxStacktraceDepth = 15;
 
-class TestBacktraceGenerator
+class MemoryAllocBacktraceGenerator
 {
 public:
     struct BacktraceRaw {
@@ -33,4 +33,4 @@ private:
     static QStringList removeFileName(const QStringList &backtrace);
 };
 
-#endif // TESTBACKTRACEGENERATOR_H
+#endif // MEMORYALLOCBACKTRACEGENERATOR_H

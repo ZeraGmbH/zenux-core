@@ -1,10 +1,10 @@
-#ifndef TEST_BACKTRACE_GENERATOR_H
-#define TEST_BACKTRACE_GENERATOR_H
+#ifndef TEST_MEMORY_ALLOC_BACKTRACE_GENERATOR_H
+#define TEST_MEMORY_ALLOC_BACKTRACE_GENERATOR_H
 
 #include <QObject>
 #include <QStringList>
 
-class test_backtrace_generator : public QObject
+class test_memory_alloc_backtrace_generator : public QObject
 {
     Q_OBJECT
 private slots:
@@ -15,4 +15,4 @@ private:
     QStringList intermediateBacktraceFkt();
 };
 
-#endif // TEST_BACKTRACE_GENERATOR_H
+#endif // TEST_MEMORY_ALLOC_BACKTRACE_GENERATOR_H

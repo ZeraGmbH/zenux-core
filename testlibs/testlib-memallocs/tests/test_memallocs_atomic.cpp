@@ -1,6 +1,6 @@
 #include "test_memallocs_atomic.h"
 #include "testmemalloctracker.h"
-#include "testbacktracegenerator.h"
+#include "memoryallocbacktracegenerator.h"
 #include <QTest>
 #include <memory>
 #include <stdlib.h>
@@ -46,9 +46,9 @@ void test_memallocs_atomic::mallocTwiceAndFree()
     //QCOMPARE(mems[0].m_size, 100);
     //QCOMPARE(mems[1].m_size, 200);
     QStringList symbols;
-    symbols = TestBacktraceGenerator::generateSymbols(&mems[0].m_backTrace);
+    symbols = MemoryAllocBacktraceGenerator::generateSymbols(&mems[0].m_backTrace);
     QVERIFY(symbols[0].contains("mallocTwiceAndFree"));
-    symbols = TestBacktraceGenerator::generateSymbols(&mems[1].m_backTrace);
+    symbols = MemoryAllocBacktraceGenerator::generateSymbols(&mems[1].m_backTrace);
     QVERIFY(symbols[0].contains("mallocTwiceAndFree"));
 
     tracker.start();
@@ -69,7 +69,7 @@ void test_memallocs_atomic::newAndDelete()
     tracker.stop();
     TestMemAllocTracker::MemsAllocated mems = tracker.getRawMemRegions();
     QCOMPARE(mems.count(), 1);
-    QStringList symbols = TestBacktraceGenerator::generateSymbols(&mems[0].m_backTrace);
+    QStringList symbols = MemoryAllocBacktraceGenerator::generateSymbols(&mems[0].m_backTrace);
     bool found = false;
     for (const QString &entry : symbols)
         if (entry.contains("newAndDelete"))
@@ -92,7 +92,7 @@ void test_memallocs_atomic::makeSharedAndReset()
     tracker.stop();
     TestMemAllocTracker::MemsAllocated mems = tracker.getRawMemRegions();
     QCOMPARE(mems.count(), 1);
-    QStringList symbols = TestBacktraceGenerator::generateSymbols(&mems[0].m_backTrace);
+    QStringList symbols = MemoryAllocBacktraceGenerator::generateSymbols(&mems[0].m_backTrace);
     bool found = false;
     for (const QString &entry : symbols)
         if (entry.contains("makeSharedAndReset"))
@@ -115,7 +115,7 @@ void test_memallocs_atomic::makeUniqueAndReset()
     tracker.stop();
     TestMemAllocTracker::MemsAllocated mems = tracker.getRawMemRegions();
     QCOMPARE(mems.count(), 1);
-    QStringList symbols = TestBacktraceGenerator::generateSymbols(&mems[0].m_backTrace);
+    QStringList symbols = MemoryAllocBacktraceGenerator::generateSymbols(&mems[0].m_backTrace);
     bool found = false;
     for (const QString &entry : symbols)
         if (entry.contains("makeUniqueAndReset"))
