@@ -24,10 +24,6 @@ public:
     static QStringList generateSymbols(BacktraceRaw *btrace);
 
 private:
-    static QStringList generateAllSymbols(BacktraceRaw *btrace);
-    static void alignStartPosition(BacktraceRaw *btrace);
-    static void cacheSpecialFunctionAddresses(BacktraceRaw *btrace);
-
     static QStringList removeUnwantedTopTraces(const QStringList &backtrace,
                                                const QString &removeCFunctionAndAllAbove);
     static QStringList removeFileName(const QStringList &backtrace);

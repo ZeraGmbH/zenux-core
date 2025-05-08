@@ -1,37 +1,10 @@
 #include "memoryallocbacktracegenerator.h"
 
-static void *mallocPointer = nullptr;
-
 void MemoryAllocBacktraceGenerator::createBacktraceRaw(BacktraceRaw *btrace)
 {
     int backtraceCount = backtrace(btrace->bufferBacktrace, maxStacktraceDepth);
-    btrace->startPos = 1; // ignore myself
+    btrace->startPos = 3; // after malloc - we have tests
     btrace->afterLastPos = backtraceCount;
-    cacheSpecialFunctionAddresses(btrace); // move because most allocatiions are freed
-    alignStartPosition(btrace);
-}
-
-void MemoryAllocBacktraceGenerator::alignStartPosition(BacktraceRaw *btrace)
-{
-    for (int i=btrace->startPos; i<btrace->afterLastPos-1; ++i) {
-        const void* currPointer = btrace->bufferBacktrace[i];
-        if (currPointer == mallocPointer) {
-            btrace->startPos = i+1;
-            break;
-        }
-    }
-}
-
-void MemoryAllocBacktraceGenerator::cacheSpecialFunctionAddresses(BacktraceRaw *btrace)
-{
-    if (mallocPointer)
-        return;
-    const QStringList stackTexts = generateAllSymbols(btrace);
-    for (int i=0; i<stackTexts.count()-1; i++) {
-        const QString &entry = stackTexts[i];
-        if (entry.startsWith("malloc+"))
-            mallocPointer = btrace->bufferBacktrace[i];
-    }
 }
 
 QStringList MemoryAllocBacktraceGenerator::generateSymbols(BacktraceRaw *btrace) // remove or move somewhere else later?
@@ -41,18 +14,6 @@ QStringList MemoryAllocBacktraceGenerator::generateSymbols(BacktraceRaw *btrace)
     char** symbols = backtrace_symbols(btrace->bufferBacktrace,
                                        btrace->afterLastPos);
     for (int i = btrace->startPos; i < btrace->afterLastPos; i++)
-        backtrace.append(symbols[i]);
-    free(symbols);
-    QStringList backtraceNoFilenames = removeFileName(backtrace);
-    return backtraceNoFilenames;
-}
-
-QStringList MemoryAllocBacktraceGenerator::generateAllSymbols(BacktraceRaw *btrace)
-{
-    QStringList backtrace;
-    char** symbols = backtrace_symbols(btrace->bufferBacktrace,
-                                       btrace->afterLastPos);
-    for (int i = 0; i < btrace->afterLastPos; i++)
         backtrace.append(symbols[i]);
     free(symbols);
     QStringList backtraceNoFilenames = removeFileName(backtrace);
