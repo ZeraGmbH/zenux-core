@@ -25,7 +25,7 @@ void test_memallocs_atomic::mallocAndFree()
 
 void test_memallocs_atomic::mallocTwiceAndFree()
 {
-    MemoryAllocTracker tracker;
+    MemoryAllocTracker tracker(std::make_unique<MemoryAllocatorFunctionPtrCache>());
 
     tracker.start();
     char *mem1 = reinterpret_cast<char*>(malloc(100));
@@ -40,7 +40,7 @@ void test_memallocs_atomic::mallocTwiceAndFree()
         strcpy(mem2, "Avoid optimize out 2");
     tracker.stop();
 
-    MemoryAllocTracker::MemsAllocated mems = tracker.getRawMemRegions();
+    MemoryChunksAllocated mems = tracker.getRawMemRegions();
     QCOMPARE(mems.count(), 2);
     // currently unpredictable sequence / we need some statistics
     //QCOMPARE(mems[0].m_size, 100);
@@ -60,21 +60,17 @@ void test_memallocs_atomic::mallocTwiceAndFree()
 
 void test_memallocs_atomic::newAndDelete()
 {
-    MemoryAllocTracker tracker;
+    MemoryAllocTracker tracker(std::make_unique<MemoryAllocatorFunctionPtrCache>());
     tracker.start();
 
     QString *string = new QString;
     QCOMPARE(tracker.getAllocCount(), 1);
 
     tracker.stop();
-    MemoryAllocTracker::MemsAllocated mems = tracker.getRawMemRegions();
+    MemoryChunksAllocated mems = tracker.getRawMemRegions();
     QCOMPARE(mems.count(), 1);
     QStringList symbols = MemoryAllocBacktraceGenerator::generateSymbols(&mems[0].m_backTrace);
-    bool found = false;
-    for (const QString &entry : symbols)
-        if (entry.contains("newAndDelete"))
-            found = true;
-    QVERIFY(found);
+    QVERIFY(symbols[0].contains("newAndDelete"));
 
     tracker.start();
     delete string;
@@ -83,21 +79,21 @@ void test_memallocs_atomic::newAndDelete()
 
 void test_memallocs_atomic::makeSharedAndReset()
 {
-    MemoryAllocTracker tracker;
+    MemoryAllocTracker tracker(std::make_unique<MemoryAllocatorFunctionPtrCache>());
     tracker.start();
 
     std::shared_ptr<QString> string = std::make_shared<QString>();
     QCOMPARE(tracker.getAllocCount(), 1);
 
     tracker.stop();
-    MemoryAllocTracker::MemsAllocated mems = tracker.getRawMemRegions();
+    MemoryChunksAllocated mems = tracker.getRawMemRegions();
     QCOMPARE(mems.count(), 1);
     QStringList symbols = MemoryAllocBacktraceGenerator::generateSymbols(&mems[0].m_backTrace);
-    bool found = false;
-    for (const QString &entry : symbols)
-        if (entry.contains("makeSharedAndReset"))
-            found = true;
-    QVERIFY(found);
+
+    void (test_memallocs_atomic::* funcPointer)() = &test_memallocs_atomic::makeSharedAndReset;
+    void *ptr = reinterpret_cast<void*>(funcPointer);
+    QCOMPARE(funcPointer, mems[0].m_backTrace.bufferBacktrace[mems[0].m_backTrace.startPos]);
+    QVERIFY(symbols[0].contains("makeSharedAndReset"));
 
     tracker.start();
     string.reset();
@@ -106,21 +102,17 @@ void test_memallocs_atomic::makeSharedAndReset()
 
 void test_memallocs_atomic::makeUniqueAndReset()
 {
-    MemoryAllocTracker tracker;
+    MemoryAllocTracker tracker(std::make_unique<MemoryAllocatorFunctionPtrCache>());
     tracker.start();
 
     std::unique_ptr<QString> string = std::make_unique<QString>();
     QCOMPARE(tracker.getAllocCount(), 1);
 
     tracker.stop();
-    MemoryAllocTracker::MemsAllocated mems = tracker.getRawMemRegions();
+    MemoryChunksAllocated mems = tracker.getRawMemRegions();
     QCOMPARE(mems.count(), 1);
     QStringList symbols = MemoryAllocBacktraceGenerator::generateSymbols(&mems[0].m_backTrace);
-    bool found = false;
-    for (const QString &entry : symbols)
-        if (entry.contains("makeUniqueAndReset"))
-            found = true;
-    QVERIFY(found);
+    QVERIFY(symbols[0].contains("makeUniqueAndReset"));
 
     tracker.start();
     string.reset();
@@ -129,7 +121,7 @@ void test_memallocs_atomic::makeUniqueAndReset()
 
 void test_memallocs_atomic::heapNone()
 {
-    MemoryAllocTracker tracker;
+    MemoryAllocTracker tracker(std::make_unique<MemoryAllocatorFunctionPtrCache>());
     tracker.start();
 
     QString string;

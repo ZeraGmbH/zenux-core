@@ -21,4 +21,5 @@ endfunction()
 SETUP_OPENFILE_TESTS(
     test_memory_alloc_backtrace_generator
     test_memallocs_atomic
+    test_memory_alloc_pointer_cache
     )

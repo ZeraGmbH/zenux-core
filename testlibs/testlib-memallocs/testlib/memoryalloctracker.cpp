@@ -1,6 +1,12 @@
 #include "memoryalloctracker.h"
+#include "memoryallocbacktracegenerator.h"
 
 MemoryAllocTracker::MemoryAllocTracker()
+{
+}
+
+MemoryAllocTracker::MemoryAllocTracker(std::unique_ptr<MemoryAllocatorFunctionPtrCache> allocFuncPtrCache) :
+    m_allocFuncPtrCache(std::move(allocFuncPtrCache))
 {
 }
 
@@ -32,8 +38,8 @@ int MemoryAllocTracker::getAllocCount() const
 void MemoryAllocTracker::handleMalloc(size_t size, const void *allocatedMemory)
 {
     startIgnoreMallocFrees();
-    MemoryAllocBacktraceGenerator::BacktraceRaw btrace;
-    MemoryAllocBacktraceGenerator::createBacktraceRaw(&btrace);
+    BacktraceRaw btrace;
+    MemoryAllocBacktraceGenerator::createBacktraceRaw(&btrace, m_allocFuncPtrCache.get());
     m_allocatedRegions[allocatedMemory] = { size, btrace };
     stopIgnoreMallocFrees();
 }
@@ -45,7 +51,7 @@ void MemoryAllocTracker::handleFree(const void *allocatedMemory)
     stopIgnoreMallocFrees();
 }
 
-const MemoryAllocTracker::MemsAllocated MemoryAllocTracker::getRawMemRegions()
+const MemoryChunksAllocated MemoryAllocTracker::getRawMemRegions()
 {
     return m_allocatedRegions.values();
 }

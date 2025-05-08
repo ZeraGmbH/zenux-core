@@ -1,35 +1,22 @@
 #ifndef MEMORYALLOCBACKTRACEGENERATOR_H
 #define MEMORYALLOCBACKTRACEGENERATOR_H
 
+#include "memoryallocbacktraceraw.h"
+#include "memoryallocatorfunctionptrcache.h"
 #include <QStringList>
 #include <execinfo.h>
 
-// If
-// * we miss important
-// * test_memallocs_atomic starts to fail
-//
-// increase maxStacktraceDepth but be aware it slows down
-// tests significantly
-static constexpr int maxStacktraceDepth = 15;
 
 class MemoryAllocBacktraceGenerator
 {
 public:
-    struct BacktraceRaw {
-        void *bufferBacktrace[maxStacktraceDepth];
-        int startPos = 0;
-        int afterLastPos = 0;
-    };
-    static void createBacktraceRaw(BacktraceRaw *btrace);
-    static QStringList generateSymbols(BacktraceRaw *btrace);
+    static void createBacktraceRaw(BacktraceRaw *btrace,
+                                   MemoryAllocatorFunctionPtrCache* allocFuncPtrCache);
+    static QStringList generateSymbols(const BacktraceRaw *btrace);
 
 private:
-    static QStringList generateAllSymbols(BacktraceRaw *btrace);
-    static void alignStartPosition(BacktraceRaw *btrace);
-    static void cacheSpecialFunctionAddresses(BacktraceRaw *btrace);
-
-    static QStringList removeUnwantedTopTraces(const QStringList &backtrace,
-                                               const QString &removeCFunctionAndAllAbove);
+    static void alignStartPosition(BacktraceRaw *btrace,
+                                   MemoryAllocatorFunctionPtrCache* allocFuncPtrCache);
     static QStringList removeFileName(const QStringList &backtrace);
 };
 

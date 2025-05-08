@@ -6,8 +6,9 @@ QTEST_MAIN(test_memory_alloc_backtrace_generator)
 
 void test_memory_alloc_backtrace_generator::generateBacktrace()
 {
-    MemoryAllocBacktraceGenerator::BacktraceRaw btrace;
-    MemoryAllocBacktraceGenerator::createBacktraceRaw(&btrace);
+    BacktraceRaw btrace;
+    MemoryAllocatorFunctionPtrCache cache;
+    MemoryAllocBacktraceGenerator::createBacktraceRaw(&btrace, &cache);
     QStringList symbols = MemoryAllocBacktraceGenerator::generateSymbols(&btrace);
     QVERIFY(logOnNotContains(symbols[0], "generateBacktrace"));
 }
@@ -30,7 +31,8 @@ bool test_memory_alloc_backtrace_generator::logOnNotContains(const QString &foun
 
 QStringList test_memory_alloc_backtrace_generator::intermediateBacktraceFkt()
 {
-    MemoryAllocBacktraceGenerator::BacktraceRaw btrace;
-    MemoryAllocBacktraceGenerator::createBacktraceRaw(&btrace);
+    BacktraceRaw btrace;
+    MemoryAllocatorFunctionPtrCache cache;
+    MemoryAllocBacktraceGenerator::createBacktraceRaw(&btrace, &cache);
     return MemoryAllocBacktraceGenerator::generateSymbols(&btrace);
 }
