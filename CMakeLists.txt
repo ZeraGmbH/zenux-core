@@ -15,7 +15,7 @@ include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 include(GenerateExportHeader)
 
-find_package(Qt5 COMPONENTS Core XmlPatterns Test CONFIG REQUIRED)
+find_package(Qt5 COMPONENTS Core Xml XmlPatterns Test CONFIG REQUIRED)
 
 enable_testing()
 
@@ -33,11 +33,13 @@ function(SETUP_QTESTS)
         target_link_libraries(${_testname}
             PUBLIC
             Qt5::Test
+            Qt5::Xml
             zera-timers-testlib
             zera-log-statistics
             tasks-base-testlib
             zera-xmlconfig
             xml-config-test-data
+            xml-compare-testlib
             )
     endforeach()
 endfunction()

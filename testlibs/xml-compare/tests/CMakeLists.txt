@@ -1,0 +1,10 @@
+SETUP_QTESTS(
+    test_xmldocumentcompare
+    test_xmldocument
+    test_xmlelemcompareattribs
+    test_xmlelemcomparetext
+    test_xmlelemiter
+    test_xmlelemiteratorlist
+    test_xmlelemiteratorsort
+    test_xmlelemiteratortree
+)

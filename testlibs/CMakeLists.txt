@@ -1,3 +1,4 @@
-add_subdirectory(testlib-common)
-add_subdirectory(testlib-memallocs)
-add_subdirectory(testlib-openfiles)
+add_subdirectory(common)
+add_subdirectory(memallocs)
+add_subdirectory(openfiles)
+add_subdirectory(xml-compare)
