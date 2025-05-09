@@ -18,6 +18,7 @@ class ZERA_XMLCONFIG_EXPORT cReader : public QObject
     Q_OBJECT
 public:
     explicit cReader(QObject *parent = 0);
+    ~cReader();
     bool loadSchema(QString filePath);
     bool loadXMLFile(QString path);
     bool loadXMLFromString(QString xmlString);

@@ -17,6 +17,11 @@ cReader::cReader(QObject *parent) :
 {
 }
 
+cReader::~cReader()
+{
+    delete d_ptr;
+}
+
 bool cReader::loadSchema(QString filePath)
 {
     bool retVal = false;
