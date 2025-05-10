@@ -37,8 +37,6 @@ function(SETUP_QTESTS)
             zera-timers-testlib
             zera-log-statistics
             tasks-base-testlib
-            zera-xmlconfig
-            xml-config-test-data
             xml-compare-testlib
             )
     endforeach()
@@ -47,7 +45,6 @@ endfunction()
 add_subdirectory(zera-tasks-base)
 add_subdirectory(zera-timers)
 add_subdirectory(zera-log-statistics)
-add_subdirectory(zera-xmlconfig)
 add_subdirectory(testlibs)
 
 write_basic_package_version_file(
