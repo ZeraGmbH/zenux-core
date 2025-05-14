@@ -1,8 +1,17 @@
 #include "memoryalloctracker.h"
+#include "backtracerawtools.h"
+#include <QHash>
+
+
+static QHash<const void*, AllocatedWithBacktraceRaw> rawAllocations;
+static bool cacheDirty = true;
+static QList<AllocatedWithBacktraces> allocationsCached;
+
 
 MemoryAllocTracker::MemoryAllocTracker()
 {
 }
+
 
 MemoryAllocTracker::~MemoryAllocTracker()
 {
@@ -21,31 +30,34 @@ void MemoryAllocTracker::stop()
 
 void MemoryAllocTracker::clear()
 {
-    m_allocatedRegions.clear();
+    rawAllocations.clear();
+    cacheDirty = true;
 }
 
 int MemoryAllocTracker::getAllocCount() const
 {
-    return m_allocatedRegions.size();
+    return rawAllocations.size();
 }
 
 void MemoryAllocTracker::handleMalloc(size_t size, const void *allocatedMemory)
 {
     startIgnoreMallocFrees();
-    MemoryAllocBacktraceGenerator::BacktraceRaw btrace;
-    MemoryAllocBacktraceGenerator::createBacktraceRaw(&btrace);
-    m_allocatedRegions[allocatedMemory] = { size, btrace };
+    cacheDirty = true;
+    AllocBacktraceRaw btrace;
+    BacktraceRawTools::fillBacktraceRaw(&btrace);
+    rawAllocations[allocatedMemory] = { size, btrace };
     stopIgnoreMallocFrees();
 }
 
 void MemoryAllocTracker::handleFree(const void *allocatedMemory)
 {
     startIgnoreMallocFrees();
-    m_allocatedRegions.remove(allocatedMemory);
+    cacheDirty = true;
+    rawAllocations.remove(allocatedMemory);
     stopIgnoreMallocFrees();
 }
 
-const MemoryAllocTracker::MemsAllocated MemoryAllocTracker::getRawMemRegions()
+const AllocatedWithBacktracesRaw MemoryAllocTracker::getRawAllocations()
 {
-    return m_allocatedRegions.values();
+    return rawAllocations.values();
 }

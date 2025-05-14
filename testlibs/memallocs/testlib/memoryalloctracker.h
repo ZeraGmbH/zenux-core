@@ -1,9 +1,7 @@
 #ifndef MEMORYALLOCTRACKER_H
 #define MEMORYALLOCTRACKER_H
 
-#include "memoryallocbacktracegenerator.h"
-#include <stddef.h>
-#include <QHash>
+#include "allocationdatadefinitions.h"
 
 class MemoryAllocTracker
 {
@@ -17,17 +15,9 @@ public:
     void handleMalloc(size_t size, const void* allocatedMemory);
     void handleFree(const void* allocatedMemory);
 
-    struct TAllocatedMemRegion {
-        size_t m_allocatedSize = 0;
-        MemoryAllocBacktraceGenerator::BacktraceRaw m_backTrace;
-    };
-    typedef QList<TAllocatedMemRegion> MemsAllocated;
-
     int getAllocCount() const;
-    const MemsAllocated getRawMemRegions();
-
-private:
-    QHash<const void*, TAllocatedMemRegion> m_allocatedRegions;
+    const AllocatedWithBacktracesRaw getRawAllocations();
+    const AllocatedWithBacktraces getAllocations();
 };
 
 void setTracker(MemoryAllocTracker* tracker);

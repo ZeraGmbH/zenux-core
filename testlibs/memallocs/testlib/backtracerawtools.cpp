@@ -1,13 +1,14 @@
-#include "memoryallocbacktracegenerator.h"
+#include "backtracerawtools.h"
+#include <execinfo.h>
 
-void MemoryAllocBacktraceGenerator::createBacktraceRaw(BacktraceRaw *btrace)
+void BacktraceRawTools::fillBacktraceRaw(AllocBacktraceRaw *btrace)
 {
     int backtraceCount = backtrace(btrace->bufferBacktrace, maxStacktraceDepth);
     btrace->startPos = 3; // after malloc - we have tests
     btrace->afterLastPos = backtraceCount;
 }
 
-QStringList MemoryAllocBacktraceGenerator::generateSymbols(BacktraceRaw *btrace) // remove or move somewhere else later?
+QStringList BacktraceRawTools::generateSymbols(AllocBacktraceRaw *btrace) // remove or move somewhere else later?
 {
     QStringList backtrace;
     // we need to fetch full backtrace otherwise 1st has missing symbol
@@ -20,7 +21,7 @@ QStringList MemoryAllocBacktraceGenerator::generateSymbols(BacktraceRaw *btrace)
     return backtraceNoFilenames;
 }
 
-QStringList MemoryAllocBacktraceGenerator::removeFileName(const QStringList &backtrace)
+QStringList BacktraceRawTools::removeFileName(const QStringList &backtrace)
 {
     QStringList adjustedBacktrace;
     for (int currBacktrace = 0; currBacktrace < backtrace.count(); currBacktrace++) {

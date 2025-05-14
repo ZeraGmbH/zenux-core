@@ -1,6 +1,6 @@
 #include "backtraceconverter.h"
 
-QList<void *> BacktraceConverter::backtraceRawToVoidList(MemoryAllocBacktraceGenerator::BacktraceRaw backtrace)
+QList<void *> BacktraceConverter::backtraceRawToVoidList(AllocBacktraceRaw backtrace)
 {
     QList<void *> backtraceList;
     for (int i=backtrace.startPos; i<backtrace.afterLastPos; i++)
@@ -8,9 +8,9 @@ QList<void *> BacktraceConverter::backtraceRawToVoidList(MemoryAllocBacktraceGen
     return backtraceList;
 }
 
-BacktraceConverter::AllocMemTraces BacktraceConverter::backtracesRawToVoidLists(MemoryAllocTracker::MemsAllocated &allocated)
+BacktraceConverter::AllocatedWithBacktraces BacktraceConverter::backtracesRawToVoidLists(AllocatedWithBacktracesRaw &allocated)
 {
-    BacktraceConverter::AllocMemTraces converted;
+    BacktraceConverter::AllocatedWithBacktraces converted;
     for (int alloc=0; alloc<allocated.count(); alloc++)
         converted.append( {
             allocated[alloc].m_allocatedSize,

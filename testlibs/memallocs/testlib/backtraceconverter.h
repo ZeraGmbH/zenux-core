@@ -1,20 +1,20 @@
 #ifndef BACKTRACECONVERTER_H
 #define BACKTRACECONVERTER_H
 
-#include "memoryalloctracker.h"
+#include "allocationdatadefinitions.h"
 
 class BacktraceConverter
 {
 public:
-    static QList<void*> backtraceRawToVoidList(MemoryAllocBacktraceGenerator::BacktraceRaw backtrace);
+    static QList<void*> backtraceRawToVoidList(AllocBacktraceRaw backtrace);
 
-    struct AllocMemTrace {
+    struct AllocatedWithBacktrace {
         size_t m_allocatedSize = 0;
         QList<void*> m_backTrace;
     };
-    typedef QList<AllocMemTrace> AllocMemTraces;
+    typedef QList<AllocatedWithBacktrace> AllocatedWithBacktraces;
 
-    static AllocMemTraces backtracesRawToVoidLists(MemoryAllocTracker::MemsAllocated &allocated);
+    static AllocatedWithBacktraces backtracesRawToVoidLists(AllocatedWithBacktracesRaw &allocated);
 };
 
 #endif // BACKTRACECONVERTER_H

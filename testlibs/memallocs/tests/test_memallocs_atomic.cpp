@@ -1,6 +1,6 @@
 #include "test_memallocs_atomic.h"
 #include "memoryalloctracker.h"
-#include "memoryallocbacktracegenerator.h"
+#include "backtracerawtools.h"
 #include <QTest>
 #include <memory>
 #include <stdlib.h>
@@ -40,15 +40,15 @@ void test_memallocs_atomic::mallocTwiceAndFree()
         strcpy(mem2, "Avoid optimize out 2");
     tracker.stop();
 
-    MemoryAllocTracker::MemsAllocated mems = tracker.getRawMemRegions();
+    AllocatedWithBacktracesRaw mems = tracker.getRawAllocations();
     QCOMPARE(mems.count(), 2);
     // currently unpredictable sequence / we need some statistics
     //QCOMPARE(mems[0].m_size, 100);
     //QCOMPARE(mems[1].m_size, 200);
     QStringList symbols;
-    symbols = MemoryAllocBacktraceGenerator::generateSymbols(&mems[0].m_backTrace);
+    symbols = BacktraceRawTools::generateSymbols(&mems[0].m_backTrace);
     QVERIFY(symbols[0].contains("mallocTwiceAndFree"));
-    symbols = MemoryAllocBacktraceGenerator::generateSymbols(&mems[1].m_backTrace);
+    symbols = BacktraceRawTools::generateSymbols(&mems[1].m_backTrace);
     QVERIFY(symbols[0].contains("mallocTwiceAndFree"));
 
     tracker.start();
@@ -67,9 +67,9 @@ void test_memallocs_atomic::newAndDelete()
     QCOMPARE(tracker.getAllocCount(), 1);
 
     tracker.stop();
-    MemoryAllocTracker::MemsAllocated mems = tracker.getRawMemRegions();
+    AllocatedWithBacktracesRaw mems = tracker.getRawAllocations();
     QCOMPARE(mems.count(), 1);
-    QStringList symbols = MemoryAllocBacktraceGenerator::generateSymbols(&mems[0].m_backTrace);
+    QStringList symbols = BacktraceRawTools::generateSymbols(&mems[0].m_backTrace);
     bool found = false;
     for (const QString &entry : symbols)
         if (entry.contains("newAndDelete"))
@@ -90,9 +90,9 @@ void test_memallocs_atomic::makeSharedAndReset()
     QCOMPARE(tracker.getAllocCount(), 1);
 
     tracker.stop();
-    MemoryAllocTracker::MemsAllocated mems = tracker.getRawMemRegions();
+    AllocatedWithBacktracesRaw mems = tracker.getRawAllocations();
     QCOMPARE(mems.count(), 1);
-    QStringList symbols = MemoryAllocBacktraceGenerator::generateSymbols(&mems[0].m_backTrace);
+    QStringList symbols = BacktraceRawTools::generateSymbols(&mems[0].m_backTrace);
     bool found = false;
     for (const QString &entry : symbols)
         if (entry.contains("makeSharedAndReset"))
@@ -113,9 +113,9 @@ void test_memallocs_atomic::makeUniqueAndReset()
     QCOMPARE(tracker.getAllocCount(), 1);
 
     tracker.stop();
-    MemoryAllocTracker::MemsAllocated mems = tracker.getRawMemRegions();
+    AllocatedWithBacktracesRaw mems = tracker.getRawAllocations();
     QCOMPARE(mems.count(), 1);
-    QStringList symbols = MemoryAllocBacktraceGenerator::generateSymbols(&mems[0].m_backTrace);
+    QStringList symbols = BacktraceRawTools::generateSymbols(&mems[0].m_backTrace);
     bool found = false;
     for (const QString &entry : symbols)
         if (entry.contains("makeUniqueAndReset"))

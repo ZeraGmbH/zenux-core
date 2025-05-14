@@ -1,9 +1,9 @@
 #include "testbacktracegenerator.h"
 
-MemoryAllocBacktraceGenerator::BacktraceRaw TestBacktraceGenerator::createBacktrace(const QList<int> &backtraceValues,
-                                                                                    int stackIgnoreOffset)
+AllocBacktraceRaw TestBacktraceGenerator::fillBacktraceRaw(const QList<int> &backtraceValues,
+                                                             int stackIgnoreOffset)
 {
-    MemoryAllocBacktraceGenerator::BacktraceRaw backtrace;
+    AllocBacktraceRaw backtrace;
     backtrace.startPos = stackIgnoreOffset;
     backtrace.afterLastPos = backtraceValues.count() + stackIgnoreOffset;
     for (int i=0; i<stackIgnoreOffset; i++)
@@ -13,12 +13,12 @@ MemoryAllocBacktraceGenerator::BacktraceRaw TestBacktraceGenerator::createBacktr
     return backtrace;
 }
 
-MemoryAllocTracker::TAllocatedMemRegion TestBacktraceGenerator::createAllocatedMemRegion(int sizeAlloc,
-                                                                                         const QList<int> &backtraceValues,
-                                                                                         int stackIgnoreOffset)
+AllocatedWithBacktraceRaw TestBacktraceGenerator::createAllocatedMemRegion(int sizeAlloc,
+                                                                           const QList<int> &backtraceValues,
+                                                                           int stackIgnoreOffset)
 {
-    MemoryAllocTracker::TAllocatedMemRegion mem;
+    AllocatedWithBacktraceRaw mem;
     mem.m_allocatedSize = sizeAlloc;
-    mem.m_backTrace = createBacktrace(backtraceValues, stackIgnoreOffset);
+    mem.m_backTrace = fillBacktraceRaw(backtraceValues, stackIgnoreOffset);
     return mem;
 }

@@ -1,7 +1,7 @@
 #ifndef ANALYSISPERTRACEPOINT_H
 #define ANALYSISPERTRACEPOINT_H
 
-#include "memoryalloctracker.h"
+#include "allocationdatadefinitions.h"
 #include <QHash>
 #include <QList>
 #include <QMap>
@@ -9,16 +9,16 @@
 class CalculateSumsOnPointers
 {
 public:
-    CalculateSumsOnPointers(const MemoryAllocTracker::MemsAllocated &allocations);
+    CalculateSumsOnPointers(const AllocatedWithBacktracesRaw &allocations);
     struct EntryData {
-        MemoryAllocTracker::TAllocatedMemRegion m_allocation;
+        AllocatedWithBacktraceRaw m_allocation;
         int m_posInBacktrace;
     };
     const QHash<const void*, QList<EntryData>> &getAllocationsByPointer() const;
-    const QMap<int, QList<const void*>> &getPointersByCount() const;
+    const QMap<int, QList<EntryData>> &getAllocationsByCount() const;
 private:
     QHash<const void*, QList<EntryData>> m_allocationsByPointer;
-    QMap<int, QList<const void*>> m_pointersByCount;
+    QMap<int, QList<EntryData>> m_allocationsByCount;
 };
 
 #endif // ANALYSISPERTRACEPOINT_H
