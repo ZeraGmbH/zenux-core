@@ -1,7 +1,7 @@
 #include "testbacktracegenerator.h"
 
 AllocBacktraceRaw TestBacktraceGenerator::fillBacktraceRaw(const QList<int> &backtraceValues,
-                                                             int stackIgnoreOffset)
+                                                           int stackIgnoreOffset)
 {
     AllocBacktraceRaw backtrace;
     backtrace.startPos = stackIgnoreOffset;
@@ -13,12 +13,20 @@ AllocBacktraceRaw TestBacktraceGenerator::fillBacktraceRaw(const QList<int> &bac
     return backtrace;
 }
 
-AllocatedWithBacktraceRaw TestBacktraceGenerator::createAllocatedMemRegion(int sizeAlloc,
+static quint64 currentAllocationNumber = 0;
+
+void TestBacktraceGenerator::clearAllocTime()
+{
+    currentAllocationNumber = 0;
+}
+
+AllocatedWithBacktraceRaw TestBacktraceGenerator::createAllocatedMemRegion(size_t sizeAlloc,
                                                                            const QList<int> &backtraceValues,
                                                                            int stackIgnoreOffset)
 {
-    AllocatedWithBacktraceRaw mem;
-    mem.m_allocatedSize = sizeAlloc;
-    mem.m_backTrace = fillBacktraceRaw(backtraceValues, stackIgnoreOffset);
-    return mem;
+    return {
+        currentAllocationNumber++,
+        sizeAlloc,
+        fillBacktraceRaw(backtraceValues, stackIgnoreOffset)
+    };
 }

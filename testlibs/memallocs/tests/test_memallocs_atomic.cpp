@@ -23,8 +23,9 @@ void test_memallocs_atomic::mallocAndFree()
     QCOMPARE(tracker.getAllocCount(), 0);
 }
 
-void test_memallocs_atomic::mallocTwiceAndFree()
+void test_memallocs_atomic::tripleMallocAndFree()
 {
+    // start/stop is a bit tricky in here to avoid polution by test code allocs
     MemoryAllocTracker tracker;
 
     tracker.start();
@@ -32,30 +33,62 @@ void test_memallocs_atomic::mallocTwiceAndFree()
     QCOMPARE(tracker.getAllocCount(), 1);
     char *mem2 = reinterpret_cast<char*>(malloc(200));
     QCOMPARE(tracker.getAllocCount(), 2);
+    char *mem3 = reinterpret_cast<char*>(malloc(300));
+    QCOMPARE(tracker.getAllocCount(), 3);
+    tracker.stop();
+
     QVERIFY(mem1);
     if (mem1)
         strcpy(mem1, "Avoid optimize out 1");
     QVERIFY(mem2);
     if (mem2)
         strcpy(mem2, "Avoid optimize out 2");
-    tracker.stop();
+    QVERIFY(mem3);
+    if (mem3)
+        strcpy(mem3, "Avoid optimize out 3");
 
-    AllocatedWithBacktracesRaw mems = tracker.getRawAllocations();
-    QCOMPARE(mems.count(), 2);
-    // currently unpredictable sequence / we need some statistics
-    //QCOMPARE(mems[0].m_size, 100);
-    //QCOMPARE(mems[1].m_size, 200);
+    AllocatedWithBacktracesRaw allocsRaw = tracker.getAllocationsRaw();
+    QCOMPARE(allocsRaw.count(), 3);
+
     QStringList symbols;
-    symbols = BacktraceRawTools::generateSymbols(&mems[0].m_backTrace);
-    QVERIFY(symbols[0].contains("mallocTwiceAndFree"));
-    symbols = BacktraceRawTools::generateSymbols(&mems[1].m_backTrace);
-    QVERIFY(symbols[0].contains("mallocTwiceAndFree"));
+    symbols = BacktraceRawTools::generateSymbols(&allocsRaw[0].m_backTrace);
+    QVERIFY(symbols[0].contains("tripleMallocAndFree"));
+    symbols = BacktraceRawTools::generateSymbols(&allocsRaw[1].m_backTrace);
+    QVERIFY(symbols[0].contains("tripleMallocAndFree"));
+    symbols = BacktraceRawTools::generateSymbols(&allocsRaw[2].m_backTrace);
+    QVERIFY(symbols[0].contains("tripleMallocAndFree"));
+
+    AllocatedWithBacktraces allocs = tracker.getAllocationsTimeSorted();
+    QCOMPARE(allocs.count(), 3);
+    QCOMPARE(allocs[0].m_allocatedSize, 100);
+    QCOMPARE(allocs[1].m_allocatedSize, 200);
+    QCOMPARE(allocs[2].m_allocatedSize, 300);
+
+    quint64 firstAllocNumber = allocs[0].m_allocationNumber;
+    QCOMPARE(allocs[1].m_allocationNumber, firstAllocNumber+1);
+    QCOMPARE(allocs[2].m_allocationNumber, firstAllocNumber+2);
+
 
     tracker.start();
     free(mem1);
-    QCOMPARE(tracker.getAllocCount(), 1);
+    tracker.stop();
+    QCOMPARE(tracker.getAllocCount(), 2);
+    QCOMPARE(tracker.getAllocationsRaw().count(), 2);
+    QCOMPARE(tracker.getAllocationsTimeSorted().count(), 2);
+
+    tracker.start();
     free(mem2);
+    tracker.stop();
+    QCOMPARE(tracker.getAllocCount(), 1);
+    QCOMPARE(tracker.getAllocationsRaw().count(), 1);
+    QCOMPARE(tracker.getAllocationsTimeSorted().count(), 1);
+
+    tracker.start();
+    free(mem3);
+    tracker.stop();
     QCOMPARE(tracker.getAllocCount(), 0);
+    QCOMPARE(tracker.getAllocationsRaw().count(), 0);
+    QCOMPARE(tracker.getAllocationsTimeSorted().count(), 0);
 }
 
 void test_memallocs_atomic::newAndDelete()
@@ -67,9 +100,9 @@ void test_memallocs_atomic::newAndDelete()
     QCOMPARE(tracker.getAllocCount(), 1);
 
     tracker.stop();
-    AllocatedWithBacktracesRaw mems = tracker.getRawAllocations();
-    QCOMPARE(mems.count(), 1);
-    QStringList symbols = BacktraceRawTools::generateSymbols(&mems[0].m_backTrace);
+    AllocatedWithBacktracesRaw allocsRaw = tracker.getAllocationsRaw();
+    QCOMPARE(allocsRaw.count(), 1);
+    QStringList symbols = BacktraceRawTools::generateSymbols(&allocsRaw[0].m_backTrace);
     bool found = false;
     for (const QString &entry : symbols)
         if (entry.contains("newAndDelete"))
@@ -90,9 +123,9 @@ void test_memallocs_atomic::makeSharedAndReset()
     QCOMPARE(tracker.getAllocCount(), 1);
 
     tracker.stop();
-    AllocatedWithBacktracesRaw mems = tracker.getRawAllocations();
-    QCOMPARE(mems.count(), 1);
-    QStringList symbols = BacktraceRawTools::generateSymbols(&mems[0].m_backTrace);
+    AllocatedWithBacktracesRaw allocsRaw = tracker.getAllocationsRaw();
+    QCOMPARE(allocsRaw.count(), 1);
+    QStringList symbols = BacktraceRawTools::generateSymbols(&allocsRaw[0].m_backTrace);
     bool found = false;
     for (const QString &entry : symbols)
         if (entry.contains("makeSharedAndReset"))
@@ -113,9 +146,9 @@ void test_memallocs_atomic::makeUniqueAndReset()
     QCOMPARE(tracker.getAllocCount(), 1);
 
     tracker.stop();
-    AllocatedWithBacktracesRaw mems = tracker.getRawAllocations();
-    QCOMPARE(mems.count(), 1);
-    QStringList symbols = BacktraceRawTools::generateSymbols(&mems[0].m_backTrace);
+    AllocatedWithBacktracesRaw allocsRaw = tracker.getAllocationsRaw();
+    QCOMPARE(allocsRaw.count(), 1);
+    QStringList symbols = BacktraceRawTools::generateSymbols(&allocsRaw[0].m_backTrace);
     bool found = false;
     for (const QString &entry : symbols)
         if (entry.contains("makeUniqueAndReset"))

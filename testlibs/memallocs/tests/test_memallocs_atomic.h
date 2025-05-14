@@ -8,7 +8,7 @@ class test_memallocs_atomic : public QObject
     Q_OBJECT
 private slots:
     void mallocAndFree();
-    void mallocTwiceAndFree();
+    void tripleMallocAndFree();
     void newAndDelete();
     void makeSharedAndReset();
     void makeUniqueAndReset();

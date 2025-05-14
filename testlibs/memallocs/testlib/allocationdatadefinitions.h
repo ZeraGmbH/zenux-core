@@ -19,12 +19,14 @@ struct AllocBacktraceRaw {
 };
 
 struct AllocatedWithBacktraceRaw {
+    quint64 m_allocationNumber = 0;
     size_t m_allocatedSize = 0;
     AllocBacktraceRaw m_backTrace;
 };
 typedef QList<AllocatedWithBacktraceRaw> AllocatedWithBacktracesRaw;
 
 struct AllocatedWithBacktrace {
+    quint64 m_allocationNumber = 0;
     size_t m_allocatedSize = 0;
     QList<void*> m_backTrace;
 };

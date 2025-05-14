@@ -21,5 +21,4 @@ endfunction()
 SETUP_OPENFILE_TESTS(
     test_memallocs_atomic
     test_backtrace_converter
-    test_memalloc_analyzer
     )

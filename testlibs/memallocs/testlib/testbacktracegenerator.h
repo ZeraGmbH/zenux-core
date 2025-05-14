@@ -7,8 +7,9 @@ class TestBacktraceGenerator
 {
 public:
     static AllocBacktraceRaw fillBacktraceRaw(const QList<int> &backtraceValues,
-                                                int stackIgnoreOffset);
-    static AllocatedWithBacktraceRaw createAllocatedMemRegion(int sizeAlloc,
+                                              int stackIgnoreOffset);
+    static void clearAllocTime();
+    static AllocatedWithBacktraceRaw createAllocatedMemRegion(size_t sizeAlloc,
                                                               const QList<int> &backtraceValues,
                                                               int stackIgnoreOffset = 3);
 };

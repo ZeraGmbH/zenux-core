@@ -7,9 +7,10 @@ class test_backtrace_converter : public QObject
 {
     Q_OBJECT
 private slots:
+    void init();
     void testCreateBacktrace();
     void backtraceRawToVoidList();
-    void backtracesRawToVoidLists();
+    void allocsRawToAllocsTimeSorted();
 };
 
 #endif // TEST_BACKTRACE_CONVERTER_H

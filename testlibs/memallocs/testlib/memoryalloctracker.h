@@ -16,8 +16,8 @@ public:
     void handleFree(const void* allocatedMemory);
 
     int getAllocCount() const;
-    const AllocatedWithBacktracesRaw getRawAllocations();
-    const AllocatedWithBacktraces getAllocations();
+    AllocatedWithBacktracesRaw getAllocationsRaw();
+    AllocatedWithBacktraces getAllocationsTimeSorted();
 };
 
 void setTracker(MemoryAllocTracker* tracker);
