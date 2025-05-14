@@ -42,7 +42,7 @@ void test_backtrace_converter::backtracesRawToVoidLists()
     alloc.append(TestBacktraceGenerator::createAllocatedMemRegion(size1, QList<int>() << 1 << 2 << 3));
     alloc.append(TestBacktraceGenerator::createAllocatedMemRegion(size2, QList<int>() << 4 << 5));
 
-    BacktraceConverter::AllocatedWithBacktraces converted = BacktraceConverter::backtracesRawToVoidLists(alloc);
+    AllocatedWithBacktraces converted = BacktraceConverter::backtracesRawToVoidLists(alloc);
     QCOMPARE(converted.count(), 2);
     QCOMPARE(converted[0].m_allocatedSize, size1);
     QCOMPARE(converted[0].m_backTrace[0], reinterpret_cast<void*>(1));

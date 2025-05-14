@@ -4,7 +4,7 @@
 #include "allocationdatadefinitions.h"
 #include <QStringList>
 
-class BacktraceRawTools // remove?
+class BacktraceRawTools
 {
 public:
     static void fillBacktraceRaw(AllocBacktraceRaw *btrace);

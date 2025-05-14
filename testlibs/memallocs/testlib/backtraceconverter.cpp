@@ -8,9 +8,9 @@ QList<void *> BacktraceConverter::backtraceRawToVoidList(AllocBacktraceRaw backt
     return backtraceList;
 }
 
-BacktraceConverter::AllocatedWithBacktraces BacktraceConverter::backtracesRawToVoidLists(AllocatedWithBacktracesRaw &allocated)
+AllocatedWithBacktraces BacktraceConverter::backtracesRawToVoidLists(AllocatedWithBacktracesRaw &allocated)
 {
-    BacktraceConverter::AllocatedWithBacktraces converted;
+    AllocatedWithBacktraces converted;
     for (int alloc=0; alloc<allocated.count(); alloc++)
         converted.append( {
             allocated[alloc].m_allocatedSize,
