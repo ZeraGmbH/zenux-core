@@ -9,7 +9,7 @@ BacktraceTreeGenerator::BacktraceTreeGenerator(const AllocatedWithBacktraces &al
 
 const AllocatedWithBacktrace &BacktraceTreeGenerator::getAlloc(int allocNo) const
 {
-    return m_allocs[allocNo];
+    return m_allocs.at(allocNo);
 }
 
 const BacktraceTreeGenerator::TreeEntry *BacktraceTreeGenerator::getRootEntry() const
