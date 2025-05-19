@@ -12,6 +12,11 @@ const AllocatedWithBacktrace &BacktraceTreeGenerator::getAlloc(int allocNo) cons
     return m_allocs.at(allocNo);
 }
 
+const QList<const BacktraceTreeGenerator::TreeEntry *> *BacktraceTreeGenerator::getEntryList() const
+{
+    return &m_entryList;
+}
+
 const BacktraceTreeGenerator::TreeEntry *BacktraceTreeGenerator::getRootEntry() const
 {
     return &m_emptyRootTrace;
@@ -26,6 +31,8 @@ void BacktraceTreeGenerator::insertEntry(const AllocatedWithBacktrace &alloc,
     const void* backtracePointer = alloc.m_backTrace[currBacktraceDepth];
     currBacktraceDepth++;
     TreeEntry &child = parentTraceEntry.m_childTraces[backtracePointer];
+    if (child.m_pointersToOrigTraces.count() == 0)
+        m_entryList.append(&child);
     child.m_pointersToOrigTraces.append(&alloc);
     child.m_backtraceDepth = currBacktraceDepth;
     insertEntry(alloc, child, currBacktraceDepth);

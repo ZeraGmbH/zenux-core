@@ -37,6 +37,8 @@ void test_backtrace_tree_generator::oneAlloc()
     QCOMPARE(childDepth2.m_pointersToOrigTraces.count(), 1);
     QCOMPARE(childDepth2.m_pointersToOrigTraces[0], &tree.getAlloc(0));
     QCOMPARE(childDepth2.m_backtraceDepth, 2);
+
+    QCOMPARE(tree.getEntryList()->count(), 2);
 }
 
 void test_backtrace_tree_generator::twoAllocsCompleteDifferentBacktrace()
@@ -75,6 +77,8 @@ void test_backtrace_tree_generator::twoAllocsCompleteDifferentBacktrace()
     QCOMPARE(child2Depth2.m_pointersToOrigTraces.count(), 1);
     QCOMPARE(child2Depth2.m_pointersToOrigTraces[0], &tree.getAlloc(1));
     QCOMPARE(child1Depth2.m_backtraceDepth, 2);
+
+    QCOMPARE(tree.getEntryList()->count(), 4);
 }
 
 void test_backtrace_tree_generator::twoAllocsSameFirstBacktrace()
@@ -108,4 +112,6 @@ void test_backtrace_tree_generator::twoAllocsSameFirstBacktrace()
     QCOMPARE(child2Depth2.m_pointersToOrigTraces.count(), 1);
     QCOMPARE(child2Depth2.m_pointersToOrigTraces[0], &tree.getAlloc(1));
     QCOMPARE(child2Depth2.m_backtraceDepth, 2);
+
+    QCOMPARE(tree.getEntryList()->count(), 3);
 }

@@ -7,7 +7,7 @@
 class BacktraceTreeGenerator
 {
 public:
-    BacktraceTreeGenerator(const AllocatedWithBacktraces &allocs);
+    explicit BacktraceTreeGenerator(const AllocatedWithBacktraces &allocs);
     const AllocatedWithBacktrace &getAlloc(int allocNo) const;
 
     struct TreeEntry {
@@ -18,13 +18,16 @@ public:
     typedef QList<TreeEntry> TreeEntries;
 
     const TreeEntry *getRootEntry() const;
+    const QList<const TreeEntry *> *getEntryList() const;
 
 private:
     void insertEntry(const AllocatedWithBacktrace &alloc,
                      TreeEntry &parentTraceEntry,
                      int currBacktraceDepth);
+
     const AllocatedWithBacktraces m_allocs;
     TreeEntry m_emptyRootTrace;
+    QList<const TreeEntry *> m_entryList;
 };
 
 #endif // BACKTRACETREEGENERATOR_H
