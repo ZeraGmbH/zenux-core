@@ -11,6 +11,7 @@ private slots:
     void oneAlloc();
     void twoAllocsCompleteDifferentBacktrace();
     void twoAllocsSameFirstBacktrace();
+    void twoAllocsSameFirstBacktraceTwoSame();
 };
 
 #endif // TEST_BACKTRACE_TREE_GENERATOR_H

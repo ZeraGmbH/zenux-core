@@ -14,20 +14,27 @@ public:
         QList<const AllocatedWithBacktrace*> m_pointersToOrigTraces;
         int m_backtraceDepth = 0;
         QMap<const void*, TreeEntry> m_childTraces;
+
+        // for analysis
+        QList<void*> m_trace;
+        int m_callCount = 0;
+        int m_totalAlloc = 0;
+        QMap<int, QList<const TreeEntry*>> m_childrenBySize;
     };
     typedef QList<TreeEntry> TreeEntries;
 
     const TreeEntry *getRootEntry() const;
-    const QList<const TreeEntry *> *getEntryList() const;
+    const QList<TreeEntry *> *getEntryList() const;
 
 private:
     void insertEntry(const AllocatedWithBacktrace &alloc,
                      TreeEntry &parentTraceEntry,
                      int currBacktraceDepth);
+    void fillChildrenBySize();
 
     const AllocatedWithBacktraces m_allocs;
     TreeEntry m_emptyRootTrace;
-    QList<const TreeEntry *> m_entryList;
+    QList<TreeEntry *> m_entryList;
 };
 
 #endif // BACKTRACETREEGENERATOR_H
