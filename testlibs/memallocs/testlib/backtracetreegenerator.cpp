@@ -42,7 +42,6 @@ void BacktraceTreeGenerator::insertEntry(const AllocatedWithBacktrace &alloc,
             child.m_trace.append(alloc.m_backTrace[i]);
     }
     child.m_pointersToOrigTraces.append(&alloc);
-    child.m_backtraceDepth = currBacktraceDepth;
     child.m_callCount++;
     child.m_totalAlloc += alloc.m_allocatedSize;
     insertEntry(alloc, child, currBacktraceDepth);

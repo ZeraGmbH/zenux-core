@@ -12,10 +12,9 @@ public:
 
     struct TreeEntry {
         QList<const AllocatedWithBacktrace*> m_pointersToOrigTraces;
-        int m_backtraceDepth = 0;
         QMap<const void*, TreeEntry> m_childTraces;
 
-        // for analysis
+        // for analysis / test
         QList<void*> m_trace;
         int m_callCount = 0;
         int m_totalAlloc = 0;

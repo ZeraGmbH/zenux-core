@@ -24,7 +24,7 @@ void test_backtrace_tree_generator::oneAlloc()
 
     const BacktraceTreeGenerator::TreeEntry *rootEntry = tree.getRootEntry();
     QCOMPARE(rootEntry->m_childTraces.count(), 1);
-    QCOMPARE(rootEntry->m_backtraceDepth, 0);
+    QCOMPARE(rootEntry->m_trace.count(), 0);
     QCOMPARE(rootEntry->m_callCount, 1);
     QCOMPARE(rootEntry->m_totalAlloc, size1);
 
@@ -32,7 +32,7 @@ void test_backtrace_tree_generator::oneAlloc()
     const BacktraceTreeGenerator::TreeEntry &childDepth1 = rootEntry->m_childTraces[traceDepth1];
     QCOMPARE(childDepth1.m_pointersToOrigTraces.count(), 1);
     QCOMPARE(childDepth1.m_pointersToOrigTraces[0], &tree.getAlloc(0));
-    QCOMPARE(childDepth1.m_backtraceDepth, 1);
+    QCOMPARE(childDepth1.m_trace.count(), 1);
     QCOMPARE(childDepth1.m_callCount, 1);
     QCOMPARE(childDepth1.m_totalAlloc, size1);
 
@@ -40,7 +40,7 @@ void test_backtrace_tree_generator::oneAlloc()
     const BacktraceTreeGenerator::TreeEntry &childDepth2 = childDepth1.m_childTraces[traceDepth2];
     QCOMPARE(childDepth2.m_pointersToOrigTraces.count(), 1);
     QCOMPARE(childDepth2.m_pointersToOrigTraces[0], &tree.getAlloc(0));
-    QCOMPARE(childDepth2.m_backtraceDepth, 2);
+    QCOMPARE(childDepth2.m_trace.count(), 2);
     QCOMPARE(childDepth2.m_callCount, 1);
     QCOMPARE(childDepth2.m_totalAlloc, size1);
 
@@ -58,7 +58,7 @@ void test_backtrace_tree_generator::twoAllocsCompleteDifferentBacktrace()
 
     const BacktraceTreeGenerator::TreeEntry *rootEntry = tree.getRootEntry();
     QCOMPARE(rootEntry->m_childTraces.count(), 2);
-    QCOMPARE(rootEntry->m_backtraceDepth, 0);
+    QCOMPARE(rootEntry->m_trace.count(), 0);
     QCOMPARE(rootEntry->m_callCount, 2);
     QCOMPARE(rootEntry->m_totalAlloc, size1+size2);
 
@@ -66,7 +66,7 @@ void test_backtrace_tree_generator::twoAllocsCompleteDifferentBacktrace()
     const BacktraceTreeGenerator::TreeEntry &child1Depth1 = rootEntry->m_childTraces[trace1Depth1];
     QCOMPARE(child1Depth1.m_pointersToOrigTraces.count(), 1);
     QCOMPARE(child1Depth1.m_pointersToOrigTraces[0], &tree.getAlloc(0));
-    QCOMPARE(child1Depth1.m_backtraceDepth, 1);
+    QCOMPARE(child1Depth1.m_trace.count(), 1);
     QCOMPARE(child1Depth1.m_callCount, 1);
     QCOMPARE(child1Depth1.m_totalAlloc, size1);
 
@@ -74,7 +74,7 @@ void test_backtrace_tree_generator::twoAllocsCompleteDifferentBacktrace()
     const BacktraceTreeGenerator::TreeEntry &child1Depth2 = child1Depth1.m_childTraces[trace1Depth2];
     QCOMPARE(child1Depth2.m_pointersToOrigTraces.count(), 1);
     QCOMPARE(child1Depth2.m_pointersToOrigTraces[0], &tree.getAlloc(0));
-    QCOMPARE(child1Depth2.m_backtraceDepth, 2);
+    QCOMPARE(child1Depth2.m_trace.count(), 2);
     QCOMPARE(child1Depth2.m_callCount, 1);
     QCOMPARE(child1Depth2.m_totalAlloc, size1);
 
@@ -82,7 +82,7 @@ void test_backtrace_tree_generator::twoAllocsCompleteDifferentBacktrace()
     const BacktraceTreeGenerator::TreeEntry &child2Depth1 = rootEntry->m_childTraces[trace2Depth1];
     QCOMPARE(child2Depth1.m_pointersToOrigTraces.count(), 1);
     QCOMPARE(child2Depth1.m_pointersToOrigTraces[0], &tree.getAlloc(1));
-    QCOMPARE(child2Depth1.m_backtraceDepth, 1);
+    QCOMPARE(child2Depth1.m_trace.count(), 1);
     QCOMPARE(child2Depth1.m_callCount, 1);
     QCOMPARE(child2Depth1.m_totalAlloc, size2);
 
@@ -90,7 +90,7 @@ void test_backtrace_tree_generator::twoAllocsCompleteDifferentBacktrace()
     const BacktraceTreeGenerator::TreeEntry &child2Depth2 = child2Depth1.m_childTraces[trace2Depth2];
     QCOMPARE(child2Depth2.m_pointersToOrigTraces.count(), 1);
     QCOMPARE(child2Depth2.m_pointersToOrigTraces[0], &tree.getAlloc(1));
-    QCOMPARE(child2Depth2.m_backtraceDepth, 2);
+    QCOMPARE(child2Depth2.m_trace.count(), 2);
     QCOMPARE(child2Depth2.m_callCount, 1);
     QCOMPARE(child2Depth2.m_totalAlloc, size2);
 
@@ -108,7 +108,7 @@ void test_backtrace_tree_generator::twoAllocsSameFirstBacktrace()
 
     const BacktraceTreeGenerator::TreeEntry *rootEntry = tree.getRootEntry();
     QCOMPARE(rootEntry->m_childTraces.count(), 1);
-    QCOMPARE(rootEntry->m_backtraceDepth, 0);
+    QCOMPARE(rootEntry->m_trace.count(), 0);
     QCOMPARE(rootEntry->m_callCount, 2);
     QCOMPARE(rootEntry->m_totalAlloc, size1+size2);
 
@@ -117,7 +117,7 @@ void test_backtrace_tree_generator::twoAllocsSameFirstBacktrace()
     QCOMPARE(childDepth1.m_pointersToOrigTraces.count(), 2);
     QCOMPARE(childDepth1.m_pointersToOrigTraces[0], &tree.getAlloc(0));
     QCOMPARE(childDepth1.m_pointersToOrigTraces[1], &tree.getAlloc(1));
-    QCOMPARE(childDepth1.m_backtraceDepth, 1);
+    QCOMPARE(childDepth1.m_trace.count(), 1);
     QCOMPARE(childDepth1.m_callCount, 2);
     QCOMPARE(childDepth1.m_totalAlloc, size1+size2);
 
@@ -125,7 +125,7 @@ void test_backtrace_tree_generator::twoAllocsSameFirstBacktrace()
     const BacktraceTreeGenerator::TreeEntry &child1Depth2 = childDepth1.m_childTraces[trace1Depth2];
     QCOMPARE(child1Depth2.m_pointersToOrigTraces.count(), 1);
     QCOMPARE(child1Depth2.m_pointersToOrigTraces[0], &tree.getAlloc(0));
-    QCOMPARE(child1Depth2.m_backtraceDepth, 2);
+    QCOMPARE(child1Depth2.m_trace.count(), 2);
     QCOMPARE(child1Depth2.m_callCount, 1);
     QCOMPARE(child1Depth2.m_totalAlloc, size1);
 
@@ -133,7 +133,7 @@ void test_backtrace_tree_generator::twoAllocsSameFirstBacktrace()
     const BacktraceTreeGenerator::TreeEntry &child2Depth2 = childDepth1.m_childTraces[trace2Depth2];
     QCOMPARE(child2Depth2.m_pointersToOrigTraces.count(), 1);
     QCOMPARE(child2Depth2.m_pointersToOrigTraces[0], &tree.getAlloc(1));
-    QCOMPARE(child2Depth2.m_backtraceDepth, 2);
+    QCOMPARE(child2Depth2.m_trace.count(), 2);
     QCOMPARE(child2Depth2.m_callCount, 1);
     QCOMPARE(child2Depth2.m_totalAlloc, size2);
 
@@ -152,7 +152,7 @@ void test_backtrace_tree_generator::twoAllocsSameFirstBacktraceTwoSame()
 
     const BacktraceTreeGenerator::TreeEntry *rootEntry = tree.getRootEntry();
     QCOMPARE(rootEntry->m_childTraces.count(), 1);
-    QCOMPARE(rootEntry->m_backtraceDepth, 0);
+    QCOMPARE(rootEntry->m_trace.count(), 0);
     QCOMPARE(rootEntry->m_callCount, 3);
     QCOMPARE(rootEntry->m_totalAlloc, size1+size1+size2);
 
@@ -161,7 +161,7 @@ void test_backtrace_tree_generator::twoAllocsSameFirstBacktraceTwoSame()
     QCOMPARE(childDepth1.m_pointersToOrigTraces.count(), 3);
     QCOMPARE(childDepth1.m_pointersToOrigTraces[0], &tree.getAlloc(0));
     QCOMPARE(childDepth1.m_pointersToOrigTraces[1], &tree.getAlloc(1));
-    QCOMPARE(childDepth1.m_backtraceDepth, 1);
+    QCOMPARE(childDepth1.m_trace.count(), 1);
     QCOMPARE(childDepth1.m_callCount, 3);
     QCOMPARE(childDepth1.m_totalAlloc, size1+size1+size2);
 
@@ -169,7 +169,7 @@ void test_backtrace_tree_generator::twoAllocsSameFirstBacktraceTwoSame()
     const BacktraceTreeGenerator::TreeEntry &child1Depth2 = childDepth1.m_childTraces[trace1Depth2];
     QCOMPARE(child1Depth2.m_pointersToOrigTraces.count(), 2);
     QCOMPARE(child1Depth2.m_pointersToOrigTraces[0], &tree.getAlloc(0));
-    QCOMPARE(child1Depth2.m_backtraceDepth, 2);
+    QCOMPARE(child1Depth2.m_trace.count(), 2);
     QCOMPARE(child1Depth2.m_callCount, 2);
     QCOMPARE(child1Depth2.m_totalAlloc, size1+size1);
 
@@ -177,7 +177,7 @@ void test_backtrace_tree_generator::twoAllocsSameFirstBacktraceTwoSame()
     const BacktraceTreeGenerator::TreeEntry &child2Depth2 = childDepth1.m_childTraces[trace2Depth2];
     QCOMPARE(child2Depth2.m_pointersToOrigTraces.count(), 1);
     QCOMPARE(child2Depth2.m_pointersToOrigTraces[0], &tree.getAlloc(1));
-    QCOMPARE(child2Depth2.m_backtraceDepth, 2);
+    QCOMPARE(child2Depth2.m_trace.count(), 2);
     QCOMPARE(child2Depth2.m_callCount, 1);
     QCOMPARE(child2Depth2.m_totalAlloc, size2);
 
