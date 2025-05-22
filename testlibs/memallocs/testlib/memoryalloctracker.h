@@ -2,6 +2,7 @@
 #define MEMORYALLOCTRACKER_H
 
 #include "allocationdatadefinitions.h"
+#include <QHash>
 
 class MemoryAllocTracker
 {
@@ -18,6 +19,8 @@ public:
     int getAllocCount() const;
     AllocatedWithBacktracesRaw getAllocationsRaw();
     AllocatedWithBacktraces getAllocationsTimeSorted();
+private:
+    QHash<const void*, AllocatedWithBacktraceRaw> rawAllocations;
 };
 
 void setTracker(MemoryAllocTracker* tracker);

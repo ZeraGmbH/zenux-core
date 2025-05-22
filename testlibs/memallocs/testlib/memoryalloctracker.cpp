@@ -1,9 +1,7 @@
 #include "memoryalloctracker.h"
 #include "backtracerawtools.h"
 #include "backtraceconverter.h"
-#include <QHash>
 
-static QHash<const void*, AllocatedWithBacktraceRaw> rawAllocations;
 static quint64 currentAllocationNumber = 0;
 
 MemoryAllocTracker::MemoryAllocTracker()

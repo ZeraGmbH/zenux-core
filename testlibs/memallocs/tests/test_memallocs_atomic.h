@@ -13,6 +13,7 @@ private slots:
     void makeSharedAndReset();
     void makeUniqueAndReset();
     void heapNone();
+    void mallocInLoop();
 };
 
 #endif // TEST_MEMALLOCS_ATOMIC_H

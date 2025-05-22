@@ -173,3 +173,29 @@ void test_memallocs_atomic::heapNone()
     QCOMPARE(tracker.getAllocCount(), 1);
     qInfo("%s", qPrintable(string));
 }
+
+void test_memallocs_atomic::mallocInLoop()
+{
+    constexpr int loopCount = 5;
+    char *mem[loopCount];
+
+    for (int i=0; i<loopCount; i++) {
+        MemoryAllocTracker tracker;
+        tracker.start();
+
+        mem[i] = reinterpret_cast<char*>(malloc(100));
+        QCOMPARE(tracker.getAllocCount(), 1);
+
+        QVERIFY(mem[i]);
+        if (mem[i])
+            strcpy(mem[i], "Avoid optimize out");
+    }
+
+    for (int i=0; i<loopCount; i++) {
+        MemoryAllocTracker tracker;
+        tracker.start();
+
+        free(mem[i]);
+        QCOMPARE(tracker.getAllocCount(), 0);
+    }
+}
