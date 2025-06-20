@@ -25,12 +25,12 @@ void MemoryAllocTracker::stop()
 
 void MemoryAllocTracker::clear()
 {
-    rawAllocations.clear();
+    m_rawAllocations.clear();
 }
 
 int MemoryAllocTracker::getAllocCount() const
 {
-    return rawAllocations.size();
+    return m_rawAllocations.size();
 }
 
 void MemoryAllocTracker::handleMalloc(size_t size, const void *allocatedMemory)
@@ -38,7 +38,7 @@ void MemoryAllocTracker::handleMalloc(size_t size, const void *allocatedMemory)
     startIgnoreMallocFrees();
     AllocBacktraceRaw btrace;
     BacktraceRawTools::fillBacktraceRaw(&btrace);
-    rawAllocations[allocatedMemory] = { currentAllocationNumber, size, btrace };
+    m_rawAllocations[allocatedMemory] = { currentAllocationNumber, size, btrace };
     currentAllocationNumber++;
     stopIgnoreMallocFrees();
 }
@@ -46,13 +46,13 @@ void MemoryAllocTracker::handleMalloc(size_t size, const void *allocatedMemory)
 void MemoryAllocTracker::handleFree(const void *allocatedMemory)
 {
     startIgnoreMallocFrees();
-    rawAllocations.remove(allocatedMemory);
+    m_rawAllocations.remove(allocatedMemory);
     stopIgnoreMallocFrees();
 }
 
 AllocatedWithBacktracesRaw MemoryAllocTracker::getAllocationsRaw()
 {
-    return rawAllocations.values();
+    return m_rawAllocations.values();
 }
 
 AllocatedWithBacktraces MemoryAllocTracker::getAllocationsTimeSorted()

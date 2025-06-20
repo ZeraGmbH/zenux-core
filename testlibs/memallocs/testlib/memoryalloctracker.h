@@ -20,7 +20,7 @@ public:
     AllocatedWithBacktracesRaw getAllocationsRaw();
     AllocatedWithBacktraces getAllocationsTimeSorted();
 private:
-    QHash<const void*, AllocatedWithBacktraceRaw> rawAllocations;
+    QHash<const void*, AllocatedWithBacktraceRaw> m_rawAllocations;
 };
 
 void setTracker(MemoryAllocTracker* tracker);
