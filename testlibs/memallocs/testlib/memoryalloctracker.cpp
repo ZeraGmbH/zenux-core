@@ -35,6 +35,8 @@ int MemoryAllocTracker::getAllocCount() const
 
 void MemoryAllocTracker::handleMalloc(size_t size, const void *allocatedMemory)
 {
+    if (allocatedMemory == nullptr)
+        return;
     startIgnoreMallocFrees();
     AllocBacktraceRaw btrace;
     BacktraceRawTools::fillBacktraceRaw(&btrace);
@@ -45,6 +47,8 @@ void MemoryAllocTracker::handleMalloc(size_t size, const void *allocatedMemory)
 
 void MemoryAllocTracker::handleFree(const void *allocatedMemory)
 {
+    if (allocatedMemory == nullptr)
+        return;
     startIgnoreMallocFrees();
     m_rawAllocations.remove(allocatedMemory);
     stopIgnoreMallocFrees();
