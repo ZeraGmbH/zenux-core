@@ -235,3 +235,20 @@ void test_memallocs_atomic::mallocReallocAndFree()
     free(memRealloc);
     QCOMPARE(tracker.getAllocCount(), 0);
 }
+
+void test_memallocs_atomic::mallocFreeByRealloc()
+{
+    MemoryAllocTracker tracker;
+    tracker.start();
+
+    char *mem = reinterpret_cast<char*>(malloc(100));
+    QCOMPARE(tracker.getAllocCount(), 1);
+    QVERIFY(mem);
+    if (mem)
+        strcpy(mem, "Avoid optimize out");
+
+    char *memRealloc = reinterpret_cast<char*>(realloc(mem, 0));
+    QCOMPARE(tracker.getAllocCount(), 0);
+
+    free(memRealloc);
+}

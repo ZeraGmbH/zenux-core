@@ -16,6 +16,7 @@ private slots:
     void mallocInLoop();
     void reallocAndFree();
     void mallocReallocAndFree();
+    void mallocFreeByRealloc();
 };
 
 #endif // TEST_MEMALLOCS_ATOMIC_H
