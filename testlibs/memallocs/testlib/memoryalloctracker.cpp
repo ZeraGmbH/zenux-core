@@ -49,6 +49,8 @@ void MemoryAllocTracker::handleFree(const void *allocatedMemory)
 {
     if (allocatedMemory == nullptr)
         return;
+    if (!m_rawAllocations.contains(allocatedMemory))
+        return;
     startIgnoreMallocFrees();
     m_rawAllocations.remove(allocatedMemory);
     stopIgnoreMallocFrees();

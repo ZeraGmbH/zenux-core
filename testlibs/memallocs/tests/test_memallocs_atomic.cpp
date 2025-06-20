@@ -102,7 +102,7 @@ void test_memallocs_atomic::newAndDelete()
     tracker.stop();
     AllocatedWithBacktracesRaw allocsRaw = tracker.getAllocationsRaw();
     QCOMPARE(allocsRaw.count(), 1);
-    QStringList symbols = BacktraceRawTools::generateSymbols(&allocsRaw[0].m_backTrace);
+    const QStringList symbols = BacktraceRawTools::generateSymbols(&allocsRaw[0].m_backTrace);
     bool found = false;
     for (const QString &entry : symbols)
         if (entry.contains("newAndDelete"))
@@ -111,6 +111,7 @@ void test_memallocs_atomic::newAndDelete()
 
     tracker.start();
     delete string;
+    tracker.stop();
     QCOMPARE(tracker.getAllocCount(), 0);
 }
 
@@ -125,7 +126,7 @@ void test_memallocs_atomic::makeSharedAndReset()
     tracker.stop();
     AllocatedWithBacktracesRaw allocsRaw = tracker.getAllocationsRaw();
     QCOMPARE(allocsRaw.count(), 1);
-    QStringList symbols = BacktraceRawTools::generateSymbols(&allocsRaw[0].m_backTrace);
+    const QStringList symbols = BacktraceRawTools::generateSymbols(&allocsRaw[0].m_backTrace);
     bool found = false;
     for (const QString &entry : symbols)
         if (entry.contains("makeSharedAndReset"))
@@ -134,6 +135,7 @@ void test_memallocs_atomic::makeSharedAndReset()
 
     tracker.start();
     string.reset();
+    tracker.stop();
     QCOMPARE(tracker.getAllocCount(), 0);
 }
 
@@ -148,7 +150,7 @@ void test_memallocs_atomic::makeUniqueAndReset()
     tracker.stop();
     AllocatedWithBacktracesRaw allocsRaw = tracker.getAllocationsRaw();
     QCOMPARE(allocsRaw.count(), 1);
-    QStringList symbols = BacktraceRawTools::generateSymbols(&allocsRaw[0].m_backTrace);
+    const QStringList symbols = BacktraceRawTools::generateSymbols(&allocsRaw[0].m_backTrace);
     bool found = false;
     for (const QString &entry : symbols)
         if (entry.contains("makeUniqueAndReset"))
@@ -157,6 +159,7 @@ void test_memallocs_atomic::makeUniqueAndReset()
 
     tracker.start();
     string.reset();
+    tracker.stop();
     QCOMPARE(tracker.getAllocCount(), 0);
 }
 
@@ -171,6 +174,7 @@ void test_memallocs_atomic::heapNone()
     string = "testString";
 
     QCOMPARE(tracker.getAllocCount(), 1);
+    tracker.stop();
     qInfo("%s", qPrintable(string));
 }
 
@@ -179,12 +183,11 @@ void test_memallocs_atomic::mallocInLoop()
     constexpr int loopCount = 5;
     char *mem[loopCount];
 
+    MemoryAllocTracker tracker;
+    tracker.start();
     for (int i=0; i<loopCount; i++) {
-        MemoryAllocTracker tracker;
-        tracker.start();
-
         mem[i] = reinterpret_cast<char*>(malloc(100));
-        QCOMPARE(tracker.getAllocCount(), 1);
+        QCOMPARE(tracker.getAllocCount(), i+1);
 
         QVERIFY(mem[i]);
         if (mem[i])
@@ -192,12 +195,9 @@ void test_memallocs_atomic::mallocInLoop()
     }
 
     for (int i=0; i<loopCount; i++) {
-        MemoryAllocTracker tracker;
-        tracker.start();
-
         free(mem[i]);
-        QCOMPARE(tracker.getAllocCount(), 0);
     }
+    QCOMPARE(tracker.getAllocCount(), 0);
 }
 
 void test_memallocs_atomic::reallocAndFree()
@@ -251,4 +251,18 @@ void test_memallocs_atomic::mallocFreeByRealloc()
     QCOMPARE(tracker.getAllocCount(), 0);
 
     free(memRealloc);
+}
+
+void test_memallocs_atomic::oddQStringFree()
+{
+    MemoryAllocTracker tracker;
+    tracker.start();
+    {
+        QString str("TestString1");
+        qInfo("%s", qPrintable(str));
+        str += " TestString2";
+        qInfo("%s", qPrintable(str));
+        QVERIFY(tracker.getAllocCount() != 0);
+    }
+    QCOMPARE(tracker.getAllocCount(), 0);
 }
