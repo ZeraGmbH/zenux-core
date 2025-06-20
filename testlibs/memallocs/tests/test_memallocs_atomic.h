@@ -14,6 +14,8 @@ private slots:
     void makeUniqueAndReset();
     void heapNone();
     void mallocInLoop();
+    void reallocAndFree();
+    void mallocReallocAndFree();
 };
 
 #endif // TEST_MEMALLOCS_ATOMIC_H

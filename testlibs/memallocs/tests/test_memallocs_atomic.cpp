@@ -199,3 +199,39 @@ void test_memallocs_atomic::mallocInLoop()
         QCOMPARE(tracker.getAllocCount(), 0);
     }
 }
+
+void test_memallocs_atomic::reallocAndFree()
+{
+    MemoryAllocTracker tracker;
+    tracker.start();
+
+    char *mem = reinterpret_cast<char*>(realloc(nullptr, 100));
+    QCOMPARE(tracker.getAllocCount(), 1);
+    QVERIFY(mem);
+    if (mem)
+        strcpy(mem, "Avoid optimize out");
+
+    free(mem);
+    QCOMPARE(tracker.getAllocCount(), 0);
+}
+
+void test_memallocs_atomic::mallocReallocAndFree()
+{
+    MemoryAllocTracker tracker;
+    tracker.start();
+
+    char *mem = reinterpret_cast<char*>(malloc(100));
+    QCOMPARE(tracker.getAllocCount(), 1);
+    QVERIFY(mem);
+    if (mem)
+        strcpy(mem, "Avoid optimize out");
+
+    char *memRealloc = reinterpret_cast<char*>(realloc(mem, 200));
+    QCOMPARE(tracker.getAllocCount(), 1);
+    QVERIFY(memRealloc);
+    if (memRealloc)
+        strcpy(memRealloc, "Avoid optimize out");
+
+    free(memRealloc);
+    QCOMPARE(tracker.getAllocCount(), 0);
+}

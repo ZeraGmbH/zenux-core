@@ -58,3 +58,23 @@ extern "C" void free(void *ptr) {
 
     real_func(ptr);
 }
+
+extern "C" void *realloc(void *ptr, size_t size) {
+    typedef void *(*realloc_ptr)(void *ptr, size_t size);
+    static realloc_ptr real_func = nullptr;
+
+    if (ignoreMallocFreess.load())
+        return real_func(ptr, size);
+
+    QMutexLocker locker(&mutex);
+
+    if (!real_func)
+        real_func = reinterpret_cast<realloc_ptr>(dlsym(RTLD_NEXT, "realloc"));
+
+    void *mem = real_func(ptr, size);
+    if (currentTracker) {
+        currentTracker->handleFree(ptr);
+        currentTracker->handleMalloc(size, mem);
+    }
+    return mem;
+}
