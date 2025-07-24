@@ -18,6 +18,28 @@ bool TestLogHelpers::compareAndLogOnDiff(QString expected, QString dumped)
     return true;
 }
 
+bool TestLogHelpers::compareAndLogOnDiffJson(QString expected, QString dumped)
+{
+    QJsonParseError expectedParseError;
+    QJsonDocument::fromJson(expected.toUtf8(), &expectedParseError);
+    QJsonParseError dumpedParseError;
+    QJsonDocument::fromJson(dumped.toUtf8(), &dumpedParseError);
+
+    bool expectedIsJson = expectedParseError.error == QJsonParseError::NoError;
+    if (!expectedIsJson) {
+        qWarning("Expected ist not valid JSON: %s", qPrintable(expectedParseError.errorString()));
+        qInfo("%s", qPrintable(expected));
+    }
+    bool dumpedIsJson = dumpedParseError.error == QJsonParseError::NoError;
+    if (!dumpedIsJson) {
+        qWarning("Dumped ist not valid JSON: %s", qPrintable(dumpedParseError.errorString()));
+        qInfo("%s", qPrintable(dumped));
+    }
+    bool dumpDiffOK = compareAndLogOnDiff(expected, dumped);
+
+    return expectedIsJson && dumpedIsJson && dumpDiffOK;
+}
+
 QByteArray TestLogHelpers::dump(QJsonObject json)
 {
     QJsonDocument doc(json);
