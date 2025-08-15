@@ -27,8 +27,12 @@ bool XmlElemCompareAttribs::compareAll(const QDomElement &elem1, const QDomEleme
         QString attrKey = elem1Attribs.item(i).toAttr().name();
         if(!elem2Attribs.contains(attrKey))
             return false;
-        if(elem2.attribute(attrKey) != elem1Attribs.item(i).toAttr().value())
+        QString attrib1 = elem1Attribs.item(i).toAttr().value();
+        QString attrib2 = elem2.attribute(attrKey);
+        if(attrib1 != attrib2) {
+            qWarning("XML attribute '%s' is unequal '%s'", qPrintable(attrib1), qPrintable(attrib2));
             return false;
+        }
     }
     return true;
 }
