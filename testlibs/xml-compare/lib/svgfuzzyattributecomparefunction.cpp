@@ -5,6 +5,7 @@ bool SvgFuzzyAttributeCompareFunction::compareAttribs(const QString &attrib1, co
 {
     if (attrib1 == attrib2)
         return true;
+
     const QStringList valueList1 = SvgFuzzyAttributeCompareFunction::extractFloatsFromAttribs(attrib1);
     const QStringList valueList2 = SvgFuzzyAttributeCompareFunction::extractFloatsFromAttribs(attrib2);
     if(valueList1.count() != valueList2.count()) {
@@ -21,6 +22,7 @@ bool SvgFuzzyAttributeCompareFunction::compareAttribs(const QString &attrib1, co
         const QString valueStr2 = valueList2[i];
         if (valueStr1 == valueStr2)
             continue;
+
         bool conversionOk1 = true;
         bool conversionOk2 = true;
         const double value1 = valueStr1.toDouble(&conversionOk1);
@@ -30,6 +32,7 @@ bool SvgFuzzyAttributeCompareFunction::compareAttribs(const QString &attrib1, co
             qWarning("Extend SvgFuzzyAttributeCompareFunction?");
             return false;
         }
+
         const double deviation = fabs(1-value1/value2);
         if (deviation > 0.0001) { // highest seen by just changing dev host was 1.7e-5
             qWarning("Deviation %f too high in XML attribute '%s' / '%s'",
