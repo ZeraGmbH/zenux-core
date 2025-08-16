@@ -8,12 +8,12 @@ bool SvgFuzzyAttributeCompareFunction::compareAttribs(const QString &attrib1, co
 
     const QStringList valueList1 = SvgFuzzyAttributeCompareFunction::extractFloatsFromAttribs(attrib1);
     const QStringList valueList2 = SvgFuzzyAttributeCompareFunction::extractFloatsFromAttribs(attrib2);
-    if(valueList1.count() != valueList2.count()) {
+    if (valueList1.count() != valueList2.count()) {
         qWarning("Number of values in XML attributes are unequal in '%s' and '%s'", qPrintable(attrib1), qPrintable(attrib2));
         return false;
     }
 
-    if(valueList1.isEmpty()) {
+    if (valueList1.isEmpty()) {
         qWarning("Fuzzy compare not possible on XML attribute '%s' / '%s'", qPrintable(attrib1), qPrintable(attrib2));
         return false;
     }
