@@ -2,7 +2,7 @@
 #include <QJsonDocument>
 #include <QFile>
 
-bool TestLogHelpers::compareAndLogOnDiff(QString expected, QString dumped)
+bool TestLogHelpers::compareAndLogOnDiff(const QString &expected, const QString &dumped)
 {
     QString expectedCompare = expected;
     expectedCompare.replace("\n", "");
@@ -18,7 +18,7 @@ bool TestLogHelpers::compareAndLogOnDiff(QString expected, QString dumped)
     return true;
 }
 
-bool TestLogHelpers::compareAndLogOnDiffJson(QString expected, QString dumped)
+bool TestLogHelpers::compareAndLogOnDiffJson(const QString &expected, const QString &dumped)
 {
     QJsonParseError expectedParseError;
     QJsonDocument::fromJson(expected.toUtf8(), &expectedParseError);
@@ -40,13 +40,13 @@ bool TestLogHelpers::compareAndLogOnDiffJson(QString expected, QString dumped)
     return expectedIsJson && dumpedIsJson && dumpDiffOK;
 }
 
-QByteArray TestLogHelpers::dump(QJsonObject json)
+QByteArray TestLogHelpers::dump(const QJsonObject &json)
 {
     QJsonDocument doc(json);
     return doc.toJson(QJsonDocument::Indented);
 }
 
-QByteArray TestLogHelpers::loadFile(QString fileName)
+QByteArray TestLogHelpers::loadFile(const QString &fileName)
 {
     QByteArray fileData;
     QFile file(fileName);

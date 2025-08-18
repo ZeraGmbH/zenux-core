@@ -19,7 +19,7 @@ XmlElemCompareFunc XmlDocumentCompare::m_defaultElemCompareFunc =
         XmlElemCompareText::compare(elem1, elem2);
 };
 
-bool XmlDocumentCompare::compareXml(QString xml1, QString xml2, bool fatalOnInvalidXml)
+bool XmlDocumentCompare::compareXml(const QString &xml1, const QString &xml2, bool fatalOnInvalidXml)
 {
     XmlDocument doc1;
     doc1.loadXml(xml1, fatalOnInvalidXml);

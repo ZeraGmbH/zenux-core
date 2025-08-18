@@ -50,13 +50,13 @@ SvgFuzzyAttributeCompareFunction::AttribExtract SvgFuzzyAttributeCompareFunction
     QString attribStripped;
     AttribExtract extract;
     for (int i=0; i<attrib.count(); i++) {
-        const QChar ch = attrib[i];
+        const QChar &ch = attrib[i];
         if (ch.isLetter())
             extract.letters.append(ch);
         else
             attribStripped.append(ch);
-
     }
+
     const QStringList valuePairs = attribStripped.split(" ", Qt::SkipEmptyParts);
     for (const QString &valuePair : valuePairs) {
         const QStringList splittedPair = valuePair.split(",", Qt::SkipEmptyParts);

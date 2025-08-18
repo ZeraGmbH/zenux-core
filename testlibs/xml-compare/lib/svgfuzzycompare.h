@@ -6,7 +6,7 @@
 class SvgFuzzyCompare
 {
 public:
-    bool compareXml(QString xml1, QString xml2, bool fatalOnInvalidXml=false);
+    bool compareXml(const QString &xml1, const QString &xml2, bool fatalOnInvalidXml=false);
 };
 
 #endif // SVGFUZZYCOMPARE_H

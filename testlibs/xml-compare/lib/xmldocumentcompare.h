@@ -12,7 +12,7 @@ class XmlDocumentCompare
 {
 public:
     XmlDocumentCompare(XmlElemCompareFunc elemCompareFunction = m_defaultElemCompareFunc);
-    bool compareXml(QString xml1, QString xml2, bool fatalOnInvalidXml=false);
+    bool compareXml(const QString &xml1, const QString &xml2, bool fatalOnInvalidXml=false);
 private:
     bool compareDocTypes(XmlDocument doc1, XmlDocument doc2);
     bool compareAllElems(XmlDocument doc1, XmlDocument doc2);

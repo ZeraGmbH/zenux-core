@@ -8,10 +8,10 @@
 class TestLogHelpers
 {
 public:
-    static bool compareAndLogOnDiff(QString expected, QString dumped);
-    static bool compareAndLogOnDiffJson(QString expected, QString dumped);
-    static QByteArray dump(QJsonObject json);
-    static QByteArray loadFile(QString fileName);
+    static bool compareAndLogOnDiff(const QString &expected, const QString &dumped);
+    static bool compareAndLogOnDiffJson(const QString &expected, const QString &dumped);
+    static QByteArray dump(const QJsonObject &json);
+    static QByteArray loadFile(const QString &fileName);
 };
 
 #endif // TESTLOGHELPERS_H
