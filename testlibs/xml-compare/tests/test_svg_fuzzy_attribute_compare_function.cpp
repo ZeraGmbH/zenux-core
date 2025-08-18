@@ -25,7 +25,7 @@ void test_svg_fuzzy_attribute_compare_function::extractNumbers()
 {
     // taken from vf-qmllib vector svg tests
     const QString attrib1 = "M-66,1000 L-6,975.147 L-5.99999,1024.85 L-66,1000";
-    QStringList values = SvgFuzzyAttributeCompareFunction::extractFloatsFromAttribs(attrib1);
+    QStringList values = SvgFuzzyAttributeCompareFunction::extractFloatsFromAttribs(attrib1).valuesExtracted;
     QCOMPARE(values.count(), 8);
     QCOMPARE(values[0], "-66");
     QCOMPARE(values[1], "1000");
@@ -39,7 +39,7 @@ void test_svg_fuzzy_attribute_compare_function::extractNumbers()
 
 void test_svg_fuzzy_attribute_compare_function::extractSingleNumber()
 {
-    QStringList values = SvgFuzzyAttributeCompareFunction::extractFloatsFromAttribs("42");
+    QStringList values = SvgFuzzyAttributeCompareFunction::extractFloatsFromAttribs("42").valuesExtracted;
     QCOMPARE(values.count(), 1);
     QCOMPARE(values[0], "42");
 }
@@ -57,4 +57,11 @@ void test_svg_fuzzy_attribute_compare_function::withinAcceptableLimit()
 void test_svg_fuzzy_attribute_compare_function::outofAcceptableLimit()
 {
     QVERIFY(!SvgFuzzyAttributeCompareFunction::compareAttribs("100,1000.0", "100,1000.2"));
+}
+
+void test_svg_fuzzy_attribute_compare_function::extraLettersChange()
+{
+    const QString attrib1 = "M-66,1000 L-6,975.147 L-5.99999,1024.85 L-66,1000";
+    const QString attrib2 = "L-66,1000 L-6,975.147 L-5.99999,1024.85 L-66,1000";
+    QVERIFY(!SvgFuzzyAttributeCompareFunction::compareAttribs(attrib1, attrib2));
 }

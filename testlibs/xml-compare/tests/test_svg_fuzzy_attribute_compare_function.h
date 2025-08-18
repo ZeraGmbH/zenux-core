@@ -15,6 +15,7 @@ private slots:
     void conversionToDoubleFails();
     void withinAcceptableLimit();
     void outofAcceptableLimit();
+    void extraLettersChange();
 };
 
 #endif // TEST_SVG_FUZZY_ATTRIBUTE_COMPARE_FUNCTION_H
