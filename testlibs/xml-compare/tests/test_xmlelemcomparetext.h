@@ -11,6 +11,9 @@ private slots:
     void oneEmpty();
     void equal();
     void unequal();
+    void unequalTextEqualAttribs();
+    void equalTextEqualAttribs();
+    void equalTextEqualUnequalAttribs();
     void firstHasAttributes();
     void secondHasAttibutes();
 };
