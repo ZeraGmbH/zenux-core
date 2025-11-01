@@ -70,3 +70,19 @@ void test_taskcontainerqueue::twoOk()
     QCOMPARE(TaskForTest::dtorCount(), 2);
     QCOMPARE(helper.signalDelayMs(), 2*DEFAULT_EXPIRE);
 }
+
+void test_taskcontainerqueue::twoError()
+{
+    TaskContainerInterfacePtr task = TaskContainerQueue::create();
+    TaskTestHelper helper(task.get());
+    task->addSub(TaskForTest::create(DEFAULT_EXPIRE, false));
+    task->addSub(TaskForTest::create(DEFAULT_EXPIRE, false));
+    // no start!
+    TimeMachineForTest::getInstance()->processTimers(2*DEFAULT_EXPIRE);
+    QCOMPARE(helper.okCount(), 1);
+    QCOMPARE(helper.errCount(), 0);
+    QCOMPARE(TaskForTest::okCount(), 0);
+    QCOMPARE(TaskForTest::errCount(), 2);
+    QCOMPARE(TaskForTest::dtorCount(), 2);
+    QCOMPARE(helper.signalDelayMs(), 2*DEFAULT_EXPIRE);
+}

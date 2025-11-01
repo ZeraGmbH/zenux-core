@@ -12,6 +12,7 @@ private slots:
     void oneOk();
     void oneOkWithStart();
     void twoOk();
+    void twoError();
 };
 
 #endif // TEST_TASKCONTAINERQUEUE_H

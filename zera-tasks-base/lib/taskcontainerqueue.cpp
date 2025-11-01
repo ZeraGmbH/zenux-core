@@ -7,7 +7,7 @@ std::unique_ptr<TaskContainerInterface> TaskContainerQueue::create()
 }
 
 TaskContainerQueue::TaskContainerQueue() :
-    m_tasks(TaskContainerSequence::create())
+    m_tasks(TaskContainerSequence::create(TaskContainerSequence::RunAllTasks))
 {
     connect(m_tasks.get(), &TaskTemplate::sigFinish,
             this, &TaskTemplate::sigFinish);
