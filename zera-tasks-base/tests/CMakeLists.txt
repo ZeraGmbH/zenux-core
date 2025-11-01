@@ -5,4 +5,5 @@ SETUP_QTESTS(
     test_taskdecoratortimeout
     test_tasklambdarunner
     test_taskfortest
+    test_taskcontainerqueue
 )
