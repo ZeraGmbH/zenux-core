@@ -1,8 +1,13 @@
 #include "taskcontainersequence.h"
 
-std::unique_ptr<TaskContainerInterface> TaskContainerSequence::create()
+std::unique_ptr<TaskContainerInterface> TaskContainerSequence::create(ErrorHandling errorHandling)
 {
-    return std::make_unique<TaskContainerSequence>();
+    return std::make_unique<TaskContainerSequence>(errorHandling);
+}
+
+TaskContainerSequence::TaskContainerSequence(ErrorHandling errorHandling) :
+    m_errorHandling(errorHandling)
+{
 }
 
 void TaskContainerSequence::start() {
@@ -27,11 +32,12 @@ void TaskContainerSequence::tryStart()
 
 void TaskContainerSequence::onFinishCurr(bool ok)
 {
-    if(ok && next())
+    const bool okOrRunAll = ok || m_errorHandling == RunAllTasks;
+    if(okOrRunAll && next())
         m_current->start();
     else {
         cleanup();
-        finishTask(ok);
+        finishTask(okOrRunAll);
     }
 }
 

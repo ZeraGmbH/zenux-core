@@ -87,6 +87,23 @@ void test_taskcontainersequence::twoError()
     QCOMPARE(helper.signalDelayMs(), DEFAULT_EXPIRE);
 }
 
+void test_taskcontainersequence::twoErrorContinueOnFail()
+{
+    TaskContainerInterfacePtr task = TaskContainerSequence::create(TaskContainerSequence::RunAllTasks);
+    TaskTestHelper helper(task.get());
+    task->addSub(TaskForTest::create(DEFAULT_EXPIRE, false));
+    task->addSub(TaskForTest::create(DEFAULT_EXPIRE, false));
+    task->start();
+    TimeMachineForTest::getInstance()->processTimers(2*DEFAULT_EXPIRE);
+    // continue on fail is always OK
+    QCOMPARE(helper.okCount(), 1);
+    QCOMPARE(helper.errCount(), 0);
+    QCOMPARE(TaskForTest::okCount(), 0);
+    QCOMPARE(TaskForTest::errCount(), 2);
+    QCOMPARE(TaskForTest::dtorCount(), 2);
+    QCOMPARE(helper.signalDelayMs(), 2*DEFAULT_EXPIRE);
+}
+
 void test_taskcontainersequence::threeError()
 {
     TaskContainerInterfacePtr task = TaskContainerSequence::create();
@@ -135,6 +152,24 @@ void test_taskcontainersequence::oneOkOneErrorOneOk()
     QCOMPARE(TaskForTest::errCount(), 1);
     QCOMPARE(TaskForTest::dtorCount(), 3);
     QCOMPARE(helper.signalDelayMs(), 2*DEFAULT_EXPIRE);
+}
+
+void test_taskcontainersequence::oneOkOneErrorOneOkContinueOnFail()
+{
+    TaskContainerInterfacePtr task = TaskContainerSequence::create(TaskContainerSequence::RunAllTasks);
+    TaskTestHelper helper(task.get());
+    task->addSub(TaskForTest::create(DEFAULT_EXPIRE, true));
+    task->addSub(TaskForTest::create(DEFAULT_EXPIRE, false));
+    task->addSub(TaskForTest::create(DEFAULT_EXPIRE, true));
+    task->start();
+    TimeMachineForTest::getInstance()->processTimers(3*DEFAULT_EXPIRE);
+    // continue on fail is always OK
+    QCOMPARE(helper.okCount(), 1);
+    QCOMPARE(helper.errCount(), 0);
+    QCOMPARE(TaskForTest::okCount(), 2);
+    QCOMPARE(TaskForTest::errCount(), 1);
+    QCOMPARE(TaskForTest::dtorCount(), 3);
+    QCOMPARE(helper.signalDelayMs(), 3*DEFAULT_EXPIRE);
 }
 
 void test_taskcontainersequence::taskId()

@@ -13,9 +13,11 @@ private slots:
     void twoOk();
     void oneError();
     void twoError();
+    void twoErrorContinueOnFail();
     void threeError();
     void oneErrorOneOk();
     void oneOkOneErrorOneOk();
+    void oneOkOneErrorOneOkContinueOnFail();
     void taskId();
     void startTwice();
     void addSecondWhileFirstRunning();
