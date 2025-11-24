@@ -12,6 +12,7 @@ public:
     static bool compareAndLogOnDiffJson(const QString &expected, const QString &dumped);
     static QByteArray dump(const QJsonObject &json);
     static QByteArray loadFile(const QString &fileName);
+    static bool writeFile(const QString &fileName, const QByteArray &data);
 };
 
 #endif // TESTLOGHELPERS_H

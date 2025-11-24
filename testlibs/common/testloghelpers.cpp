@@ -56,3 +56,11 @@ QByteArray TestLogHelpers::loadFile(const QString &fileName)
     }
     return fileData;
 }
+
+bool TestLogHelpers::writeFile(const QString &fileName, const QByteArray &data)
+{
+    QFile file(fileName);
+    if(file.open(QFile::WriteOnly))
+        return file.write(data) == data.length();
+    return false;
+}
