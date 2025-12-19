@@ -7,8 +7,7 @@ QString ZenuxDeviceInfo::getZenuxRelease()
     QString path = "/opt/zera/conf/CHANGELOG";
     QString releaseNr = "";
     QFile file(path);
-    if (file.exists()) {
-        file.open(QIODevice::ReadOnly);
+    if (file.open(QIODevice::ReadOnly)) {
         QTextStream stream(&file);
         int start, end;
         QString line;
@@ -57,13 +56,13 @@ QString ZenuxDeviceInfo::getCpuInfo()
         QByteArray eepromDump = file.readAll();
         file.close();
         // valid dump?
-        if(eepromDump.count() >= 64 && eepromDump.left(4) == QByteArray("WARI")) {
+        if(eepromDump.size() >= 64 && eepromDump.left(4) == QByteArray("WARI")) {
             // structure taken from u-boot-variscite / mx6var_eeprom_v1.h
             QString partNumber = eepromDump.mid(4, 16);
             QString assembly = eepromDump.mid(20, 16);
             QString date = eepromDump.mid(36, 16);
             //int version = eepromDump.at(52);
-            cpuInfo = QString("{\"PartNumber\":\"%1\",\"Assembly\":\"%2\",\"Date\":\"%3\"}").arg(partNumber).arg(assembly).arg(date);
+            cpuInfo = QString("{\"PartNumber\":\"%1\",\"Assembly\":\"%2\",\"Date\":\"%3\"}").arg(partNumber, assembly, date);
         }
     }
     return cpuInfo;
