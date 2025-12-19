@@ -49,7 +49,7 @@ SvgFuzzyAttributeCompareFunction::AttribExtract SvgFuzzyAttributeCompareFunction
 {
     QString attribStripped;
     AttribExtract extract;
-    for (int i=0; i<attrib.count(); i++) {
+    for (int i=0; i<attrib.size(); i++) {
         const QChar &ch = attrib[i];
         if (ch.isLetter())
             extract.letters.append(ch);
