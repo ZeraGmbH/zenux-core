@@ -12,7 +12,7 @@ add_library(zera-timers SHARED
 
 target_link_libraries(zera-timers
     PUBLIC
-    Qt5::Core
+    ${QTX}::Core
     )
 
 target_include_directories(zera-timers
@@ -43,7 +43,7 @@ add_library(zera-timers-static STATIC
 
 target_link_libraries(zera-timers-static
     PUBLIC
-    Qt5::Core
+    ${QTX}::Core
     )
 
 target_include_directories(zera-timers-static
