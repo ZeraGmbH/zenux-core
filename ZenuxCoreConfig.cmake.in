@@ -1,6 +1,6 @@
 include(CMakeFindDependencyMacro)
 
-find_dependency(${QTX} COMPONENTS Core Xml XmlPatterns Test CONFIG REQUIRED)
+find_dependency(Qt5 COMPONENTS Core Xml XmlPatterns Test CONFIG REQUIRED)
 
 include("${CMAKE_CURRENT_LIST_DIR}/ZenuxCoreTargets.cmake")
 

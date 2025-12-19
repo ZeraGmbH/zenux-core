@@ -1,11 +1,12 @@
 #include "xmldocument.h"
+#include "xmlelemiterstrategytree.h"
 
 bool XmlDocument::loadXml(const QString &xml, bool fatalOnInvalidXml)
 {
-    bool isValid = bool(m_doc.setContent(xml));
-    if(!isValid && fatalOnInvalidXml)
+    bool loaded = m_doc.setContent(xml);
+    if(!loaded && fatalOnInvalidXml)
         qFatal("Invalid XML\n%s", qPrintable(xml));
-    return isValid;
+    return loaded;
 }
 
 void XmlDocument::setXmlDomDoc(QDomDocument xmlDoc)

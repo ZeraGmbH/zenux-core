@@ -12,7 +12,7 @@ function(SETUP_OPENFILE_TESTS)
             -Wl,--whole-archive
             testlib-memallocs
             -Wl,--no-whole-archive
-            ${QTX}::Test
+            Qt5::Test
             testlib-memallocs
             )
     endforeach()

@@ -21,7 +21,7 @@ target_include_directories(testlib-memallocs
 
 target_link_libraries(testlib-memallocs
     PUBLIC
-    ${QTX}::Core
+    Qt5::Core
     PRIVATE
     dl
 )

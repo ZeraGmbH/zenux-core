@@ -15,13 +15,7 @@ include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 include(GenerateExportHeader)
 
-set(QT_MAJOR_VER "5" CACHE STRING "Qt major version")
-set(QTX "Qt${QT_MAJOR_VER}")
-if("${QT_MAJOR_VER}" STREQUAL "5")
-    find_package(${QTX} COMPONENTS Core Xml XmlPatterns Test CONFIG REQUIRED)
-else()
-    find_package(${QTX} COMPONENTS Core Xml Test CONFIG REQUIRED)
-endif()
+find_package(Qt5 COMPONENTS Core Xml XmlPatterns Test CONFIG REQUIRED)
 
 enable_testing()
 
@@ -38,8 +32,8 @@ function(SETUP_QTESTS)
             )
         target_link_libraries(${_testname}
             PUBLIC
-            ${QTX}::Test
-            ${QTX}::Xml
+            Qt5::Test
+            Qt5::Xml
             zera-timers-testlib
             zera-log-statistics
             tasks-base-testlib

@@ -19,7 +19,7 @@ target_include_directories(zera-timers-testlib
 
 target_link_libraries(zera-timers-testlib
     PUBLIC
-    ${QTX}::Core
+    Qt5::Core
     zera-timers
 )
 

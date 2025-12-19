@@ -19,8 +19,8 @@ target_include_directories(testlib-common
 
 target_link_libraries(testlib-common
     PUBLIC
-    ${QTX}::Core
-    ${QTX}::Test
+    Qt5::Core
+    Qt5::Test
     zera-timers
     zera-timers-testlib
 )

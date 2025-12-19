@@ -21,7 +21,7 @@ target_include_directories(testlib-openfiles
 
 target_link_libraries(testlib-openfiles
     PUBLIC
-    ${QTX}::Core
+    Qt5::Core
     PRIVATE
     dl
 )

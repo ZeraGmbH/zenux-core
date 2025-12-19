@@ -19,7 +19,7 @@ target_include_directories(tasks-base-testlib
 
 target_link_libraries(tasks-base-testlib
     PUBLIC
-    ${QTX}::Core
+    Qt5::Core
     zera-tasks-base
     zera-timers-testlib
 )

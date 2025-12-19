@@ -12,7 +12,7 @@ add_library(zera-log-statistics SHARED
 
 target_link_libraries(zera-log-statistics
     PUBLIC
-    ${QTX}::Core
+    Qt5::Core
     zera-timers
     )
 
