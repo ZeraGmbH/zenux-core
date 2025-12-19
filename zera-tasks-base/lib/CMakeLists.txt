@@ -12,7 +12,7 @@ add_library(zera-tasks-base SHARED
 
 target_link_libraries(zera-tasks-base
     PUBLIC
-    Qt5::Core
+    ${QTX}::Core
     zera-timers
     )
 
@@ -45,7 +45,7 @@ add_library(zera-tasks-base-static STATIC
 
 target_link_libraries(zera-tasks-base-static
     PUBLIC
-    Qt5::Core
+    ${QTX}::Core
     zera-timers-static
     )
 

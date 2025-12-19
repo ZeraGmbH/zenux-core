@@ -12,7 +12,7 @@ add_library(zenux-device-info SHARED
 
 target_link_libraries(zenux-device-info
     PUBLIC
-    Qt5::Core
+    ${QTX}::Core
     )
 
 target_include_directories(zenux-device-info
@@ -43,7 +43,7 @@ add_library(zenux-device-info-static STATIC
 
 target_link_libraries(zenux-device-info-static
     PUBLIC
-    Qt5::Core
+    ${QTX}::Core
     )
 
 target_include_directories(zenux-device-info-static

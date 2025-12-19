@@ -19,8 +19,8 @@ target_include_directories(xml-compare-testlib
 
 target_link_libraries(xml-compare-testlib
     PUBLIC
-    Qt5::Core
-    Qt5::Xml
+    ${QTX}::Core
+    ${QTX}::Xml
     )
 
 export(TARGETS xml-compare-testlib NAMESPACE Zera:: FILE ZenuxCoreTargets.cmake)

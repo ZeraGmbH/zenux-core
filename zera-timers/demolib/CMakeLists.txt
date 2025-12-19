@@ -19,7 +19,7 @@ target_include_directories(zera-timers-demolib
 
 target_link_libraries(zera-timers-demolib
     PUBLIC
-    Qt5::Core
+    ${QTX}::Core
 )
 
 set_target_properties(zera-timers-demolib PROPERTIES VERSION ${PROJECT_VERSION})
