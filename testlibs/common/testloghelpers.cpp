@@ -1,8 +1,6 @@
 #include "testloghelpers.h"
 #include <QJsonDocument>
 #include <QFile>
-#include <QFileInfo>
-#include <QDir>
 
 bool TestLogHelpers::compareAndLogOnDiff(const QString &expected, const QString &dumped)
 {
@@ -61,13 +59,8 @@ QByteArray TestLogHelpers::loadFile(const QString &fileName)
 
 bool TestLogHelpers::writeFile(const QString &fileName, const QByteArray &data)
 {
-    const QString dirPath = QFileInfo(fileName).absolutePath();
-    QDir dir;
-    if (!dir.mkpath(dirPath))
-        return false;
-
     QFile file(fileName);
     if(file.open(QFile::WriteOnly))
-        return !data.isEmpty() && file.write(data) == data.length();
+        return file.write(data) == data.length();
     return false;
 }
