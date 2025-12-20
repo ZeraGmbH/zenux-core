@@ -17,11 +17,8 @@ include(GenerateExportHeader)
 
 set(QT_MAJOR_VER "5" CACHE STRING "Qt major version")
 set(QTX "Qt${QT_MAJOR_VER}")
-if("${QT_MAJOR_VER}" STREQUAL "6")
-    find_package(${QTX} COMPONENTS Core Xml Test CONFIG REQUIRED)
-else()
-    find_package(${QTX} COMPONENTS Core Xml XmlPatterns Test CONFIG REQUIRED)
-endif()
+
+find_package(${QTX} COMPONENTS Core Xml Test CONFIG REQUIRED)
 
 enable_testing()
 
