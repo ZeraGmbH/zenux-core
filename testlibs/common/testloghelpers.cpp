@@ -71,3 +71,17 @@ bool TestLogHelpers::writeFile(const QString &fileName, const QByteArray &data)
         return !data.isEmpty() && file.write(data) == data.length();
     return false;
 }
+
+bool TestLogHelpers::copyFile(const QString &sourceFileName, const QString &targetFileName)
+{
+    const QString targetPath = QFileInfo(targetFileName).absolutePath();
+    QDir dir;
+    if (!dir.mkpath(targetPath))
+        return false;
+
+    if (!QFile::copy(sourceFileName, targetFileName))
+        return false;
+    return QFile(targetFileName).setPermissions(QFile::ReadOwner | QFile::WriteOwner |
+                                                QFile::ReadUser | QFile::WriteUser |
+                                                QFile::ReadOther | QFile::WriteOther);
+}

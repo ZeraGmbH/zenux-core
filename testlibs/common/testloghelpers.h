@@ -13,6 +13,7 @@ public:
     static QByteArray dump(const QJsonObject &json);
     static QByteArray loadFile(const QString &fileName);
     static bool writeFile(const QString &fileName, const QByteArray &data);
+    static bool copyFile(const QString &sourceFileName, const QString &targetFileName);
 };
 
 #endif // TESTLOGHELPERS_H
