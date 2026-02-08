@@ -2,7 +2,9 @@
 #define TEST_CURRENT_TIME_H
 
 #include <QObject>
-#include <QDateTime>
+#include <QDate>
+#include <QTime>
+#include <QTimeZone>
 
 class test_current_time : public QObject
 {
@@ -16,8 +18,10 @@ private slots:
     void enableTestSetTime();
     void enableTestSetTimeProgression();
     void enableTestSetTimeReset();
+    void enableTestSetProgressionCompareUTC();
+    void enableTestSetCompareBothSetters();
 private:
-    QDateTime createTestDateTime() const;
+    QDateTime createTestDateTime(QDate &date, QTime &time, QTimeZone &tz) const;
 };
 
 #endif // TEST_CURRENT_TIME_H

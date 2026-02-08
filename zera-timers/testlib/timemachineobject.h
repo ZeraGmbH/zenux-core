@@ -5,11 +5,15 @@
 #include "timerfortesttemplate.h"
 #include <QMap>
 #include <QVector>
+#include <QDate>
+#include <QTime>
+#include <QTimeZone>
 #include <QDateTime>
 
 class TimeMachineObject
 {
 public:
+    TimeMachineObject();
     // Timers
     void addTimer(TimerForTestInterface* timer, int expiredMs, bool singleShot);
     void removeTimer(TimerForTestInterface* timer);
@@ -17,7 +21,8 @@ public:
     bool isRunning(TimerForTestTemplate* timer) const;
     int getCurrentTimeMs() const;
     // Datetime
-    void setCurrentTime(const QDateTime &current);
+    void setCurrentTime(const QDate &date, const QTime &time, const QTimeZone &tz = QTimeZone(3*3600));
+    void setCurrentTime(const QDateTime &dateTime);
     QDateTime getCurrentTime() const;
 
     static void feedEventLoop();
@@ -40,6 +45,7 @@ private:
 
     int m_currentTimeMs = 0;
     qint64 m_msecsCurrDateTimeTimeOffset = 0;
+    QTimeZone m_timezone;
 
     QMap<int/*expireTimeMs*/, QVector<TTimerEntry>> m_pendingMap;
 };

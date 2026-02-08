@@ -3,6 +3,11 @@
 #include <QThread>
 #include <QAbstractEventDispatcher>
 
+TimeMachineObject::TimeMachineObject() :
+    m_timezone(0)
+{
+}
+
 // An important fact to understand code better: Each timer occures maximum ONE
 // time in m_pendingMap - see also processOneExpired()
 
@@ -56,14 +61,22 @@ int TimeMachineObject::getCurrentTimeMs() const
     return m_currentTimeMs;
 }
 
-void TimeMachineObject::setCurrentTime(const QDateTime &current)
+void TimeMachineObject::setCurrentTime(const QDate &date, const QTime &time, const QTimeZone &tz)
 {
-    m_msecsCurrDateTimeTimeOffset = current.toMSecsSinceEpoch() - getCurrentTimeMs();
+    QDateTime dateTime(date, time, tz);
+    setCurrentTime(dateTime);
+}
+
+void TimeMachineObject::setCurrentTime(const QDateTime &dateTime)
+{
+    m_msecsCurrDateTimeTimeOffset = dateTime.toMSecsSinceEpoch() - getCurrentTimeMs();
+    m_timezone = dateTime.timeZone();
 }
 
 QDateTime TimeMachineObject::getCurrentTime() const
 {
     QDateTime dtTime;
+    dtTime.setTimeZone(m_timezone);
     dtTime.setMSecsSinceEpoch(m_currentTimeMs + m_msecsCurrDateTimeTimeOffset);
     return dtTime;
 }
