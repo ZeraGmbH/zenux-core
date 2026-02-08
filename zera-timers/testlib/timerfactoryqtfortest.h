@@ -2,6 +2,7 @@
 #define TIMERFACTORYQTFORTEST_H
 
 #include <timerfactoryqt.h>
+#include <QDateTime>
 
 class TimerFactoryQtForTest : public TimerFactoryQt
 {

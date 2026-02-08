@@ -13,7 +13,8 @@ void TimerFactoryQtForTest::enableTest()
     };
     m_getCurrentTimeFunction = []() {
         QDateTime dtTime;
-        dtTime.setMSecsSinceEpoch(TimeMachineForTest::getInstance()->getCurrentTimeMs());
+        const TimeMachineObject *instance = TimeMachineForTest::getInstance();
+        dtTime.setMSecsSinceEpoch(instance->getCurrentTimeMs() + instance->getMsecsCurrDateTimeTimeOffset());
         return dtTime;
     };
 }

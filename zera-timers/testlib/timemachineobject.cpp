@@ -42,7 +42,7 @@ void TimeMachineObject::processTimers(int durationMs)
     m_currentTimeMs = processUpToTimestamp;
 }
 
-bool TimeMachineObject::isRunning(TimerForTestTemplate *timer)
+bool TimeMachineObject::isRunning(TimerForTestTemplate *timer) const
 {
     for(auto iter=m_pendingMap.begin(); iter!=m_pendingMap.end(); iter++)
         for(const auto& entry : qAsConst(iter.value()))
@@ -51,9 +51,19 @@ bool TimeMachineObject::isRunning(TimerForTestTemplate *timer)
     return false;
 }
 
-int TimeMachineObject::getCurrentTimeMs()
+int TimeMachineObject::getCurrentTimeMs() const
 {
     return m_currentTimeMs;
+}
+
+const qint64 &TimeMachineObject::getMsecsCurrDateTimeTimeOffset() const
+{
+    return m_msecsCurrDateTimeTimeOffset;
+}
+
+void TimeMachineObject::setCurrentTime(const QDateTime &current)
+{
+    m_msecsCurrDateTimeTimeOffset = current.toMSecsSinceEpoch() - getCurrentTimeMs();
 }
 
 bool TimeMachineObject::areTimersPending(int upToTimestamp)
