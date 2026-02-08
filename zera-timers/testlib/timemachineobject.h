@@ -10,8 +10,8 @@
 class TimeMachineObject
 {
 public:
-    void addTimer(TimerForTestInterface* timer, int expiredMs, bool singleShot);
     // Timers
+    void addTimer(TimerForTestInterface* timer, int expiredMs, bool singleShot);
     void removeTimer(TimerForTestInterface* timer);
     void processTimers(int durationMs);
     bool isRunning(TimerForTestTemplate* timer) const;
@@ -19,6 +19,7 @@ public:
     // Datetime
     const qint64 &getMsecsCurrDateTimeTimeOffset() const;
     void setCurrentTime(const QDateTime &current);
+    QDateTime getCurrentTime() const;
 
     static void feedEventLoop();
 private:

@@ -66,6 +66,13 @@ void TimeMachineObject::setCurrentTime(const QDateTime &current)
     m_msecsCurrDateTimeTimeOffset = current.toMSecsSinceEpoch() - getCurrentTimeMs();
 }
 
+QDateTime TimeMachineObject::getCurrentTime() const
+{
+    QDateTime dtTime;
+    dtTime.setMSecsSinceEpoch(m_currentTimeMs + m_msecsCurrDateTimeTimeOffset);
+    return dtTime;
+}
+
 bool TimeMachineObject::areTimersPending(int upToTimestamp)
 {
     feedEventLoop();

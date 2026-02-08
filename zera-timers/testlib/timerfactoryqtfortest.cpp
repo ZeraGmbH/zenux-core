@@ -12,10 +12,7 @@ void TimerFactoryQtForTest::enableTest()
         return std::make_unique<TimerForTestPeriodic>(timeout);
     };
     m_getCurrentTimeFunction = []() {
-        QDateTime dtTime;
-        const TimeMachineObject *instance = TimeMachineForTest::getInstance();
-        dtTime.setMSecsSinceEpoch(instance->getCurrentTimeMs() + instance->getMsecsCurrDateTimeTimeOffset());
-        return dtTime;
+        return TimeMachineForTest::getInstance()->getCurrentTime();
     };
 }
 
