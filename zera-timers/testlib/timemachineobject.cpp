@@ -56,11 +56,6 @@ int TimeMachineObject::getCurrentTimeMs() const
     return m_currentTimeMs;
 }
 
-const qint64 &TimeMachineObject::getMsecsCurrDateTimeTimeOffset() const
-{
-    return m_msecsCurrDateTimeTimeOffset;
-}
-
 void TimeMachineObject::setCurrentTime(const QDateTime &current)
 {
     m_msecsCurrDateTimeTimeOffset = current.toMSecsSinceEpoch() - getCurrentTimeMs();

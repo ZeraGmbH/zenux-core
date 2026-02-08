@@ -17,7 +17,6 @@ public:
     bool isRunning(TimerForTestTemplate* timer) const;
     int getCurrentTimeMs() const;
     // Datetime
-    const qint64 &getMsecsCurrDateTimeTimeOffset() const;
     void setCurrentTime(const QDateTime &current);
     QDateTime getCurrentTime() const;
 
