@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>test-data/exportObjectOfNestedAllTab0.json</file>
+        <file>test-data/exportObjectOfNestedAllTab2.json</file>
+        <file>test-data/exportObjectOneNullValueTab0.json</file>
+        <file>test-data/exportObjectOneNullValueTab2.json</file>
+        <file>test-data/exportObjectTwoArraysOfStringsTab0.json</file>
+        <file>test-data/exportObjectTwoArraysOfStringsTab2.json</file>
+        <file>test-data/exportObjectTwoEmptyArraysTab0.json</file>
+        <file>test-data/exportObjectTwoEmptyArraysTab2.json</file>
+        <file>test-data/exportObjectTwoEmptyObjectsTab0.json</file>
+        <file>test-data/exportObjectTwoEmptyObjectsTab2.json</file>
+        <file>test-data/exportObjectTwoNullValueTab0.json</file>
+        <file>test-data/exportObjectTwoNullValueTab2.json</file>
+    </qresource>
+</RCC>

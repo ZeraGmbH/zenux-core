@@ -46,6 +46,7 @@ function(SETUP_QTESTS)
 endfunction()
 
 add_subdirectory(zenux-device-info)
+add_subdirectory(zera-jsonobject-to-string)
 add_subdirectory(zera-tasks-base)
 add_subdirectory(zera-timers)
 add_subdirectory(zera-log-statistics)

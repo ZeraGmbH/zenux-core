@@ -1,0 +1,29 @@
+{
+  "back3": {
+    "back2": [
+      {
+        "val7": {
+          "val3": null
+        }
+      },
+      {
+        "val7": {
+          "val3": null
+        }
+      },
+      [
+        false,
+        true
+      ]
+    ],
+    "val4": 42,
+    "val5": "foo",
+    "val6": [
+      false,
+      true
+    ],
+    "val7": {
+      "val3": null
+    }
+  }
+}
