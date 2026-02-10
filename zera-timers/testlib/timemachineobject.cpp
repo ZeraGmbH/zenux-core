@@ -20,42 +20,39 @@ void TimeMachineObject::setTimerPending(TimerForTestTemplate *timer)
 
 void TimeMachineObject::removeTimer(TimerForTestTemplate *timer)
 {
-    QList<int> emptyTimeStamps;
     for(auto iter=m_pendingMap.begin(); iter!=m_pendingMap.end(); iter++) {
         QList<TimerForTestTemplate*> &timerList = iter.value();
-        for (int i=0; i<timerList.count(); ++i) {
-            if(timerList[i] == timer) {
-                timerList.removeAt(i);
-                break;
-            }
+        if (removeTimerFromList(timerList, timer)) {
+            if (timerList.isEmpty())
+                m_pendingMap.erase(iter);
+            break;
         }
-        if (timerList.isEmpty()) // no remove within iteration!
-            emptyTimeStamps.append(iter.key());
     }
-    for(int timeStamp : emptyTimeStamps)
-        m_pendingMap.remove(timeStamp);
 }
 
 void TimeMachineObject::processTimers(int durationMs)
 {
     Q_ASSERT(durationMs >= 0);
     int processUpToTimestamp = m_currentTimeMs + durationMs;
-    while(areTimersPending(processUpToTimestamp)) {
-        m_currentTimeMs = m_pendingMap.firstKey();
-        QList<TimerForTestTemplate*> &expired = m_pendingMap[m_currentTimeMs];
-        TimerForTestTemplate* timer = expired[0];
-        removeTimer(timer);
-        if(!timer->getSingleShot())
+    while (areTimersPending(processUpToTimestamp)) {
+        auto firstIter = m_pendingMap.begin();
+        m_currentTimeMs = firstIter.key();
+        QList<TimerForTestTemplate*> &expiredList = firstIter.value();
+        TimerForTestTemplate* timer = expiredList[0];
+        if (removeTimerFromList(expiredList, timer) )
+            if (expiredList.isEmpty())
+                m_pendingMap.erase(firstIter);
+
+        if (!timer->getSingleShot())
             setTimerPending(timer);
         timer->fireExpired();
-
     }
     m_currentTimeMs = processUpToTimestamp;
 }
 
 bool TimeMachineObject::isRunning(TimerForTestTemplate *timer) const
 {
-    for(auto iter=m_pendingMap.begin(); iter!=m_pendingMap.end(); iter++)
+    for(auto iter=m_pendingMap.constBegin(); iter!=m_pendingMap.constEnd(); iter++)
         for(const auto& entry : qAsConst(iter.value()))
             if(entry == timer)
                 return true;
@@ -91,6 +88,17 @@ bool TimeMachineObject::areTimersPending(int upToTimestamp)
 {
     feedEventLoop();
     return !m_pendingMap.isEmpty() && m_pendingMap.firstKey() <= upToTimestamp;
+}
+
+bool TimeMachineObject::removeTimerFromList(QList<TimerForTestTemplate *> &timerList, TimerForTestTemplate *timer)
+{
+    for (int i=0; i<timerList.count(); ++i) {
+        if(timerList[i] == timer) {
+            timerList.removeAt(i);
+            return true;
+        }
+    }
+    return false;
 }
 
 void TimeMachineObject::feedEventLoop()

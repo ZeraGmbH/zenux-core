@@ -12,6 +12,11 @@ TimerForTestTemplate::~TimerForTestTemplate()
     removeFromRunner();
 }
 
+void TimerForTestTemplate::start()
+{
+    TimeMachineForTest::getInstance()->setTimerPending(this);
+}
+
 void TimerForTestTemplate::stop()
 {
     removeFromRunner();

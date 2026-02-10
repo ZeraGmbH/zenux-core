@@ -27,6 +27,7 @@ public:
     static void feedEventLoop();
 private:
     bool areTimersPending(int upToTimestamp);
+    bool removeTimerFromList(QList<TimerForTestTemplate*> &timerList, TimerForTestTemplate *timer);
 
     int m_currentTimeMs = 0;
     qint64 m_msecsCurrDateTimeTimeOffset = 0;

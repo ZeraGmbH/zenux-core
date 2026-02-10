@@ -8,7 +8,6 @@ class TimerForTestPeriodic : public TimerForTestTemplate
     Q_OBJECT
 public:
     TimerForTestPeriodic(int expireTimeMs);
-    void start() override;
 };
 
 #endif // TIMERFORTESTPERIODIC_H

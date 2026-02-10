@@ -9,6 +9,7 @@ class TimerForTestTemplate : public TimerTemplateQt
 public:
     TimerForTestTemplate(int expireTimeMs, bool singleShot);
     virtual ~TimerForTestTemplate();
+    void start() override;
     void stop() override;
     bool isRunning() override;
     void fireExpired();
