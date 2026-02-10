@@ -42,7 +42,7 @@ void TimeMachineObject::processTimers(int durationMs)
     int processUpToTimestamp = m_currentTimeMs + durationMs;
     while(areTimersPending(processUpToTimestamp)) {
         m_currentTimeMs = m_pendingMap.firstKey();
-        QVector<TTimerEntry> expired = m_pendingMap[m_currentTimeMs];
+        QList<TTimerEntry> expired = m_pendingMap[m_currentTimeMs];
         processOneExpired(expired[0]);
     }
     m_currentTimeMs = processUpToTimestamp;
