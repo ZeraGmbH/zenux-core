@@ -1,15 +1,14 @@
 #include "timerfactoryqtfortest.h"
-#include "timerfortestsingleshot.h"
-#include "timerfortestperiodic.h"
+#include "timerfortesttemplate.h"
 #include "timemachinefortest.h"
 
 void TimerFactoryQtForTest::enableTest()
 {
     m_singleShotCreateFunction = [](int timeout) {
-        return std::make_unique<TimerForTestSingleShot>(timeout);
+        return std::make_unique<TimerForTestTemplate>(timeout, true);
     };
     m_periodicCreateFunction = [](int timeout) {
-        return std::make_unique<TimerForTestPeriodic>(timeout);
+        return std::make_unique<TimerForTestTemplate>(timeout, false);
     };
     m_getCurrentTimeFunction = []() {
         return TimeMachineForTest::getInstance()->getCurrentTime();
