@@ -11,18 +11,18 @@ TimeMachineObject::TimeMachineObject() :
 // An important fact to understand code better: Each timer occures maximum ONE
 // time in m_pendingMap
 
-void TimeMachineObject::setTimerPending(TimerForTestInterface *timer)
+void TimeMachineObject::setTimerPending(TimerForTestTemplate *timer)
 {
     removeTimer(timer);
-    int expireTimeStamp = m_currentTimeMs + timer->m_expireMs;
+    int expireTimeStamp = m_currentTimeMs + timer->getExpireMs();
     m_pendingMap[expireTimeStamp].append(timer);
 }
 
-void TimeMachineObject::removeTimer(TimerForTestInterface *timer)
+void TimeMachineObject::removeTimer(TimerForTestTemplate *timer)
 {
     QList<int> emptyTimeStamps;
     for(auto iter=m_pendingMap.begin(); iter!=m_pendingMap.end(); iter++) {
-        QList<TimerForTestInterface*> &timerList = iter.value();
+        QList<TimerForTestTemplate*> &timerList = iter.value();
         for (int i=0; i<timerList.count(); ++i) {
             if(timerList[i] == timer) {
                 timerList.removeAt(i);
@@ -42,7 +42,7 @@ void TimeMachineObject::processTimers(int durationMs)
     int processUpToTimestamp = m_currentTimeMs + durationMs;
     while(areTimersPending(processUpToTimestamp)) {
         m_currentTimeMs = m_pendingMap.firstKey();
-        QList<TimerForTestInterface*> expired = m_pendingMap[m_currentTimeMs];
+        QList<TimerForTestTemplate*> expired = m_pendingMap[m_currentTimeMs];
         processOneExpired(expired[0]);
     }
     m_currentTimeMs = processUpToTimestamp;
@@ -93,10 +93,10 @@ void TimeMachineObject::feedEventLoop()
     while( QThread::currentThread()->eventDispatcher()->processEvents(QEventLoop::AllEvents) );
 }
 
-void TimeMachineObject::processOneExpired(TimerForTestInterface *timer)
+void TimeMachineObject::processOneExpired(TimerForTestTemplate *timer)
 {
     removeTimer(timer);
-    if(!timer->m_singleShot)
+    if(!timer->getSingleShot())
         setTimerPending(timer);
     timer->fireExpired();
 }

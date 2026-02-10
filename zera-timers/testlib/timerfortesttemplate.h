@@ -2,19 +2,21 @@
 #define TIMERFORTESTTEMPLATE_H
 
 #include "timertemplateqt.h"
-#include "timerfortestinterface.h"
 
-class TimerForTestTemplate : public TimerTemplateQt, public TimerForTestInterface
+class TimerForTestTemplate : public TimerTemplateQt
 {
     Q_OBJECT
 public:
     TimerForTestTemplate(int expireTimeMs, bool singleShot);
     virtual ~TimerForTestTemplate();
     void stop() override;
-    void fireExpired() override;
     bool isRunning() override;
+    void fireExpired();
+    int getExpireMs() const;
+    bool getSingleShot() const;
 private:
     void removeFromRunner();
+    const bool m_singleShot;
 };
 
 #endif // TIMERFORTESTTEMPLATE_H

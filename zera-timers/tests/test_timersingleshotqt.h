@@ -1,7 +1,6 @@
 #ifndef TEST_TIMERSINGLESHOTQT_H
 #define TEST_TIMERSINGLESHOTQT_H
 
-#include "timerfortestinterface.h"
 #include "timersingleshotqt.h"
 #include "timerfortestsingleshot.h"
 #include <QObject>

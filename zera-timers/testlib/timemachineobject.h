@@ -1,7 +1,6 @@
 #ifndef TIMEMACHINEOBJECT_H
 #define TIMEMACHINEOBJECT_H
 
-#include "timerfortestinterface.h"
 #include "timerfortesttemplate.h"
 #include <QMap>
 #include <QList>
@@ -15,8 +14,8 @@ class TimeMachineObject
 public:
     TimeMachineObject();
     // Timers
-    void setTimerPending(TimerForTestInterface* timer);
-    void removeTimer(TimerForTestInterface* timer);
+    void setTimerPending(TimerForTestTemplate* timer);
+    void removeTimer(TimerForTestTemplate *timer);
     void processTimers(int durationMs);
     bool isRunning(TimerForTestTemplate* timer) const;
     int getCurrentTimeMs() const;
@@ -28,13 +27,13 @@ public:
     static void feedEventLoop();
 private:
     bool areTimersPending(int upToTimestamp);
-    void processOneExpired(TimerForTestInterface *timer);
+    void processOneExpired(TimerForTestTemplate *timer);
 
     int m_currentTimeMs = 0;
     qint64 m_msecsCurrDateTimeTimeOffset = 0;
     QTimeZone m_timezone;
 
-    QMap<int/*expireTimeMs*/, QList<TimerForTestInterface*>> m_pendingMap;
+    QMap<int/*expireTimeMs*/, QList<TimerForTestTemplate*>> m_pendingMap;
 };
 
 #endif // TIMEMACHINEOBJECT_H
