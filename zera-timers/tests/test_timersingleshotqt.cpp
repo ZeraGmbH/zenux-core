@@ -1,4 +1,5 @@
 #include "test_timersingleshotqt.h"
+#include "timerfortestsingleshot.h"
 #include "timertestdefaults.h"
 #include "timemachinefortest.h"
 #include "realdelaytimerhelpers.h"
@@ -23,7 +24,7 @@ void test_timersingleshotqt::inspectTimerByDelay(TimerSingleShotQt *timer)
     });
 }
 
-void test_timersingleshotqt::inspectTimerByRunner(TimerForTestSingleShot *timer)
+void test_timersingleshotqt::inspectTimerByRunner(TimerForTestTemplate *timer)
 {
     connect(timer, &TimerSingleShotQt::sigExpired, [&]{
         m_expireCount++;

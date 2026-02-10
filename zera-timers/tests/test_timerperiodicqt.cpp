@@ -1,4 +1,5 @@
 #include "test_timerperiodicqt.h"
+#include "timerfortestperiodic.h"
 #include "timemachinefortest.h"
 #include "realdelaytimerhelpers.h"
 #include "timersingleshotqt.h"
@@ -22,7 +23,7 @@ void test_timerperiodicqt::inspectTimerByDelay(TimerPeriodicQt *timer)
     });
 }
 
-void test_timerperiodicqt::inspectTimerByRunner(TimerForTestPeriodic *timer)
+void test_timerperiodicqt::inspectTimerByRunner(TimerForTestTemplate *timer)
 {
     connect(timer, &TimerTemplateQt::sigExpired, [&]{
         m_expireTimes.append(TimeMachineForTest::getInstance()->getCurrentTimeMs());

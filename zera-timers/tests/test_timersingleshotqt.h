@@ -2,7 +2,7 @@
 #define TEST_TIMERSINGLESHOTQT_H
 
 #include "timersingleshotqt.h"
-#include "timerfortestsingleshot.h"
+#include "timerfortesttemplate.h"
 #include <QObject>
 #include <QElapsedTimer>
 #include <memory>
@@ -54,7 +54,7 @@ private slots:
 
 private:
     void inspectTimerByDelay(TimerSingleShotQt *timer);
-    void inspectTimerByRunner(TimerForTestSingleShot *timer);
+    void inspectTimerByRunner(TimerForTestTemplate *timer);
     int m_expireCount;
     int m_expireTime;
     std::unique_ptr<QElapsedTimer> m_elapsedTimer;
