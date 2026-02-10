@@ -15,7 +15,7 @@ class TimeMachineObject
 public:
     TimeMachineObject();
     // Timers
-    void addTimer(TimerForTestInterface* timer, int expiredMs, bool singleShot);
+    void setTimerPending(TimerForTestInterface* timer);
     void removeTimer(TimerForTestInterface* timer);
     void processTimers(int durationMs);
     bool isRunning(TimerForTestTemplate* timer) const;
@@ -27,27 +27,14 @@ public:
 
     static void feedEventLoop();
 private:
-    struct TTimerEntry
-    {
-        int expireMs;
-        bool singleShot;
-        TimerForTestInterface* timer;
-
-        bool operator == (const TTimerEntry& other) const {
-            return
-                expireMs == other.expireMs &&
-                singleShot == other.singleShot &&
-                timer == other.timer;
-        }
-    };
     bool areTimersPending(int upToTimestamp);
-    void processOneExpired(TTimerEntry entry);
+    void processOneExpired(TimerForTestInterface *timer);
 
     int m_currentTimeMs = 0;
     qint64 m_msecsCurrDateTimeTimeOffset = 0;
     QTimeZone m_timezone;
 
-    QMap<int/*expireTimeMs*/, QList<TTimerEntry>> m_pendingMap;
+    QMap<int/*expireTimeMs*/, QList<TimerForTestInterface*>> m_pendingMap;
 };
 
 #endif // TIMEMACHINEOBJECT_H

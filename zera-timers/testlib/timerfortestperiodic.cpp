@@ -2,11 +2,11 @@
 #include "timemachinefortest.h"
 
 TimerForTestPeriodic::TimerForTestPeriodic(int expireTimeMs) :
-    TimerForTestTemplate(expireTimeMs)
+    TimerForTestTemplate(expireTimeMs, false)
 {
 }
 
 void TimerForTestPeriodic::start()
 {
-    TimeMachineForTest::getInstance()->addTimer(this, m_expireTimeMs, false);
+    TimeMachineForTest::getInstance()->setTimerPending(this);
 }

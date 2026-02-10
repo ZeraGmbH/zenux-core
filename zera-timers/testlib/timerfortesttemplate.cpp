@@ -1,8 +1,9 @@
 #include "timerfortesttemplate.h"
 #include "timemachinefortest.h"
 
-TimerForTestTemplate::TimerForTestTemplate(int expireTimeMs) :
-    TimerTemplateQt(expireTimeMs)
+TimerForTestTemplate::TimerForTestTemplate(int expireTimeMs, bool singleShot) :
+    TimerTemplateQt(expireTimeMs),
+    TimerForTestInterface(expireTimeMs, singleShot)
 {
 }
 

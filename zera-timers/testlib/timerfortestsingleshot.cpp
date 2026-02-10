@@ -2,11 +2,11 @@
 #include "timemachinefortest.h"
 
 TimerForTestSingleShot::TimerForTestSingleShot(int expireTimeMs) :
-    TimerForTestTemplate(expireTimeMs)
+    TimerForTestTemplate(expireTimeMs, true)
 {
 }
 
 void TimerForTestSingleShot::start()
 {
-    TimeMachineForTest::getInstance()->addTimer(this, m_expireTimeMs, true);
+    TimeMachineForTest::getInstance()->setTimerPending(this);
 }
