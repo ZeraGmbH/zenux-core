@@ -4,7 +4,7 @@
 #include "timerfortestinterface.h"
 #include "timerfortesttemplate.h"
 #include <QMap>
-#include <QVector>
+#include <QList>
 #include <QDate>
 #include <QTime>
 #include <QTimeZone>
@@ -47,7 +47,7 @@ private:
     qint64 m_msecsCurrDateTimeTimeOffset = 0;
     QTimeZone m_timezone;
 
-    QMap<int/*expireTimeMs*/, QVector<TTimerEntry>> m_pendingMap;
+    QMap<int/*expireTimeMs*/, QList<TTimerEntry>> m_pendingMap;
 };
 
 #endif // TIMEMACHINEOBJECT_H

@@ -22,13 +22,14 @@ void TimeMachineObject::removeTimer(TimerForTestInterface *timer)
 {
     QList<int> emptyTimeStamps;
     for(auto iter=m_pendingMap.begin(); iter!=m_pendingMap.end(); iter++) {
-        QVector<TTimerEntry> entryListRemaining;
-        for(const auto& entry : qAsConst(iter.value()))
-            if(entry.timer != timer)
-                entryListRemaining.append(entry);
-        if(!entryListRemaining.isEmpty())
-            iter.value() = entryListRemaining;
-        else // no remove within iteration!
+        QList<TTimerEntry> &timerList = iter.value();
+        for (int i=0; i<timerList.count(); ++i) {
+            if(timerList[i].timer == timer) {
+                timerList.removeAt(i);
+                break;
+            }
+        }
+        if (timerList.isEmpty()) // no remove within iteration!
             emptyTimeStamps.append(iter.key());
     }
     for(int timeStamp : emptyTimeStamps)
