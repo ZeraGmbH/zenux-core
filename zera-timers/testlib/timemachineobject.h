@@ -27,7 +27,6 @@ public:
     static void feedEventLoop();
 private:
     bool areTimersPending(int upToTimestamp);
-    void processOneExpired(TimerForTestTemplate *timer);
 
     int m_currentTimeMs = 0;
     qint64 m_msecsCurrDateTimeTimeOffset = 0;

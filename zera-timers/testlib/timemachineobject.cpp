@@ -42,8 +42,13 @@ void TimeMachineObject::processTimers(int durationMs)
     int processUpToTimestamp = m_currentTimeMs + durationMs;
     while(areTimersPending(processUpToTimestamp)) {
         m_currentTimeMs = m_pendingMap.firstKey();
-        QList<TimerForTestTemplate*> expired = m_pendingMap[m_currentTimeMs];
-        processOneExpired(expired[0]);
+        QList<TimerForTestTemplate*> &expired = m_pendingMap[m_currentTimeMs];
+        TimerForTestTemplate* timer = expired[0];
+        removeTimer(timer);
+        if(!timer->getSingleShot())
+            setTimerPending(timer);
+        timer->fireExpired();
+
     }
     m_currentTimeMs = processUpToTimestamp;
 }
@@ -91,12 +96,4 @@ bool TimeMachineObject::areTimersPending(int upToTimestamp)
 void TimeMachineObject::feedEventLoop()
 {
     while( QThread::currentThread()->eventDispatcher()->processEvents(QEventLoop::AllEvents) );
-}
-
-void TimeMachineObject::processOneExpired(TimerForTestTemplate *timer)
-{
-    removeTimer(timer);
-    if(!timer->getSingleShot())
-        setTimerPending(timer);
-    timer->fireExpired();
 }
