@@ -2,7 +2,6 @@
 #include "taskfortest.h"
 #include "taskdecoratortimeout.h"
 #include "tasktesthelper.h"
-#include <timerfortestsingleshot.h>
 #include <timemachinefortest.h>
 #include <timerfactoryqtfortest.h>
 #include <QTest>

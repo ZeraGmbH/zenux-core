@@ -5,10 +5,10 @@
 void TimerFactoryQtForTest::enableTest()
 {
     m_singleShotCreateFunction = [](int timeout) {
-        return std::make_unique<TimerForTestTemplate>(timeout, true);
+        return std::make_unique<TimerForTestTemplate>(timeout, TimerForTestTemplate::SINGLESHOT);
     };
     m_periodicCreateFunction = [](int timeout) {
-        return std::make_unique<TimerForTestTemplate>(timeout, false);
+        return std::make_unique<TimerForTestTemplate>(timeout, TimerForTestTemplate::PERIODIC);
     };
     m_getCurrentTimeFunction = []() {
         return TimeMachineForTest::getInstance()->getCurrentTime();

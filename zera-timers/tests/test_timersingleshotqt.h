@@ -7,8 +7,8 @@
 #include <QElapsedTimer>
 #include <memory>
 
-// This test compares behavior of TimerSingleShotQt with TimerForTestSingleShot
-// with the following target: By using only TimerForTestSingleShot in tests timing
+// This test compares behavior of TimerSingleShotQt with TimerForTestTemplate / SINGLESHOT
+// with the following target: By using only TimerForTestTemplate in tests timing
 // measurements are done here once and nowhere else because of
 // * timing measurements are slow
 // * timing measurement are fragile

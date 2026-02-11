@@ -1,9 +1,7 @@
 #include "test_timerperiodicqt.h"
-#include "timerfortestperiodic.h"
 #include "timemachinefortest.h"
 #include "realdelaytimerhelpers.h"
 #include "timersingleshotqt.h"
-#include "timerfortestsingleshot.h"
 #include <QTest>
 
 QTEST_MAIN(test_timerperiodicqt)
@@ -46,7 +44,7 @@ void test_timerperiodicqt::oneInterval()
 
 void test_timerperiodicqt::oneIntervalTest()
 {
-    TimerForTestPeriodic timer(DEFAULT_EXPIRE);
+    TimerForTestTemplate timer(DEFAULT_EXPIRE, TimerForTestTemplate::PERIODIC);
     inspectTimerByRunner(&timer);
 
     timer.start();
@@ -74,7 +72,7 @@ void test_timerperiodicqt::threeInterval()
 
 void test_timerperiodicqt::threeIntervalTest()
 {
-    TimerForTestPeriodic timer(DEFAULT_EXPIRE);
+    TimerForTestTemplate timer(DEFAULT_EXPIRE, TimerForTestTemplate::PERIODIC);
     inspectTimerByRunner(&timer);
 
     timer.start();
@@ -107,11 +105,11 @@ void test_timerperiodicqt::stopWhilePendingByOtherTimer()
 
 void test_timerperiodicqt::stopWhilePendingByOtherTimerTest()
 {
-    TimerForTestPeriodic timer(DEFAULT_EXPIRE);
+    TimerForTestTemplate timer(DEFAULT_EXPIRE, TimerForTestTemplate::PERIODIC);
     inspectTimerByRunner(&timer);
 
     timer.start();
-    TimerForTestSingleShot timerStop(DEFAULT_EXPIRE*3/2);
+    TimerForTestTemplate timerStop(DEFAULT_EXPIRE*3/2, TimerForTestTemplate::SINGLESHOT);
     connect(&timerStop, &TimerTemplateQt::sigExpired, &timerStop, [&]() {
         timer.stop();
     });
@@ -140,7 +138,7 @@ void test_timerperiodicqt::isRunning()
 
 void test_timerperiodicqt::isRunningTest()
 {
-    TimerForTestPeriodic timer(DEFAULT_EXPIRE);
+    TimerForTestTemplate timer(DEFAULT_EXPIRE, TimerForTestTemplate::PERIODIC);
     QCOMPARE(timer.isRunning(), false);
     timer.start();
     QCOMPARE(timer.isRunning(), true);
@@ -154,7 +152,7 @@ void test_timerperiodicqt::isRunningTest()
 
 void test_timerperiodicqt::noInfiniteLoopOnExpireZero()
 {
-    TimerForTestPeriodic timer(0);
+    TimerForTestTemplate timer(0, TimerForTestTemplate::PERIODIC);
     timer.start();
     TimeMachineForTest::getInstance()->processTimers(DEFAULT_EXPIRE_WAIT);
     // no checks -> we are looking for infinite loop fixed

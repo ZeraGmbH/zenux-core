@@ -43,7 +43,7 @@ void TimeMachineObject::processTimers(int durationMs)
             if (expiredList.isEmpty())
                 m_pendingMap.erase(firstIter);
 
-        if (!timer->getSingleShot())
+        if (timer->getType() == TimerForTestTemplate::PERIODIC)
             setTimerPending(timer);
         timer->fireExpired();
     }

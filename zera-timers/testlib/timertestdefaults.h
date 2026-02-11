@@ -3,7 +3,7 @@
 
 // These should remain fixed (huge) because
 // * here we are testing delays and timers span widely in oe-ctest
-// * when using TimerForTestSingleShot there are no delays
+// * when using TimerForTestTemplate there are no delays
 static constexpr int DEFAULT_EXPIRE = 50;
 static constexpr int DEFAULT_EXPIRE_WAIT = DEFAULT_EXPIRE * 2;
 static constexpr int DEFAULT_PERIODIC_EXTRA_WAIT = DEFAULT_EXPIRE * 0.8;

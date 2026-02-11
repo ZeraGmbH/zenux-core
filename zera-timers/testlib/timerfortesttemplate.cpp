@@ -1,9 +1,9 @@
 #include "timerfortesttemplate.h"
 #include "timemachinefortest.h"
 
-TimerForTestTemplate::TimerForTestTemplate(int expireTimeMs, bool singleShot) :
+TimerForTestTemplate::TimerForTestTemplate(int expireTimeMs, TimerTypes type) :
     TimerTemplateQt(expireTimeMs != 0 ? expireTimeMs : 1),
-    m_singleShot(singleShot)
+    m_type(type)
 {
 }
 
@@ -32,9 +32,9 @@ int TimerForTestTemplate::getExpireMs() const
     return m_expireTimeMs;
 }
 
-bool TimerForTestTemplate::getSingleShot() const
+TimerForTestTemplate::TimerTypes TimerForTestTemplate::getType() const
 {
-    return m_singleShot;
+    return m_type;
 }
 
 bool TimerForTestTemplate::isRunning()

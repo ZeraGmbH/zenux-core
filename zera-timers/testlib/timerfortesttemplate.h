@@ -7,17 +7,21 @@ class TimerForTestTemplate : public TimerTemplateQt
 {
     Q_OBJECT
 public:
-    TimerForTestTemplate(int expireTimeMs, bool singleShot);
+    enum TimerTypes {
+        SINGLESHOT,
+        PERIODIC,
+    };
+    TimerForTestTemplate(int expireTimeMs, TimerTypes type);
     virtual ~TimerForTestTemplate();
     void start() override;
     void stop() override;
     bool isRunning() override;
     void fireExpired();
     int getExpireMs() const;
-    bool getSingleShot() const;
+    TimerTypes getType() const;
 private:
     void removeFromRunner();
-    const bool m_singleShot;
+    const TimerTypes m_type;
 };
 
 #endif // TIMERFORTESTTEMPLATE_H
