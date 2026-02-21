@@ -24,6 +24,7 @@ target_include_directories(zera-jsonobject-to-string
 set_target_properties(zera-jsonobject-to-string PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(zera-jsonobject-to-string PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
 
+export(TARGETS zera-jsonobject-to-string FILE ZenuxCoreTargets.cmake)
 install(TARGETS zera-jsonobject-to-string
     EXPORT ZenuxCoreExport
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
