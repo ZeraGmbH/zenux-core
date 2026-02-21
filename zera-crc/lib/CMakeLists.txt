@@ -24,6 +24,7 @@ target_include_directories(zera-crc
 set_target_properties(zera-crc PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(zera-crc PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
 
+export(TARGETS zera-crc FILE ZenuxCoreTargets.cmake)
 install(TARGETS zera-crc
     EXPORT ZenuxCoreExport
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
