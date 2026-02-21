@@ -18,6 +18,7 @@ function(SETUP_QTESTS_CRC)
 endfunction()
 
 SETUP_QTESTS_CRC(
+    test_crc8_maxim
     test_crc32_iso_hdlc
     test_pseudo_crc_buffer
 )
