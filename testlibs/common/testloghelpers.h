@@ -10,10 +10,15 @@ class TestLogHelpers
 public:
     static bool compareAndLogOnDiff(const QString &expected, const QString &dumped);
     static bool compareAndLogOnDiffJson(const QString &expected, const QString &dumped);
+    static bool compareAndLogOnDiffFile(const QString &fileNameExpected, const QString &dumped);
+    static bool compareAndLogOnDiffJsonFile(const QString &fileNameExpected, const QString &dumped);
+
     static QByteArray dump(const QJsonObject &json);
     static QByteArray loadFile(const QString &fileName);
     static bool writeFile(const QString &fileName, const QByteArray &data);
     static bool copyFile(const QString &sourceFileName, const QString &targetFileName);
+
+    static QString removeResourceLeadFromPath(const QString &resourceFilePath);
 };
 
 #endif // TESTLOGHELPERS_H

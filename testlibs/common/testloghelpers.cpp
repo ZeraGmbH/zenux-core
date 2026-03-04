@@ -3,6 +3,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QDir>
+#include <QCoreApplication>
 
 bool TestLogHelpers::compareAndLogOnDiff(const QString &expected, const QString &dumped)
 {
@@ -40,6 +41,28 @@ bool TestLogHelpers::compareAndLogOnDiffJson(const QString &expected, const QStr
     bool dumpDiffOK = compareAndLogOnDiff(expected, dumped);
 
     return expectedIsJson && dumpedIsJson && dumpDiffOK;
+}
+
+bool TestLogHelpers::compareAndLogOnDiffFile(const QString &fileNameExpected, const QString &dumped)
+{
+    bool ret = compareAndLogOnDiff(loadFile(fileNameExpected), dumped);
+    if (!ret) {
+        QString testName = QCoreApplication::instance()->applicationName();
+        QString pathName = QString("/tmp/%1/%2").arg(testName, removeResourceLeadFromPath(fileNameExpected));
+        writeFile(pathName, dumped.toUtf8());
+    }
+    return ret;
+}
+
+bool TestLogHelpers::compareAndLogOnDiffJsonFile(const QString &fileNameExpected, const QString &dumped)
+{
+    bool ret = compareAndLogOnDiffJson(loadFile(fileNameExpected), dumped);
+    if (!ret) {
+        QString testName = QCoreApplication::instance()->applicationName();
+        QString pathName = QString("/tmp/%1/%2").arg(testName, removeResourceLeadFromPath(fileNameExpected));
+        writeFile(pathName, dumped.toUtf8());
+    }
+    return ret;
 }
 
 QByteArray TestLogHelpers::dump(const QJsonObject &json)
@@ -84,4 +107,12 @@ bool TestLogHelpers::copyFile(const QString &sourceFileName, const QString &targ
     return QFile(targetFileName).setPermissions(QFile::ReadOwner | QFile::WriteOwner |
                                                 QFile::ReadUser | QFile::WriteUser |
                                                 QFile::ReadOther | QFile::WriteOther);
+}
+
+QString TestLogHelpers::removeResourceLeadFromPath(const QString &resourceFilePath)
+{
+    QString ret = resourceFilePath;
+    ret.replace("qrc:/", "");
+    ret.replace(":/", "");
+    return ret;
 }
