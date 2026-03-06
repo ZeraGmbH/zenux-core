@@ -10,7 +10,7 @@ public:
     MemoryAllocTracker();
     virtual ~MemoryAllocTracker();
     void start();
-    void stop();
+    static void stop();
     void clear();
 
     void handleMalloc(size_t size, const void* allocatedMemory);

@@ -2,7 +2,7 @@
 #include <QElapsedTimer>
 #include <QTest>
 
-int SignalSpyWaiter::waitForSignals(QSignalSpy *spy, int signalCount, int timeoutMs)
+int SignalSpyWaiter::waitForSignals(const QSignalSpy *spy, int signalCount, int timeoutMs)
 {
     QElapsedTimer timer;
     timer.start();

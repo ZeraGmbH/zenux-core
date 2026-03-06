@@ -50,7 +50,7 @@ void TimeMachineObject::processTimers(int durationMs)
     m_currentTimeMs = processUpToTimestamp;
 }
 
-bool TimeMachineObject::isRunning(TimerForTestTemplate *timer) const
+bool TimeMachineObject::isRunning(const TimerForTestTemplate *timer) const
 {
     for(auto iter=m_pendingMap.constBegin(); iter!=m_pendingMap.constEnd(); iter++)
         for(const auto& entry : qAsConst(iter.value()))
@@ -90,7 +90,7 @@ bool TimeMachineObject::areTimersPending(int upToTimestamp)
     return !m_pendingMap.isEmpty() && m_pendingMap.firstKey() <= upToTimestamp;
 }
 
-bool TimeMachineObject::removeTimerFromList(QList<TimerForTestTemplate *> &timerList, TimerForTestTemplate *timer)
+bool TimeMachineObject::removeTimerFromList(QList<TimerForTestTemplate *> &timerList, const TimerForTestTemplate *timer)
 {
     for (int i=0; i<timerList.count(); ++i) {
         if(timerList[i] == timer) {

@@ -9,15 +9,15 @@ QString ZenuxDeviceInfo::getZenuxRelease()
     QFile file(path);
     if (file.open(QIODevice::ReadOnly)) {
         QTextStream stream(&file);
-        int start, end;
         QString line;
         bool releaseNrFound = false;
         do {
             line = stream.readLine();
+            int start;
             if ((start = line.indexOf("'release-")+1) > 0 ||
                 (start = line.indexOf("'snapshot-")+1) > 0 ||
                 (start = line.indexOf("'no-release-")+1) > 0) {
-                end = line.indexOf("'", start);
+                int end = line.indexOf("'", start);
                 releaseNrFound = end > start;
                 if (releaseNrFound)
                     releaseNr = line.mid(start, end-start);

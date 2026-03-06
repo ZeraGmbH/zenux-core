@@ -1,9 +1,9 @@
 #include "logstatisticsasyncint.h"
 #include "timerfactoryqt.h"
 
-LogStatisticsAsyncInt::LogStatisticsAsyncInt(int periodMs)
+LogStatisticsAsyncInt::LogStatisticsAsyncInt(int periodMs) :
+    m_timer(TimerFactoryQt::createPeriodic(periodMs))
 {
-    m_timer = TimerFactoryQt::createPeriodic(periodMs);
     connect(m_timer.get(), &TimerTemplateQt::sigExpired,
             this, &LogStatisticsAsyncInt::onTimer);
     m_timer->start();

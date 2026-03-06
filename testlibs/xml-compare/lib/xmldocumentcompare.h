@@ -14,7 +14,7 @@ public:
     XmlDocumentCompare(XmlElemCompareFunc elemCompareFunction = m_defaultElemCompareFunc);
     bool compareXml(const QString &xml1, const QString &xml2, bool fatalOnInvalidXml=false);
 private:
-    bool compareDocTypes(XmlDocument doc1, XmlDocument doc2);
+    static bool compareDocTypes(XmlDocument doc1, XmlDocument doc2);
     bool compareAllElems(XmlDocument doc1, XmlDocument doc2);
 
     XmlElemCompareFunc m_elemCompareFunc;

@@ -1,9 +1,9 @@
 #include "logstatisticsasyncfloat.h"
 #include "timerfactoryqt.h"
 
-LogStatisticsAsyncFloat::LogStatisticsAsyncFloat(int periodMs)
+LogStatisticsAsyncFloat::LogStatisticsAsyncFloat(int periodMs) :
+    m_timer(TimerFactoryQt::createPeriodic(periodMs))
 {
-    m_timer = TimerFactoryQt::createPeriodic(periodMs);
     connect(m_timer.get(), &TimerTemplateQt::sigExpired,
             this, &LogStatisticsAsyncFloat::onTimer);
     m_timer->start();

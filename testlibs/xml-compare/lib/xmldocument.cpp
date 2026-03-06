@@ -36,7 +36,7 @@ bool XmlDocument::findElem(QStringList tagSearchPath, QDomElement &foundElem)
     return !foundElem.isNull();
 }
 
-XmlElemIter XmlDocument::find(QStringList tagSearchPath, XmlElemIterStrategyPtr &&iterStrategy)
+XmlElemIter XmlDocument::find(const QStringList &tagSearchPath, XmlElemIterStrategyPtr &&iterStrategy)
 {
     QDomElement foundElem;
     findElem(tagSearchPath, foundElem);

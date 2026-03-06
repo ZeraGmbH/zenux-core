@@ -18,7 +18,7 @@ public:
 
     XmlElemIter root(XmlElemIterStrategyPtr &&iterStrategy = std::make_unique<XmlElemIterStrategyTree>());
 
-    XmlElemIter find(QStringList tagSearchPath, XmlElemIterStrategyPtr &&iterStrategy= std::make_unique<XmlElemIterStrategyList>());
+    XmlElemIter find(const QStringList &tagSearchPath, XmlElemIterStrategyPtr &&iterStrategy= std::make_unique<XmlElemIterStrategyList>());
     bool findElem(QStringList tagSearchPath, QDomElement &foundElem);
 
 private:

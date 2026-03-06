@@ -7,7 +7,7 @@ class SignalSpyWaiter
 {
 public:
     // We have seen QSignalSpy::wait not working as expected...
-    static int waitForSignals(QSignalSpy *spy,
+    static int waitForSignals(const QSignalSpy *spy,
                               int signalCount,
                               int timeoutMs = 2000);
 };

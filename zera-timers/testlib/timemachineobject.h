@@ -17,7 +17,7 @@ public:
     void setTimerPending(TimerForTestTemplate* timer);
     void removeTimer(TimerForTestTemplate *timer);
     void processTimers(int durationMs);
-    bool isRunning(TimerForTestTemplate* timer) const;
+    bool isRunning(const TimerForTestTemplate* timer) const;
     int getCurrentTimeMs() const;
     // Datetime
     void setCurrentTime(const QDate &date, const QTime &time, const QTimeZone &tz = QTimeZone(3*3600));
@@ -27,7 +27,7 @@ public:
     static void feedEventLoop();
 private:
     bool areTimersPending(int upToTimestamp);
-    bool removeTimerFromList(QList<TimerForTestTemplate*> &timerList, TimerForTestTemplate *timer);
+    static bool removeTimerFromList(QList<TimerForTestTemplate*> &timerList, const TimerForTestTemplate *timer);
 
     int m_currentTimeMs = 0;
     qint64 m_msecsCurrDateTimeTimeOffset = 0;
