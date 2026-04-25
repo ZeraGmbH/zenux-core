@@ -8,6 +8,8 @@ class TimerTemplateQt : public QObject
 {
     Q_OBJECT
 public:
+    static void noteWhenCalledFromTest();
+
     explicit TimerTemplateQt(int expireTimeMs);
     virtual ~TimerTemplateQt() = default;
     virtual void start() = 0;
@@ -15,6 +17,7 @@ public:
     virtual bool isRunning() = 0;
 signals:
     void sigExpired();
+
 protected:
     int m_expireTimeMs;
 };

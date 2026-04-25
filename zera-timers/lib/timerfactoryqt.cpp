@@ -38,6 +38,7 @@ std::function<TimerTemplateQtPtr (int)> TimerFactoryQt::defaultPeriodicCreateFun
 std::function<QDateTime ()> TimerFactoryQt::defaultGetCurrentTimeFunc()
 {
     return []() {
+        TimerTemplateQt::noteWhenCalledFromTest();
         return QDateTime::currentDateTime();
     };
 }

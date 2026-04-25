@@ -3,6 +3,7 @@
 TimerSingleShotQt::TimerSingleShotQt(int expireTimeMs) :
     TimerTemplateQt(expireTimeMs)
 {
+    noteWhenCalledFromTest();
 }
 
 void TimerSingleShotQt::setHighAccuracy(bool on)
