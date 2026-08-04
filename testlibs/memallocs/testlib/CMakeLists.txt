@@ -26,6 +26,10 @@ target_link_libraries(testlib-memallocs
     dl
 )
 
+# Make memory tests find backtatrace symbols for CMake >= 3.4 by
+# forcing targets linking to testlib-memallocs inherit the -rdynamic flag
+target_link_options(testlib-memallocs INTERFACE -rdynamic)
+
 set_target_properties(testlib-memallocs PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(testlib-memallocs PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
 
