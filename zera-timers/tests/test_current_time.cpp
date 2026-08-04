@@ -91,7 +91,7 @@ void test_current_time::enableTestSetTimeReset()
     QDate date;
     QTime time;
     QTimeZone tz;
-    QDateTime startTime = createTestDateTime(date, time, tz);
+    createTestDateTime(date, time, tz);
     TimeMachineForTest::getInstance()->setCurrentTime(date, time, tz);
 
     TimeMachineForTest::reset();

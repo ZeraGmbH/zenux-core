@@ -17,7 +17,7 @@ void test_timersingleshotqt::init()
 void test_timersingleshotqt::inspectTimerByDelay(TimerSingleShotQt *timer)
 {
     m_elapsedTimer->start();
-    connect(timer, &TimerSingleShotQt::sigExpired, [&]{
+    connect(timer, &TimerSingleShotQt::sigExpired, this, [&] {
         m_expireCount++;
         m_expireTime = m_elapsedTimer->elapsed();
     });
@@ -25,7 +25,7 @@ void test_timersingleshotqt::inspectTimerByDelay(TimerSingleShotQt *timer)
 
 void test_timersingleshotqt::inspectTimerByRunner(TimerForTestTemplate *timer)
 {
-    connect(timer, &TimerSingleShotQt::sigExpired, [&]{
+    connect(timer, &TimerSingleShotQt::sigExpired, this, [&] {
         m_expireCount++;
         m_expireTime = TimeMachineForTest::getInstance()->getCurrentTimeMs();
     });

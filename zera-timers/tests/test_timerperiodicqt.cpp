@@ -16,14 +16,14 @@ void test_timerperiodicqt::init()
 void test_timerperiodicqt::inspectTimerByDelay(TimerPeriodicQt *timer)
 {
     m_elapsedTimer->start();
-    connect(timer, &TimerTemplateQt::sigExpired, [&]{
+    connect(timer, &TimerTemplateQt::sigExpired, this, [&] {
         m_expireTimes.append(m_elapsedTimer->elapsed());
     });
 }
 
 void test_timerperiodicqt::inspectTimerByRunner(TimerForTestTemplate *timer)
 {
-    connect(timer, &TimerTemplateQt::sigExpired, [&]{
+    connect(timer, &TimerTemplateQt::sigExpired, this, [&] {
         m_expireTimes.append(TimeMachineForTest::getInstance()->getCurrentTimeMs());
     });
 }
