@@ -29,6 +29,7 @@ void BacktraceTreeGenerator::insertEntry(const AllocatedWithBacktrace &alloc,
 {
     if (currBacktraceDepth >= alloc.m_backTrace.size())
         return;
+
     const void* backtracePointer = alloc.m_backTrace[currBacktraceDepth];
     if(currBacktraceDepth == 0) {
         m_emptyRootTrace.m_callCount++;
@@ -49,12 +50,10 @@ void BacktraceTreeGenerator::insertEntry(const AllocatedWithBacktrace &alloc,
 
 void BacktraceTreeGenerator::fillChildrenBySize()
 {
-    for (auto iter=m_emptyRootTrace.m_childTraces.cbegin(); iter!=m_emptyRootTrace.m_childTraces.cend(); iter++) {
+    for (auto iter=m_emptyRootTrace.m_childTraces.cbegin(); iter!=m_emptyRootTrace.m_childTraces.cend(); iter++)
         m_emptyRootTrace.m_childrenBySize[iter.value().m_totalAlloc].append(&iter.value());
-    }
-    for (TreeEntry *entry : m_entryList) {
-        for (auto iter=entry->m_childTraces.cbegin(); iter!=entry->m_childTraces.cend(); iter++) {
+
+    for (TreeEntry *entry : qAsConst(m_entryList))
+        for (auto iter=entry->m_childTraces.cbegin(); iter!=entry->m_childTraces.cend(); iter++)
             entry->m_childrenBySize[iter.value().m_totalAlloc].append(&iter.value());
-        }
-    }
 }
