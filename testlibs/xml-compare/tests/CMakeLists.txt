@@ -8,4 +8,6 @@ SETUP_QTESTS(
     test_xmlelemiteratorsort
     test_xmlelemiteratortree
     test_svg_fuzzy_attribute_compare_function
+    test_xmlsorteddump
 )
+

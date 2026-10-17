@@ -29,6 +29,9 @@ private slots:
     void docTypeUnequal();
     void docTypeEqual();
     void sameSizeDifferentElems();
+
+    void compareXmlFileEqualStoresNothing();
+    void compareXmlFileUnequalStoresSortedDump();
 };
 
 #endif // TEST_XMLDOCUMENTCOMPARE_H

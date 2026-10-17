@@ -1,5 +1,7 @@
 #include "test_xmldocumentcompare.h"
 #include "xmldocumentcompare.h"
+#include "xmlsorteddump.h"
+#include "testloghelpers.h"
 #include <QTest>
 
 QTEST_MAIN(test_xmldocumentcompare)
@@ -352,4 +354,58 @@ void test_xmldocumentcompare::sameSizeDifferentElems()
     XmlDocumentCompare compare;
     QVERIFY(!compare.compareXml(xml1, xml2, true));
     QVERIFY(!compare.compareXml(xml2, xml1, true));
+}
+
+void test_xmldocumentcompare::compareXmlFileEqualStoresNothing()
+{
+    QTemporaryDir tempDir;
+    QVERIFY(tempDir.isValid());
+    const QString fileNameExpected = tempDir.filePath("ref.xml");
+    const QByteArray refData = "<root><a v='1'>t1</a><b><c/></b></root>";
+    QVERIFY(TestLogHelpers::writeFile(fileNameExpected, refData));
+
+    // same data as the reference, only in a different tag order
+    const QString dumped = "<root><b><c/></b><a v='1'>t1</a></root>";
+    XmlDocumentCompare compare;
+    QVERIFY(compare.compareXmlFile(fileNameExpected, dumped));
+    QVERIFY(!QFileInfo::exists((TestLogHelpers::getDumpFilePath(fileNameExpected))));
+}
+
+void test_xmldocumentcompare::compareXmlFileUnequalStoresSortedDump()
+{
+    QTemporaryDir tempDir;
+    QVERIFY(tempDir.isValid());
+    const QString fileNameExpected = tempDir.filePath("ref.xml");
+    const QByteArray refData = "<root><a v='1'>t1</a><b><c/></b></root>";
+    QVERIFY(TestLogHelpers::writeFile(fileNameExpected, refData));
+
+    // dump with changed data and shuffled tags/attributes
+    const QString dumped =
+        "<root z='9'>"
+        "<b aattr='x'><c extra='1'/></b>"
+        "<a v='42'>t2</a>"
+        "</root>";
+
+    XmlDocumentCompare compare;
+    QVERIFY(!compare.compareXmlFile(fileNameExpected, dumped));
+
+    const QString storedPath = TestLogHelpers::getDumpFilePath(fileNameExpected);
+    QVERIFY(QFileInfo::exists(storedPath));
+    const QString stored = QString::fromUtf8(TestLogHelpers::loadFile(storedPath));
+
+    // the stored file is the reproducible (sorted) version of the dump
+    QCOMPARE(stored, XmlSortedDump::sortedXml(dumped));
+
+    // ... and still contains all tags/attributes/text of the dump (compareXml ignores order)
+    const QString shuffledDumped =
+        "<root z='9'>"
+        "<a v='42'>t2</a>"
+        "<b aattr='x'><c extra='1'/></b>"
+        "</root>";
+    QVERIFY(compare.compareXml(stored, shuffledDumped));
+
+    // ... while the data change against the reference is still detectable
+    QVERIFY(!compare.compareXml(stored, QString::fromUtf8(refData)));
+
+    QFile::remove(storedPath);
 }

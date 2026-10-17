@@ -11,7 +11,9 @@ typedef std::function<bool (const QDomElement, const QDomElement)> XmlElemCompar
 class XmlDocumentCompare
 {
 public:
-    XmlDocumentCompare(XmlElemCompareFunc elemCompareFunction = m_defaultElemCompareFunc);
+    static bool compareXmlFile(const QString &fileNameExpected, const QString &dumped, bool fatalOnInvalidXml=false);
+
+    explicit XmlDocumentCompare(XmlElemCompareFunc elemCompareFunction = m_defaultElemCompareFunc);
     bool compareXml(const QString &xml1, const QString &xml2, bool fatalOnInvalidXml=false);
 private:
     static bool compareDocTypes(XmlDocument doc1, XmlDocument doc2);

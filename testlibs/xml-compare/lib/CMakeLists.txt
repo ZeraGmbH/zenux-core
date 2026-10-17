@@ -21,6 +21,7 @@ target_link_libraries(xml-compare-testlib
     PUBLIC
     ${QTX}::Core
     ${QTX}::Xml
+    testlib-common
     )
 
 export(TARGETS xml-compare-testlib NAMESPACE Zera:: FILE ZenuxCoreTargets.cmake)

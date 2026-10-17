@@ -1,8 +1,10 @@
 #include "xmldocumentcompare.h"
+#include "testloghelpers.h"
 #include "xmlelemcompareattribs.h"
 #include "xmlelemcomparetext.h"
 #include "xmlelemcomparetag.h"
 #include "xmlelemiterstrategysort.h"
+#include "xmlsorteddump.h"
 #include <QHash>
 
 XmlDocumentCompare::XmlDocumentCompare(XmlElemCompareFunc elemCompareFunction) :
@@ -32,6 +34,17 @@ bool XmlDocumentCompare::compareXml(const QString &xml1, const QString &xml2, bo
     if(!compareDocTypes(doc1, doc2))
         return false;
     return compareAllElems(doc1, doc2);
+}
+
+bool XmlDocumentCompare::compareXmlFile(const QString &fileNameExpected, const QString &dumped, bool fatalOnInvalidXml)
+{
+    XmlDocumentCompare xmlCompare;
+    bool same = xmlCompare.compareXml(TestLogHelpers::loadFile(fileNameExpected), dumped, fatalOnInvalidXml);
+    if (!same) {
+        QString sorted = XmlSortedDump::sortedXml(dumped);
+        TestLogHelpers::writeFile(TestLogHelpers::getDumpFilePath(fileNameExpected), sorted.toUtf8());
+    }
+    return same;
 }
 
 bool XmlDocumentCompare::compareDocTypes(XmlDocument doc1, XmlDocument doc2)
