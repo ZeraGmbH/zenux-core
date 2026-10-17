@@ -16,6 +16,10 @@ private slots:
     void equalTextEqualUnequalAttribs();
     void firstHasAttributes();
     void secondHasAttibutes();
+    void childElemsSwappedSequence();
+    void directTextCompared();
+    void whitespaceOnlyDirectTextIgnored();
+    void multipleDirectTextNodesCompared();
 };
 
 #endif // TEST_XMLTEXTCOMPARE_H

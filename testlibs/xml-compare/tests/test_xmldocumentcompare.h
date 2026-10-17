@@ -29,6 +29,8 @@ private slots:
     void docTypeUnequal();
     void docTypeEqual();
     void sameSizeDifferentElems();
+    void sortedReferenceVsDeviceOrderDump();
+    void equalDataDifferentIndentation();
 
     void compareXmlFileEqualStoresNothing();
     void compareXmlFileUnequalStoresSortedDump();
