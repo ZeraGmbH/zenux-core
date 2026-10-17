@@ -13,6 +13,8 @@ public:
     static bool compareAndLogOnDiffFile(const QString &fileNameExpected, const QString &dumped);
     static bool compareAndLogOnDiffJsonFile(const QString &fileNameExpected, const QString &dumped);
 
+    static QString getDumpFilePath(const QString &fileNameExpected);
+
     static QByteArray dump(const QJsonObject &json);
     static QByteArray loadFile(const QString &fileName);
     static bool writeFile(const QString &fileName, const QByteArray &data);

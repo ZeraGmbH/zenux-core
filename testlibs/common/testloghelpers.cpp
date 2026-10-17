@@ -39,23 +39,23 @@ bool TestLogHelpers::compareAndLogOnDiffJson(const QString &expected, const QStr
 bool TestLogHelpers::compareAndLogOnDiffFile(const QString &fileNameExpected, const QString &dumped)
 {
     bool ret = compareAndLogOnDiff(loadFile(fileNameExpected), dumped);
-    if (!ret) {
-        QString testName = QCoreApplication::instance()->applicationName();
-        QString pathName = QString("/tmp/%1/%2").arg(testName, removeResourceLeadFromPath(fileNameExpected));
-        writeFile(pathName, dumped.toUtf8());
-    }
+    if (!ret)
+        writeFile(getDumpFilePath(fileNameExpected), dumped.toUtf8());
     return ret;
 }
 
 bool TestLogHelpers::compareAndLogOnDiffJsonFile(const QString &fileNameExpected, const QString &dumped)
 {
     bool ret = compareAndLogOnDiffJson(loadFile(fileNameExpected), dumped);
-    if (!ret) {
-        QString testName = QCoreApplication::instance()->applicationName();
-        QString pathName = QString("/tmp/%1/%2").arg(testName, removeResourceLeadFromPath(fileNameExpected));
-        writeFile(pathName, dumped.toUtf8());
-    }
+    if (!ret)
+        writeFile(getDumpFilePath(fileNameExpected), dumped.toUtf8());
     return ret;
+}
+
+QString TestLogHelpers::getDumpFilePath(const QString &fileNameExpected)
+{
+    QString testName = QCoreApplication::instance()->applicationName();
+    return QString("/tmp/%1/%2").arg(testName, removeResourceLeadFromPath(fileNameExpected));
 }
 
 QByteArray TestLogHelpers::dump(const QJsonObject &json)
