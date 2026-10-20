@@ -48,7 +48,7 @@ void test_timerelapsedqt::startOnceDelayCheckElapsedTest()
 void test_timerelapsedqt::startTwiceDelayCheckElapsedTiming()
 {
     SKIP_TEST_ON_RELEASE_BUILD
-        TimerElapsedQt timer;
+    TimerElapsedQt timer;
 
     timer.start();
     QTest::qWait(100);
