@@ -47,6 +47,7 @@ endfunction()
 
 add_subdirectory(zenux-device-info)
 add_subdirectory(zera-crc)
+add_subdirectory(zera-file-io-extension)
 add_subdirectory(zera-jsonobject-to-string)
 add_subdirectory(zera-tasks-base)
 add_subdirectory(zera-timers)
