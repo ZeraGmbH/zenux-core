@@ -21,4 +21,5 @@ endfunction()
 SETUP_QTESTS_FILE_EXT(
     test_safe_file_loader
     test_utf8_validator
+    test_cp1252_validator
 )
