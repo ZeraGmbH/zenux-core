@@ -1,17 +1,14 @@
 #include "utf8datavalidator.h"
-#include <QTextCodec>
 
 bool Utf8DataValidator::isValidUtf8(const QByteArray &data)
 {
-    // Stolen from: https://stackoverflow.com/questions/18227530/check-if-utf-8-string-is-valid-in-qt
-    QTextCodec::ConverterState state;
-    QTextCodec *codec = QTextCodec::codecForName("UTF-8");
-    codec->toUnicode(data.constData(), data.size(), &state);
-    if (state.invalidChars > 0)
-        return false;
-
-    // This was AI generated and the code above accepts truncated 3byte sequences. So
-    // trust for now.
+    // UTF-8 validation: rejects overlong encodings, codepoints above
+    // U+10FFFF, stray continuation bytes and truncated sequences.
+    // Deliberately accepts surrogate encodings (U+D800..U+DFFF, e.g. ED A0 80),
+    // which RFC 3629 forbids: such files are still salvaged by
+    // QString::fromUtf8 (which replaces them with U+FFFD), which yields
+    // better results than falling through to CP1252 in the converter
+    // pipeline. See the test rows in test_utf8_validator.cpp.
     const auto *p = reinterpret_cast<const unsigned char*>(data.constData());
     const int n = data.size();
     int i = 0;
@@ -33,6 +30,8 @@ bool Utf8DataValidator::isValidUtf8(const QByteArray &data)
         else if ((c & 0xF8) == 0xF0) {
             trailingBytes = 3;
             if (c > 0xF4) // above U+10FFFF
+                return false;
+            if (c == 0xF4 && i + 1 < n && p[i + 1] > 0x8F) // above U+10FFFF
                 return false;
             if (c == 0xF0 && i + 1 < n && p[i + 1] < 0x90) // overlong encoding of U+1000..U+3FFF
                 return false;

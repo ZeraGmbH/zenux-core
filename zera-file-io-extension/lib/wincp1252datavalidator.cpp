@@ -8,7 +8,6 @@ bool WinCp1252DataValidator::isValidCp1252(const QByteArray &data)
     //   0x81, 0x8D, 0x8F, 0x90, 0x9D
     // (Reference: https://en.wikipedia.org/wiki/Windows-1252)
     //
-    // Note: unlike the UTF-8 validator, we cannot reuse QTextCodec here —
     // Qt's "windows-1252" codec maps *all* 256 bytes to something (the
     // undefined ones become C1 control characters), so its invalidChars
     // count would always be zero and the check would be vacuous.

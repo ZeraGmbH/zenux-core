@@ -24,10 +24,15 @@ void test_utf8_validator::isValidUtf8Cases_data()
     QTest::newRow("truncated 3-byte sequence") << QByteArray::fromHex("E4BD") << false;
     QTest::newRow("invalid lead byte C1") << QByteArray::fromHex("C180") << false;
     QTest::newRow("codepoint above U+10FFFF F490") << QByteArray::fromHex("F4908080") << false;
+    QTest::newRow("truncated 2-byte sequence") << QByteArray::fromHex("C2") << false;
+    QTest::newRow("truncated 4-byte sequence") << QByteArray::fromHex("F09F80") << false;
+    QTest::newRow("min codepoint U+10000 F090") << QByteArray::fromHex("F0908080") << true;
 
-    // AI analysis: The surrogate row is slightly debatable — some real-world validators (glibc, Python, ICU)
-    // accept surrogate encodings as syntactically valid — so it's the one to discuss.
-    //QTest::newRow("surrogate U+D800")              << QByteArray::fromHex("EDA080")   << false;
+    // Surrogate encodings (U+D800..U+DFFF) are forbidden by RFC 3629 but
+    // deliberately accepted here: QString::fromUtf8 salvages them as U+FFFD,
+    // which beats falling through to CP1252 in the converter pipeline.
+    QTest::newRow("surrogate U+D800 (accepted by design)") << QByteArray::fromHex("EDA080") << true;
+    QTest::newRow("surrogate U+DFFF (accepted by design)") << QByteArray::fromHex("EDBFBF") << true;
 }
 
 void test_utf8_validator::isValidUtf8Cases()
