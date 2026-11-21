@@ -12,6 +12,7 @@ class XmlDocumentCompare
 {
 public:
     static bool compareXmlFile(const QString &fileNameExpected, const QString &dumped, bool fatalOnInvalidXml=false);
+    static bool compareXmlSrc(const QString &fileNameExpected, const QString &dumped, const QString &sourceFileName, bool fatalOnInvalidXml=false);
 
     explicit XmlDocumentCompare(XmlElemCompareFunc elemCompareFunction = m_defaultElemCompareFunc);
     bool compareXml(const QString &xml1, const QString &xml2, bool fatalOnInvalidXml=false);

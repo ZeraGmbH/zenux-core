@@ -5,6 +5,11 @@
 #include <QDir>
 #include <QCoreApplication>
 
+bool TestLogHelpers::runsInOeEnvironment()
+{
+    return qEnvironmentVariableIsSet("TESTS_RUN_ON_OE");
+}
+
 bool TestLogHelpers::compareAndLogOnDiff(const QString &expected, const QString &dumped)
 {
     QString expectedCompare = expected;
@@ -40,7 +45,7 @@ bool TestLogHelpers::compareAndLogOnDiffFile(const QString &fileNameExpected, co
 {
     bool ret = compareAndLogOnDiff(loadFile(fileNameExpected), dumped);
     if (!ret)
-        writeFile(getDumpFilePath(fileNameExpected), dumped.toUtf8());
+        writeFile(getDumpStoreTmpFilePath(fileNameExpected), dumped.toUtf8());
     return ret;
 }
 
@@ -48,14 +53,47 @@ bool TestLogHelpers::compareAndLogOnDiffJsonFile(const QString &fileNameExpected
 {
     bool ret = compareAndLogOnDiffJson(loadFile(fileNameExpected), dumped);
     if (!ret)
-        writeFile(getDumpFilePath(fileNameExpected), dumped.toUtf8());
+        writeFile(getDumpStoreTmpFilePath(fileNameExpected), dumped.toUtf8());
     return ret;
 }
 
-QString TestLogHelpers::getDumpFilePath(const QString &fileNameExpected)
+bool TestLogHelpers::compareAndLogOnDiffSrc(const QString &fileNameExpected, const QString &dumped, const QString &sourceFileName)
+{
+    const QString fileNameExpectedPath = getDumpStoreSrcFilePath(fileNameExpected, sourceFileName);
+    bool ret = compareAndLogOnDiff(fileNameExpectedPath, dumped);
+    if (!ret) {
+        if (runsInOeEnvironment())
+            writeFile(TestLogHelpers::getDumpStoreTmpFilePath(fileNameExpected), dumped.toUtf8());
+        else
+            writeFile(TestLogHelpers::getDumpStoreSrcFilePath(fileNameExpected, sourceFileName), dumped.toUtf8());
+    }
+    return ret;
+}
+
+bool TestLogHelpers::compareAndLogOnDiffJsonSrc(const QString &fileNameExpected, const QString &dumped, const QString &sourceFileName)
+{
+    const QString fileNameExpectedPath = getDumpStoreSrcFilePath(fileNameExpected, sourceFileName);
+    bool ret = compareAndLogOnDiffJson(loadFile(fileNameExpectedPath), dumped);
+    if (!ret) {
+        if (runsInOeEnvironment())
+            writeFile(getDumpStoreTmpFilePath(fileNameExpected), dumped.toUtf8());
+        else
+            writeFile(fileNameExpectedPath, dumped.toUtf8());
+    }
+    return ret;
+}
+
+QString TestLogHelpers::getDumpStoreTmpFilePath(const QString &fileNameExpected)
 {
     QString testName = QCoreApplication::instance()->applicationName();
     return QString("/tmp/%1/%2").arg(testName, removeResourceLeadFromPath(fileNameExpected));
+}
+
+QString TestLogHelpers::getDumpStoreSrcFilePath(const QString &fileNameExpected, const QString &sourceCodeDir)
+{
+    const QString sourceDir = sourceCodeDir + QDir::separator() + "test-data";
+    const QString fileNameExpectedPath = sourceDir + QDir::separator() + fileNameExpected;
+    return fileNameExpectedPath;
 }
 
 QByteArray TestLogHelpers::dump(const QJsonObject &json)

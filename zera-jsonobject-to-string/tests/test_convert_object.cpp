@@ -17,11 +17,15 @@ void test_convert_object::exportObjectOneNullValue()
     QJsonObject obj;
     obj.insert("null0", QJsonValue());
 
+    bool allOk = true;
     QString dumped = JsonPrecisionExport::objectToString(obj, 0);
-    QVERIFY(TestLogHelpers::compareAndLogOnDiffJsonFile(":/test-data/exportObjectOneNullValueTab0.json", dumped));
+    if (!TestLogHelpers::compareAndLogOnDiffJsonSrc("exportObjectOneNullValueTab0.json", dumped, TEST_SRC_DIR))
+        allOk = false;
 
     dumped = JsonPrecisionExport::objectToString(obj, 2);
-    QVERIFY(TestLogHelpers::compareAndLogOnDiffJsonFile(":/test-data/exportObjectOneNullValueTab2.json", dumped));
+    if (!TestLogHelpers::compareAndLogOnDiffJsonSrc("exportObjectOneNullValueTab2.json", dumped, TEST_SRC_DIR))
+        allOk = false;
+    QVERIFY(allOk);
 }
 
 void test_convert_object::exportObjectTwoNullValue()
@@ -30,11 +34,15 @@ void test_convert_object::exportObjectTwoNullValue()
     obj.insert("null0", QJsonValue());
     obj.insert("null1", QJsonValue());
 
+    bool allOk = true;
     QString dumped = JsonPrecisionExport::objectToString(obj, 0);
-    QVERIFY(TestLogHelpers::compareAndLogOnDiffJsonFile(":/test-data/exportObjectTwoNullValueTab0.json", dumped));
+    if (!TestLogHelpers::compareAndLogOnDiffJsonSrc("exportObjectTwoNullValueTab0.json", dumped, TEST_SRC_DIR))
+        allOk = false;
 
     dumped = JsonPrecisionExport::objectToString(obj, 2);
-    QVERIFY(TestLogHelpers::compareAndLogOnDiffJsonFile(":/test-data/exportObjectTwoNullValueTab2.json", dumped));
+    if (!TestLogHelpers::compareAndLogOnDiffJsonSrc("exportObjectTwoNullValueTab2.json", dumped, TEST_SRC_DIR))
+        allOk = false;
+    QVERIFY(allOk);
 }
 
 void test_convert_object::exportObjectTwoNullValueQtCompare()
@@ -59,11 +67,15 @@ void test_convert_object::exportObjectTwoEmptyObjects()
     obj.insert("obj0", QJsonValue(QJsonObject()));
     obj.insert("obj1", QJsonValue(QJsonObject()));
 
+    bool allOk = true;
     QString dumped = JsonPrecisionExport::objectToString(obj, 0);
-    QVERIFY(TestLogHelpers::compareAndLogOnDiffJsonFile(":/test-data/exportObjectTwoEmptyObjectsTab0.json", dumped));
+    if (!TestLogHelpers::compareAndLogOnDiffJsonSrc("exportObjectTwoEmptyObjectsTab0.json", dumped, TEST_SRC_DIR))
+        allOk = false;
 
     dumped = JsonPrecisionExport::objectToString(obj, 2);
-    QVERIFY(TestLogHelpers::compareAndLogOnDiffJsonFile(":/test-data/exportObjectTwoEmptyObjectsTab2.json", dumped));
+    if (!TestLogHelpers::compareAndLogOnDiffJsonSrc("exportObjectTwoEmptyObjectsTab2.json", dumped, TEST_SRC_DIR))
+        allOk = false;
+    QVERIFY(allOk);
 }
 
 void test_convert_object::exportObjectTwoEmptyObjectsQtCompare()
@@ -88,11 +100,15 @@ void test_convert_object::exportObjectTwoEmptyArrays()
     obj.insert("arr0", QJsonValue(QJsonArray()));
     obj.insert("arr1", QJsonValue(QJsonArray()));
 
+    bool allOk = true;
     QString dumped = JsonPrecisionExport::objectToString(obj, 0);
-    QVERIFY(TestLogHelpers::compareAndLogOnDiffJsonFile(":/test-data/exportObjectTwoEmptyArraysTab0.json", dumped));
+    if (!TestLogHelpers::compareAndLogOnDiffJsonSrc("exportObjectTwoEmptyArraysTab0.json", dumped, TEST_SRC_DIR))
+        allOk = false;
 
     dumped = JsonPrecisionExport::objectToString(obj, 2);
-    QVERIFY(TestLogHelpers::compareAndLogOnDiffJsonFile(":/test-data/exportObjectTwoEmptyArraysTab2.json", dumped));
+    if (!TestLogHelpers::compareAndLogOnDiffJsonSrc("exportObjectTwoEmptyArraysTab2.json", dumped, TEST_SRC_DIR))
+        allOk = false;
+    QVERIFY(allOk);
 }
 
 void test_convert_object::exportObjectTwoEmptyArraysQtCompare()
@@ -123,11 +139,15 @@ void test_convert_object::exportObjectTwoArraysOfStrings()
     obj.insert("arr0", QJsonValue(array1));
     obj.insert("arr1", QJsonValue(array2));
 
+    bool allOk = true;
     QString dumped = JsonPrecisionExport::objectToString(obj, 0);
-    QVERIFY(TestLogHelpers::compareAndLogOnDiffJsonFile(":/test-data/exportObjectTwoArraysOfStringsTab0.json", dumped));
+    if (!TestLogHelpers::compareAndLogOnDiffJsonSrc("exportObjectTwoArraysOfStringsTab0.json", dumped, TEST_SRC_DIR))
+        allOk = false;
 
     dumped = JsonPrecisionExport::objectToString(obj, 2);
-    QVERIFY(TestLogHelpers::compareAndLogOnDiffJsonFile(":/test-data/exportObjectTwoArraysOfStringsTab2.json", dumped));
+    if (!TestLogHelpers::compareAndLogOnDiffJsonSrc("exportObjectTwoArraysOfStringsTab2.json", dumped, TEST_SRC_DIR))
+        allOk = false;
+    QVERIFY(allOk);
 }
 
 void test_convert_object::exportObjectTwoArraysOfStringsQtCompare()
@@ -176,11 +196,15 @@ void test_convert_object::exportObjectOfNestedAll()
 {
     QJsonObject obj = createObjectOfNestedAll();
 
+    bool allOk = true;
     QString dumped = JsonPrecisionExport::objectToString(obj, 0);
-    QVERIFY(TestLogHelpers::compareAndLogOnDiffJsonFile(":/test-data/exportObjectOfNestedAllTab0.json", dumped));
+    if (!TestLogHelpers::compareAndLogOnDiffJsonSrc("exportObjectOfNestedAllTab0.json", dumped, TEST_SRC_DIR))
+        allOk = false;
 
     dumped = JsonPrecisionExport::objectToString(obj, 2);
-    QVERIFY(TestLogHelpers::compareAndLogOnDiffJsonFile(":/test-data/exportObjectOfNestedAllTab2.json", dumped));
+    if (!TestLogHelpers::compareAndLogOnDiffJsonSrc("exportObjectOfNestedAllTab2.json", dumped, TEST_SRC_DIR))
+        allOk = false;
+    QVERIFY(allOk);
 }
 
 void test_convert_object::exportObjectOfNestedAllQtCompare()

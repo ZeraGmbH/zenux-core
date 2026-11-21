@@ -8,12 +8,19 @@
 class TestLogHelpers
 {
 public:
+    static bool runsInOeEnvironment();
+
     static bool compareAndLogOnDiff(const QString &expected, const QString &dumped);
     static bool compareAndLogOnDiffJson(const QString &expected, const QString &dumped);
+
     static bool compareAndLogOnDiffFile(const QString &fileNameExpected, const QString &dumped);
     static bool compareAndLogOnDiffJsonFile(const QString &fileNameExpected, const QString &dumped);
 
-    static QString getDumpFilePath(const QString &fileNameExpected);
+    static bool compareAndLogOnDiffSrc(const QString &fileNameExpected, const QString &dumped, const QString &sourceFileName);
+    static bool compareAndLogOnDiffJsonSrc(const QString &fileNameExpected, const QString &dumped, const QString &sourceFileName);
+
+    static QString getDumpStoreTmpFilePath(const QString &fileNameExpected);
+    static QString getDumpStoreSrcFilePath(const QString &fileNameExpected, const QString &sourceCodeDir);
 
     static QByteArray dump(const QJsonObject &json);
     static QByteArray loadFile(const QString &fileName);

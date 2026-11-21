@@ -42,7 +42,22 @@ bool XmlDocumentCompare::compareXmlFile(const QString &fileNameExpected, const Q
     bool same = xmlCompare.compareXml(TestLogHelpers::loadFile(fileNameExpected), dumped, fatalOnInvalidXml);
     if (!same) {
         QString sorted = XmlSortedDump::sortedXml(dumped);
-        TestLogHelpers::writeFile(TestLogHelpers::getDumpFilePath(fileNameExpected), sorted.toUtf8());
+        TestLogHelpers::writeFile(TestLogHelpers::getDumpStoreTmpFilePath(fileNameExpected), sorted.toUtf8());
+    }
+    return same;
+}
+
+bool XmlDocumentCompare::compareXmlSrc(const QString &fileNameExpected, const QString &dumped, const QString &sourceFileName, bool fatalOnInvalidXml)
+{
+    const QString fileNameExpectedPath = TestLogHelpers::getDumpStoreSrcFilePath(fileNameExpected, sourceFileName);
+    XmlDocumentCompare xmlCompare;
+    bool same = xmlCompare.compareXml(TestLogHelpers::loadFile(fileNameExpectedPath), dumped, fatalOnInvalidXml);
+    if (!same) {
+        QString sorted = XmlSortedDump::sortedXml(dumped);
+        if (TestLogHelpers::runsInOeEnvironment())
+            TestLogHelpers::writeFile(TestLogHelpers::getDumpStoreTmpFilePath(fileNameExpected), sorted.toUtf8());
+        else
+            TestLogHelpers::writeFile(fileNameExpectedPath, sorted.toUtf8());
     }
     return same;
 }

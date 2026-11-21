@@ -442,7 +442,7 @@ void test_xmldocumentcompare::compareXmlFileEqualStoresNothing()
     const QString dumped = "<root><b><c/></b><a v='1'>t1</a></root>";
     XmlDocumentCompare compare;
     QVERIFY(compare.compareXmlFile(fileNameExpected, dumped));
-    QVERIFY(!QFileInfo::exists((TestLogHelpers::getDumpFilePath(fileNameExpected))));
+    QVERIFY(!QFileInfo::exists((TestLogHelpers::getDumpStoreTmpFilePath(fileNameExpected))));
 }
 
 void test_xmldocumentcompare::compareXmlFileUnequalStoresSortedDump()
@@ -463,7 +463,7 @@ void test_xmldocumentcompare::compareXmlFileUnequalStoresSortedDump()
     XmlDocumentCompare compare;
     QVERIFY(!compare.compareXmlFile(fileNameExpected, dumped));
 
-    const QString storedPath = TestLogHelpers::getDumpFilePath(fileNameExpected);
+    const QString storedPath = TestLogHelpers::getDumpStoreTmpFilePath(fileNameExpected);
     QVERIFY(QFileInfo::exists(storedPath));
     const QString stored = QString::fromUtf8(TestLogHelpers::loadFile(storedPath));
 
