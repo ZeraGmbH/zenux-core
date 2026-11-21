@@ -8,14 +8,22 @@
 class TestLogHelpers
 {
 public:
+    // OE environment is very special => detect it
     static bool runsInOeEnvironment();
 
+    // Just compare
     static bool compareAndLogOnDiff(const QString &expected, const QString &dumped);
     static bool compareAndLogOnDiffJson(const QString &expected, const QString &dumped);
 
+    // Compare / in case of error store dumped contents to /tmp/<test-name>/<fileNameExpected>
     static bool compareAndLogOnDiffFile(const QString &fileNameExpected, const QString &dumped);
     static bool compareAndLogOnDiffJsonFile(const QString &fileNameExpected, const QString &dumped);
 
+    // Compare / expand fileNameExpected to <test-source-dir/test-data/fileNameExpected
+    // in case of error store dumped contents to
+    // * On local build expanded file name => files in source tree are overwritten
+    //   Important: After red tests 'git diff' is your friend to decide if change is a regression or intended
+    // * On OE build: /tmp/<test-name>/<fileNameExpected>
     static bool compareAndLogOnDiffSrc(const QString &fileNameExpected, const QString &dumped, const QString &sourceFileName);
     static bool compareAndLogOnDiffJsonSrc(const QString &fileNameExpected, const QString &dumped, const QString &sourceFileName);
 
