@@ -5,7 +5,7 @@
 #include "xmlelemcomparetext.h"
 #include "xmldocumentcompare.h"
 
-bool SvgFuzzyCompare::compareXml(const QString &xml1, const QString &xml2, bool fatalOnInvalidXml)
+bool SvgFuzzyCompare::compareXml(const QString &xml1, const QString &xml2)
 {
     XmlElemCompareFunc elemCompareFunc =
         [](const QDomElement& elem1, const QDomElement& elem2) -> bool
@@ -16,5 +16,5 @@ bool SvgFuzzyCompare::compareXml(const QString &xml1, const QString &xml2, bool 
             XmlElemCompareText::compare(elem1, elem2);
     };
     XmlDocumentCompare comparer(elemCompareFunc);
-    return comparer.compareXml(xml1, xml2, fatalOnInvalidXml);
+    return comparer.compareXml(xml1, xml2);
 }

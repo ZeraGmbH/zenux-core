@@ -36,10 +36,10 @@ bool XmlDocumentCompare::compareXml(const QString &xml1, const QString &xml2, bo
     return compareAllElems(doc1, doc2);
 }
 
-bool XmlDocumentCompare::compareXmlFile(const QString &fileNameExpected, const QString &dumped, bool fatalOnInvalidXml)
+bool XmlDocumentCompare::compareXmlFile(const QString &fileNameExpected, const QString &dumped)
 {
     XmlDocumentCompare xmlCompare;
-    bool same = xmlCompare.compareXml(TestLogHelpers::loadFile(fileNameExpected), dumped, fatalOnInvalidXml);
+    bool same = xmlCompare.compareXml(TestLogHelpers::loadFile(fileNameExpected), dumped);
     if (!same) {
         QString sorted = XmlSortedDump::sortedXml(dumped);
         TestLogHelpers::writeFile(TestLogHelpers::getDumpStoreTmpFilePath(fileNameExpected), sorted.toUtf8());
@@ -47,11 +47,11 @@ bool XmlDocumentCompare::compareXmlFile(const QString &fileNameExpected, const Q
     return same;
 }
 
-bool XmlDocumentCompare::compareXmlSrc(const QString &fileNameExpected, const QString &dumped, const QString &sourceFileName, bool fatalOnInvalidXml)
+bool XmlDocumentCompare::compareXmlSrc(const QString &fileNameExpected, const QString &dumped, const QString &sourceFileName)
 {
     const QString fileNameExpectedPath = TestLogHelpers::getDumpStoreSrcFilePath(fileNameExpected, sourceFileName);
     XmlDocumentCompare xmlCompare;
-    bool same = xmlCompare.compareXml(TestLogHelpers::loadFile(fileNameExpectedPath), dumped, fatalOnInvalidXml);
+    bool same = xmlCompare.compareXml(TestLogHelpers::loadFile(fileNameExpectedPath), dumped);
     if (!same) {
         QString sorted = XmlSortedDump::sortedXml(dumped);
         if (TestLogHelpers::runsInOeEnvironment())
