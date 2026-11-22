@@ -26,7 +26,7 @@ bool SvgFuzzyCompare::compareXmlSrc(const QString &fileNameExpected, const QStri
     const QString fileNameExpectedPath = TestLogHelpers::getDumpStoreSrcFilePath(fileNameExpected, sourceFileName);
     bool same = compareXml(TestLogHelpers::loadFile(fileNameExpectedPath), dumped);
     if (!same) {
-        QString sorted = XmlSortedDump::sortedXml(dumped);
+        QString sorted = XmlSortedDump::sortedXml(dumped); // This might need revisit: XML header is lost
         if (TestLogHelpers::runsInOeEnvironment())
             TestLogHelpers::writeFile(TestLogHelpers::getDumpStoreTmpFilePath(fileNameExpected), sorted.toUtf8());
         else
