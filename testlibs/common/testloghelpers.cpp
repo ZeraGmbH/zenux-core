@@ -60,7 +60,7 @@ bool TestLogHelpers::compareAndLogOnDiffJsonFile(const QString &fileNameExpected
 bool TestLogHelpers::compareAndLogOnDiffSrc(const QString &fileNameExpected, const QString &dumped, const QString &sourceFileName)
 {
     const QString fileNameExpectedPath = getDumpStoreSrcFilePath(fileNameExpected, sourceFileName);
-    bool ret = compareAndLogOnDiff(fileNameExpectedPath, dumped);
+    bool ret = compareAndLogOnDiff(loadFile(fileNameExpectedPath), dumped);
     if (!ret) {
         if (runsInOeEnvironment())
             writeFile(TestLogHelpers::getDumpStoreTmpFilePath(fileNameExpected), dumped.toUtf8());
