@@ -110,6 +110,8 @@ QByteArray TestLogHelpers::loadFile(const QString &fileName)
         fileData = file.readAll();
         file.close();
     }
+    else
+        qCritical("Cannot open file for read %s!", qPrintable(fileName));
     return fileData;
 }
 
@@ -117,12 +119,15 @@ bool TestLogHelpers::writeFile(const QString &fileName, const QByteArray &data)
 {
     const QString dirPath = QFileInfo(fileName).absolutePath();
     QDir dir;
-    if (!dir.mkpath(dirPath))
+    if (!dir.mkpath(dirPath)) {
+        qCritical("Cannot create directory %s!", qPrintable(dirPath));
         return false;
+    }
 
     QFile file(fileName);
     if(file.open(QFile::WriteOnly))
         return !data.isEmpty() && file.write(data) == data.length();
+    qCritical("Cannot open file for write %s!", qPrintable(fileName));
     return false;
 }
 
