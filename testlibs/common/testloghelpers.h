@@ -12,8 +12,10 @@ public:
     static bool compareAndLogOnDiff(const QString &expected, const QString &dumped);
     static bool compareAndLogOnDiffJson(const QString &expected, const QString &dumped);
 
-    // Compare / expand fileNameExpected to <test-source-dir/test-data/fileNameExpected
-    // In case of error store dumped contents to expanded file name => files in source tree are overwritten
+    // * In case of failure source dump files are overwritten and 'git diff' is your friend
+    // * On OE builds change into source directory first e.g.
+    //   <your-oe-tmp>/oe-zenux/tmp-glibc/work/cortexa9t2hf-neon-imx-mortsgna-linux-gnueabi/zenux-services/2.0.0+gitAUTOINC+<commit>-r0
+    //   and check with 'git diff' there
     static bool compareAndLogOnDiffSrc(const QString &fileNameExpected, const QString &dumped, const QString &sourceFileName);
     static bool compareAndLogOnDiffJsonSrc(const QString &fileNameExpected, const QString &dumped, const QString &sourceFileName);
 

@@ -11,11 +11,10 @@ typedef std::function<bool (const QDomElement, const QDomElement)> XmlElemCompar
 class XmlDocumentCompare
 {
 public:
-    // Compare / expand fileNameExpected to <test-source-dir/test-data/fileNameExpected
-    // in case of error store dumped contents to
-    // * On local build expanded file name => files in source tree are overwritten
-    //   Important: After red tests 'git diff' is your friend to decide if change is a regression or intended
-    // * On OE build: /tmp/<test-name>/<fileNameExpected>
+    // * In case of failure source dump files are overwritten and 'git diff' is your friend
+    // * On OE builds change into source directory first e.g.
+    //   <your-oe-tmp>/oe-zenux/tmp-glibc/work/cortexa9t2hf-neon-imx-mortsgna-linux-gnueabi/zenux-services/2.0.0+gitAUTOINC+<commit>-r0
+    //   and check with 'git diff' there
     static bool compareXmlSrc(const QString &fileNameExpected, const QString &dumped, const QString &sourceFileName);
 
     // Just compare (initial implementation - use more enhanced methods above)
