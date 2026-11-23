@@ -52,7 +52,7 @@ std::function<TimerElapsedTemplateQtPtr ()> TimerFactoryQt::defaultElapsedCreate
 std::function<QDateTime ()> TimerFactoryQt::defaultGetCurrentTimeFunc()
 {
     return []() {
-        TimerTemplateQt::noteWhenCalledFromTest();
+        TimerTemplateQt::spawnCriticalWhenCalledFromTest();
         return QDateTime::currentDateTime();
     };
 }

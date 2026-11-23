@@ -5,6 +5,7 @@
 
 bool TimerFactoryQtForTest::enableTest()
 {
+    TimerTemplateQt::silenceNextCriticalWhenCalledFromTest();
     m_singleShotCreateFunction = [](int timeout) {
         return std::make_unique<TimerForTestTemplate>(timeout, TimerForTestTemplate::SINGLESHOT);
     };

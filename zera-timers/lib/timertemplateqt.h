@@ -8,7 +8,8 @@ class TimerTemplateQt : public QObject
 {
     Q_OBJECT
 public:
-    static void noteWhenCalledFromTest();
+    static bool silenceNextCriticalWhenCalledFromTest();
+    static void spawnCriticalWhenCalledFromTest();
 
     explicit TimerTemplateQt(int expireTimeMs);
     virtual ~TimerTemplateQt() = default;

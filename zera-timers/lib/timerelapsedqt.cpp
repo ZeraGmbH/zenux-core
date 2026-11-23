@@ -3,7 +3,7 @@
 
 TimerElapsedQt::TimerElapsedQt()
 {
-    TimerTemplateQt::noteWhenCalledFromTest();
+    TimerTemplateQt::spawnCriticalWhenCalledFromTest();
 }
 
 void TimerElapsedQt::start()

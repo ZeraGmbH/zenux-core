@@ -3,7 +3,7 @@
 TimerPeriodicQt::TimerPeriodicQt(int expireTimeMs) :
     TimerTemplateQt(expireTimeMs)
 {
-    noteWhenCalledFromTest();
+    spawnCriticalWhenCalledFromTest();
 }
 
 void TimerPeriodicQt::setHighAccuracy(bool on)
