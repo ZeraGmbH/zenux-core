@@ -11,10 +11,6 @@ typedef std::function<bool (const QDomElement, const QDomElement)> XmlElemCompar
 class XmlDocumentCompare
 {
 public:
-
-    // Compare / in case of error store dumped contents to /tmp/<test-name>/<fileNameExpected>
-    static bool compareXmlFile(const QString &fileNameExpected, const QString &dumped);
-
     // Compare / expand fileNameExpected to <test-source-dir/test-data/fileNameExpected
     // in case of error store dumped contents to
     // * On local build expanded file name => files in source tree are overwritten

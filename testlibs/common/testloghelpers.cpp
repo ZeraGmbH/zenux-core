@@ -5,11 +5,6 @@
 #include <QDir>
 #include <QCoreApplication>
 
-bool TestLogHelpers::runsInOeEnvironment()
-{
-    return qEnvironmentVariableIsSet("TESTS_RUN_ON_OE");
-}
-
 bool TestLogHelpers::compareAndLogOnDiff(const QString &expected, const QString &dumped)
 {
     QString expectedCompare = expected;
@@ -45,12 +40,8 @@ bool TestLogHelpers::compareAndLogOnDiffSrc(const QString &fileNameExpected, con
 {
     const QString fileNameExpectedPath = getDumpStoreSrcFilePath(fileNameExpected, sourceFileName);
     bool ret = QFile::exists(fileNameExpectedPath) && compareAndLogOnDiff(loadFile(fileNameExpectedPath), dumped);
-    if (!ret) {
-        if (runsInOeEnvironment())
-            writeFile(TestLogHelpers::getDumpStoreTmpFilePath(fileNameExpected), dumped.toUtf8());
-        else
-            writeFile(TestLogHelpers::getDumpStoreSrcFilePath(fileNameExpected, sourceFileName), dumped.toUtf8());
-    }
+    if (!ret)
+        writeFile(fileNameExpectedPath, dumped.toUtf8());
     return ret;
 }
 
@@ -58,19 +49,9 @@ bool TestLogHelpers::compareAndLogOnDiffJsonSrc(const QString &fileNameExpected,
 {
     const QString fileNameExpectedPath = getDumpStoreSrcFilePath(fileNameExpected, sourceFileName);
     bool ret = QFile::exists(fileNameExpectedPath) && compareAndLogOnDiffJson(loadFile(fileNameExpectedPath), dumped);
-    if (!ret) {
-        if (runsInOeEnvironment())
-            writeFile(getDumpStoreTmpFilePath(fileNameExpected), dumped.toUtf8());
-        else
-            writeFile(fileNameExpectedPath, dumped.toUtf8());
-    }
+    if (!ret)
+        writeFile(fileNameExpectedPath, dumped.toUtf8());
     return ret;
-}
-
-QString TestLogHelpers::getDumpStoreTmpFilePath(const QString &fileNameExpected)
-{
-    QString testName = QCoreApplication::instance()->applicationName();
-    return QString("/tmp/%1/%2").arg(testName, removeResourceLeadFromPath(fileNameExpected));
 }
 
 QString TestLogHelpers::getDumpStoreSrcFilePath(const QString &fileNameExpected, const QString &sourceCodeDir)

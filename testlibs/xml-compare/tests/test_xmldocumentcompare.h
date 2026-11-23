@@ -31,9 +31,6 @@ private slots:
     void sameSizeDifferentElems();
     void sortedReferenceVsDeviceOrderDump();
     void equalDataDifferentIndentation();
-
-    void compareXmlFileEqualStoresNothing();
-    void compareXmlFileUnequalStoresSortedDump();
 };
 
 #endif // TEST_XMLDOCUMENTCOMPARE_H

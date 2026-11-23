@@ -26,11 +26,10 @@ bool SvgFuzzyCompare::compareXmlSrc(const QString &fileNameExpected, const QStri
     const QString fileNameExpectedPath = TestLogHelpers::getDumpStoreSrcFilePath(fileNameExpected, sourceFileName);
     bool same = compareXml(TestLogHelpers::loadFile(fileNameExpectedPath), dumped);
     if (!same) {
-        QString sorted = XmlSortedDump::sortedXml(dumped); // This might need revisit: XML header is lost
-        if (TestLogHelpers::runsInOeEnvironment())
-            TestLogHelpers::writeFile(TestLogHelpers::getDumpStoreTmpFilePath(fileNameExpected), sorted.toUtf8());
-        else
-            TestLogHelpers::writeFile(fileNameExpectedPath, sorted.toUtf8());
+        // This might need revisit: XML header is lost
+        // But up to now all ttols tested opened genrated file without issues
+        const QString sorted = XmlSortedDump::sortedXml(dumped);
+        TestLogHelpers::writeFile(fileNameExpectedPath, sorted.toUtf8());
     }
     return same;
 }
