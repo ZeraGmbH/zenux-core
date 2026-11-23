@@ -1,9 +1,11 @@
 file(GLOB SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
+    *.cpp
+    implementation/*.cpp
     )
 
 file(GLOB HEADER
-    ${CMAKE_CURRENT_SOURCE_DIR}/*.h
+    *.h
+    implementation/*.h
     )
 
 add_library(xml-compare-testlib STATIC
@@ -14,6 +16,7 @@ add_library(xml-compare-testlib STATIC
 target_include_directories(xml-compare-testlib
     PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/implementation>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/xml-compare-testlib>
     )
 
