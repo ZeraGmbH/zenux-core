@@ -10,6 +10,7 @@ class test_current_time : public QObject
 {
     Q_OBJECT
 private slots:
+    void initTestCase();
     void init();
 
     void disableTest();

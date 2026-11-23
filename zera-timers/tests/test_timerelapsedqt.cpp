@@ -6,6 +6,11 @@
 
 QTEST_MAIN(test_timerelapsedqt)
 
+void test_timerelapsedqt::initTestCase()
+{
+    TimerTemplateQt::silenceNextCriticalWhenCalledFromTest();
+}
+
 void test_timerelapsedqt::init()
 {
     TimeMachineForTest::reset();

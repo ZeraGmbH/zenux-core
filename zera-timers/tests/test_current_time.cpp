@@ -5,6 +5,11 @@
 
 QTEST_MAIN(test_current_time)
 
+void test_current_time::initTestCase()
+{
+    TimerTemplateQt::silenceNextCriticalWhenCalledFromTest();
+}
+
 void test_current_time::init()
 {
     TimeMachineForTest::reset();

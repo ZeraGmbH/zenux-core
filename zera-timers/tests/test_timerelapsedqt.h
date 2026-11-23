@@ -7,6 +7,7 @@ class test_timerelapsedqt : public QObject
 {
     Q_OBJECT
 private slots:
+    void initTestCase();
     void init();
 
     void elapsedZeroOnNotStartedTiming();
