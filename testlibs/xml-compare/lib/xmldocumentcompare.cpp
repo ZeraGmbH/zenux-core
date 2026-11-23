@@ -52,7 +52,7 @@ bool XmlDocumentCompare::compareXmlSrc(const QString &fileNameExpected, const QS
 {
     const QString fileNameExpectedPath = TestLogHelpers::getDumpStoreSrcFilePath(fileNameExpected, sourceFileName);
     XmlDocumentCompare xmlCompare;
-    bool same = QFile::exists(fileNameExpected) && xmlCompare.compareXml(TestLogHelpers::loadFile(fileNameExpectedPath), dumped);
+    bool same = QFile::exists(fileNameExpectedPath) && xmlCompare.compareXml(TestLogHelpers::loadFile(fileNameExpectedPath), dumped);
     if (!same) {
         QString sorted = XmlSortedDump::sortedXml(dumped);
         if (TestLogHelpers::runsInOeEnvironment())
