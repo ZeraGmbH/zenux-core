@@ -6,6 +6,7 @@
 #include "xmlelemiterstrategysort.h"
 #include "xmlsorteddump.h"
 #include <QHash>
+#include <QFile>
 
 XmlDocumentCompare::XmlDocumentCompare(XmlElemCompareFunc elemCompareFunction) :
     m_elemCompareFunc(elemCompareFunction)
@@ -39,7 +40,7 @@ bool XmlDocumentCompare::compareXml(const QString &xml1, const QString &xml2, bo
 bool XmlDocumentCompare::compareXmlFile(const QString &fileNameExpected, const QString &dumped)
 {
     XmlDocumentCompare xmlCompare;
-    bool same = xmlCompare.compareXml(TestLogHelpers::loadFile(fileNameExpected), dumped);
+    bool same = QFile::exists(fileNameExpected) && xmlCompare.compareXml(TestLogHelpers::loadFile(fileNameExpected), dumped);
     if (!same) {
         QString sorted = XmlSortedDump::sortedXml(dumped);
         TestLogHelpers::writeFile(TestLogHelpers::getDumpStoreTmpFilePath(fileNameExpected), sorted.toUtf8());
@@ -51,7 +52,7 @@ bool XmlDocumentCompare::compareXmlSrc(const QString &fileNameExpected, const QS
 {
     const QString fileNameExpectedPath = TestLogHelpers::getDumpStoreSrcFilePath(fileNameExpected, sourceFileName);
     XmlDocumentCompare xmlCompare;
-    bool same = xmlCompare.compareXml(TestLogHelpers::loadFile(fileNameExpectedPath), dumped);
+    bool same = QFile::exists(fileNameExpected) && xmlCompare.compareXml(TestLogHelpers::loadFile(fileNameExpectedPath), dumped);
     if (!same) {
         QString sorted = XmlSortedDump::sortedXml(dumped);
         if (TestLogHelpers::runsInOeEnvironment())

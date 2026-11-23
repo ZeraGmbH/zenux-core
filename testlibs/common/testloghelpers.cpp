@@ -43,7 +43,7 @@ bool TestLogHelpers::compareAndLogOnDiffJson(const QString &expected, const QStr
 
 bool TestLogHelpers::compareAndLogOnDiffFile(const QString &fileNameExpected, const QString &dumped)
 {
-    bool ret = compareAndLogOnDiff(loadFile(fileNameExpected), dumped);
+    bool ret = QFile::exists(fileNameExpected) && compareAndLogOnDiff(loadFile(fileNameExpected), dumped);
     if (!ret)
         writeFile(getDumpStoreTmpFilePath(fileNameExpected), dumped.toUtf8());
     return ret;
@@ -51,7 +51,7 @@ bool TestLogHelpers::compareAndLogOnDiffFile(const QString &fileNameExpected, co
 
 bool TestLogHelpers::compareAndLogOnDiffJsonFile(const QString &fileNameExpected, const QString &dumped)
 {
-    bool ret = compareAndLogOnDiffJson(loadFile(fileNameExpected), dumped);
+    bool ret = QFile::exists(fileNameExpected) && compareAndLogOnDiffJson(loadFile(fileNameExpected), dumped);
     if (!ret)
         writeFile(getDumpStoreTmpFilePath(fileNameExpected), dumped.toUtf8());
     return ret;
@@ -60,7 +60,7 @@ bool TestLogHelpers::compareAndLogOnDiffJsonFile(const QString &fileNameExpected
 bool TestLogHelpers::compareAndLogOnDiffSrc(const QString &fileNameExpected, const QString &dumped, const QString &sourceFileName)
 {
     const QString fileNameExpectedPath = getDumpStoreSrcFilePath(fileNameExpected, sourceFileName);
-    bool ret = compareAndLogOnDiff(loadFile(fileNameExpectedPath), dumped);
+    bool ret = QFile::exists(fileNameExpected) && compareAndLogOnDiff(loadFile(fileNameExpectedPath), dumped);
     if (!ret) {
         if (runsInOeEnvironment())
             writeFile(TestLogHelpers::getDumpStoreTmpFilePath(fileNameExpected), dumped.toUtf8());
@@ -73,7 +73,7 @@ bool TestLogHelpers::compareAndLogOnDiffSrc(const QString &fileNameExpected, con
 bool TestLogHelpers::compareAndLogOnDiffJsonSrc(const QString &fileNameExpected, const QString &dumped, const QString &sourceFileName)
 {
     const QString fileNameExpectedPath = getDumpStoreSrcFilePath(fileNameExpected, sourceFileName);
-    bool ret = compareAndLogOnDiffJson(loadFile(fileNameExpectedPath), dumped);
+    bool ret = QFile::exists(fileNameExpected) && compareAndLogOnDiffJson(loadFile(fileNameExpectedPath), dumped);
     if (!ret) {
         if (runsInOeEnvironment())
             writeFile(getDumpStoreTmpFilePath(fileNameExpected), dumped.toUtf8());
