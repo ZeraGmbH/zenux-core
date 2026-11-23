@@ -3,7 +3,7 @@
 #include "timerelapsedfortest.h"
 #include "timemachinefortest.h"
 
-void TimerFactoryQtForTest::enableTest()
+bool TimerFactoryQtForTest::enableTest()
 {
     m_singleShotCreateFunction = [](int timeout) {
         return std::make_unique<TimerForTestTemplate>(timeout, TimerForTestTemplate::SINGLESHOT);
@@ -17,6 +17,7 @@ void TimerFactoryQtForTest::enableTest()
     m_getCurrentTimeFunction = []() {
         return TimeMachineForTest::getInstance()->getCurrentTime();
     };
+    return true;
 }
 
 void TimerFactoryQtForTest::disableTest()

@@ -7,7 +7,7 @@
 class TimerFactoryQtForTest : public TimerFactoryQt
 {
 public:
-    static void enableTest();
+    static bool enableTest();
     static void disableTest();
 };
 
