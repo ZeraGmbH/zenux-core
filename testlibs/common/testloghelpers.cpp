@@ -41,22 +41,6 @@ bool TestLogHelpers::compareAndLogOnDiffJson(const QString &expected, const QStr
     return dumpedIsJson && dumpDiffOK;
 }
 
-bool TestLogHelpers::compareAndLogOnDiffFile(const QString &fileNameExpected, const QString &dumped)
-{
-    bool ret = QFile::exists(fileNameExpected) && compareAndLogOnDiff(loadFile(fileNameExpected), dumped);
-    if (!ret)
-        writeFile(getDumpStoreTmpFilePath(fileNameExpected), dumped.toUtf8());
-    return ret;
-}
-
-bool TestLogHelpers::compareAndLogOnDiffJsonFile(const QString &fileNameExpected, const QString &dumped)
-{
-    bool ret = QFile::exists(fileNameExpected) && compareAndLogOnDiffJson(loadFile(fileNameExpected), dumped);
-    if (!ret)
-        writeFile(getDumpStoreTmpFilePath(fileNameExpected), dumped.toUtf8());
-    return ret;
-}
-
 bool TestLogHelpers::compareAndLogOnDiffSrc(const QString &fileNameExpected, const QString &dumped, const QString &sourceFileName)
 {
     const QString fileNameExpectedPath = getDumpStoreSrcFilePath(fileNameExpected, sourceFileName);
